@@ -5,7 +5,7 @@ This repo is for distribution of the  [DevExtreme Mobile](http://js.devexpress.c
 DevExtreme supplies HTML/JS tools for mobile and web development.
 
 - **A blazing-fast rich libraries of high-performance touch-enabled UI widgets**  
-DevExtreme ships with a rich library of client-side widgets that can be used in **any** web application.
+DevExtreme ships with a rich library of client-side widgets that can be used in **any** mobile application.
 
 - **DevExtreme SPA framework**  
 DevExtreme allows you to build HTML/JS applications that can be packed as native mobile applications using the PhoneGap Build and can then be installed on mobile devices. When installed, DevExtreme applications look and behave like native mobile applications.
@@ -29,16 +29,16 @@ While using DevExtreme, the [videos](http://js.devexpress.com/Documentation/Vide
 
 Take a look at the DevExtreme demos.
 
-- [Web apps](http://js.devexpress.com/Demos/)  
+- [Mobile apps ](http://js.devexpress.com/Demos/#mobile)  
 Sample real-world apps built using the DevExtreme tools.
 
 
-- [Widget Gallery](http://js.devexpress.com/Demos/WidgetsGallery/)  
-A vast collection of code samples illustrating the usage of DevExtreme widgets.
+- [KitchenSink](http://js.devexpress.com/Demos/Simulator/?url=/Demos/KitchenSink/&deviceMode=mobiles)  
+A vast collection of code samples illustrating the usage of DevExtreme widgets in mobile applications.
 
 ## License
 
-Familiarize yourself with a [Commercial License](https://www.devexpress.com/Support/EULAs/DevExtreme.xml).
+Familiarize yourself with a [Commercial License](http://js.devexpress.com/EULAs/DevExtremeMobile/).
 
 ## Support
 

@@ -1,7 +1,7 @@
 /*! 
 * DevExtreme Mobile
-* Version: 15.2.7
-* Build date: Mar 3, 2016
+* Version: 15.2.8
+* Build date: Apr 4, 2016
 *
 * Copyright (c) 2012 - 2016 Developer Express Inc. ALL RIGHTS RESERVED
 * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
@@ -1082,7 +1082,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
         var normalizeTemplateElement = function(element) {
                 var $element = commonUtils.isDefined(element) && (element.nodeType || element.jquery) ? $(element) : $("<div>").html(element).contents();
                 if ($element.length === 1 && $element.is("script"))
-                    $element = normalizeTemplateElement(element.html());
+                    $element = normalizeTemplateElement($element.html());
                 return $element
             };
         var toggleAttr = function($target, attr, value) {
@@ -2877,7 +2877,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
         var getDateByAsciiString = function(string) {
                 if (typeof string !== "string")
                     return string;
-                var date = Globalize.parseDate(string, "yyyyMMddTHHmmss");
+                var date = Globalize.parseDate(string, "yyyyMMddTHHmmssZ") || Globalize.parseDate(string, "yyyyMMddTHHmmss");
                 if (!date)
                     date = Globalize.parseDate(string, "yyyyMMdd");
                 return date
@@ -2889,7 +2889,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                 return result
             };
         var getAsciiStringByDate = function(date) {
-                return date.getFullYear() + ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + date.getDate()).slice(-2)
+                return date.getFullYear() + ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + date.getDate()).slice(-2) + 'T' + ('0' + date.getHours()).slice(-2) + ('0' + date.getMinutes()).slice(-2) + ('0' + date.getSeconds()).slice(-2) + 'Z'
             };
         var splitDateRules = function(rule) {
                 var result = [];
@@ -3710,7 +3710,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
             "dxScheduler-switcherMonth": "Month",
             "dxScheduler-switcherTimelineDay": "Timeline Day",
             "dxScheduler-switcherTimelineWeek": "Timeline Week",
-            "dxScheduler-switcherTimelineWorkWeek": "Timeline Work week",
+            "dxScheduler-switcherTimelineWorkWeek": "Timeline Work Week",
             "dxScheduler-switcherTimelineMonth": "Timeline Month",
             "dxScheduler-recurrenceRepeatOnDate": "on date",
             "dxScheduler-recurrenceRepeatCount": "occurrence(s)",
@@ -4056,40 +4056,81 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     var normalizeOptionName = function(name) {
                             if (name) {
                                 that._logWarningIfDeprecated(name);
-                                if (optionAliases[name])
-                                    name = optionAliases[name]
+                                var alias = optionAliases[name];
+                                if (alias)
+                                    name = alias
                             }
                             return name
                         };
-                    var getOptionValue = function(name, unwrapObservables) {
+                    var normailzeOptionValue = function(name, value) {
+                            if (name) {
+                                var alias = normalizeOptionName(name);
+                                if (alias && alias !== name) {
+                                    setOptionsField(alias, value);
+                                    clearOptionsField(name)
+                                }
+                            }
+                        };
+                    var getPreviousName = function(fullName) {
+                            var splittedNames = fullName.split('.');
+                            splittedNames.pop();
+                            return splittedNames.join('.')
+                        };
+                    var getFieldName = function(fullName) {
+                            var splittedNames = fullName.split('.');
+                            return splittedNames[splittedNames.length - 1]
+                        };
+                    var setOptionsField = function(name, value) {
+                            var previousFieldName = getPreviousName(name),
+                                fieldName = getFieldName(name),
+                                fieldObject = previousFieldName ? getOptionValue(options, previousFieldName, false) || getOptionValue(that._options, previousFieldName, false) : options;
+                            if (fieldObject)
+                                fieldObject[fieldName] = value
+                        };
+                    var clearOptionsField = function(name) {
+                            delete options[name];
+                            var previousFieldName = getPreviousName(name),
+                                fieldName = getFieldName(name),
+                                fieldObject = previousFieldName ? getOptionValue(options, previousFieldName, false) : options;
+                            if (fieldObject)
+                                delete fieldObject[fieldName]
+                        };
+                    var getOptionValue = function(options, name, unwrapObservables) {
                             if (!cachedGetters[name])
                                 cachedGetters[name] = dataUtils.compileGetter(name);
-                            return cachedGetters[name](that._options, {
+                            return cachedGetters[name](options, {
                                     functionsAsIs: true,
                                     unwrapObservables: unwrapObservables
                                 })
                         };
-                    var setOptionValue = function(name, value) {
+                    var setOptionValue = function(options, name, value) {
                             if (!cachedSetters[name])
                                 cachedSetters[name] = dataUtils.compileSetter(name);
-                            cachedSetters[name](that._options, value, {
+                            cachedSetters[name](options, value, {
                                 functionsAsIs: true,
                                 merge: !that._getOptionsByReference()[name],
                                 unwrapObservables: false
-                            });
+                            })
+                        };
+                    var prepareOption = function(name, value) {
                             if ($.isPlainObject(value))
-                                $.each(value, function(optionName, optionValue) {
-                                    optionName = name + "." + optionName;
-                                    var normalizedOptionName = normalizeOptionName(optionName);
-                                    if (normalizedOptionName !== optionName) {
-                                        setOptionValue(optionName, undefined);
-                                        setOptionValue(normalizedOptionName, optionValue)
-                                    }
-                                })
+                                $.each(value, function(valueName, valueItem) {
+                                    prepareOption(name + "." + valueName, valueItem)
+                                });
+                            normailzeOptionValue(name, value)
+                        };
+                    var setOption = function(name, value) {
+                            var previousValue = getOptionValue(that._options, name, false);
+                            if (that._optionValuesEqual(name, previousValue, value))
+                                return;
+                            if (that._initialized)
+                                that._optionChanging(name, previousValue, value);
+                            setOptionValue(that._options, name, value);
+                            that._notifyOptionChanged(name, value, previousValue)
                         };
                     if (arguments.length < 2 && $.type(name) !== "object") {
                         name = normalizeOptionName(name);
-                        return getOptionValue(name)
+                        return getOptionValue(that._options, name)
                     }
                     if (typeof name === "string") {
                         options = {};
@@ -4097,16 +4138,8 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     }
                     that.beginUpdate();
                     try {
-                        $.each(options, function(name, value) {
-                            name = normalizeOptionName(name);
-                            var prevValue = getOptionValue(name, false);
-                            if (that._optionValuesEqual(name, prevValue, value))
-                                return;
-                            if (that._initialized)
-                                that._optionChanging(name, prevValue, value);
-                            setOptionValue(name, value);
-                            that._notifyOptionChanged(name, value, prevValue)
-                        })
+                        $.each(options, prepareOption);
+                        $.each(options, setOption)
                     }
                     finally {
                         that.endUpdate()
@@ -4328,7 +4361,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
     });
     /*! Module core, file version.js */
     DevExpress.define("/version", [], function() {
-        return "15.2.7"
+        return "15.2.8"
     });
     /*! Module core, file errors.js */
     DevExpress.define("/errors", ["/utils/utils.error"], function(errorUtils) {
@@ -4365,7 +4398,8 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                 W0003: "{0} - '{1}' property is deprecated in {2}. {3}",
                 W0004: "Timeout for theme loading is over: {0}",
                 W0005: "'{0}' event is deprecated in {1}. {2}",
-                W0006: "Invalid recurrence rule: '{0}'"
+                W0006: "Invalid recurrence rule: '{0}'",
+                W0007: "A 3rd party template should be specified inside a <script> element:\n{0}"
             })
     });
     /*! Module core, file eventsMixin.js */
@@ -5800,40 +5834,63 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
             errors = DevExpress.require("/data/data.errors"),
             data = DX.data,
             utils = data.utils;
+        function dfs(i, depth, root, callback) {
+            var j = 0;
+            if (i < depth)
+                for (; j < root.items.length; j++)
+                    dfs(i + 1, depth, root.items[j], callback);
+            if (i === depth)
+                callback(root)
+        }
+        function map(array, callback) {
+            var i,
+                ret;
+            if ("map" in array)
+                return array.map(callback);
+            ret = new Array(array.length);
+            for (i in array)
+                ret[i] = callback(array[i], i);
+            return ret
+        }
+        function isEmpty(x) {
+            return x !== x || x === "" || x === null || x === undefined
+        }
         function isCount(aggregator) {
             return aggregator === utils.aggregators.count
         }
         function normalizeAggregate(aggregate) {
             var selector = utils.compileGetter(aggregate.selector),
+                skipEmptyValues = "skipEmptyValues" in aggregate ? aggregate.skipEmptyValues : true,
                 aggregator = aggregate.aggregator;
             if (typeof aggregator === "string") {
-                aggregator = data.utils.aggregators[aggregator];
+                aggregator = utils.aggregators[aggregator];
                 if (!aggregator)
                     throw errors.Error("E4001", aggregate.aggregator);
             }
             return {
                     selector: selector,
-                    aggregator: aggregator
+                    aggregator: aggregator,
+                    skipEmptyValues: skipEmptyValues
                 }
         }
         data.AggregateCalculator = Class.inherit({
             ctor: function(options) {
                 this._data = options.data;
                 this._groupLevel = options.groupLevel || 0;
-                this._totalAggregates = $.map(options.totalAggregates || [], normalizeAggregate);
-                this._groupAggregates = $.map(options.groupAggregates || [], normalizeAggregate);
+                this._totalAggregates = map(options.totalAggregates || [], normalizeAggregate);
+                this._groupAggregates = map(options.groupAggregates || [], normalizeAggregate);
                 this._totals = []
             },
             calculate: function() {
                 if (this._totalAggregates.length)
                     this._calculateTotals(0, {items: this._data});
                 if (this._groupAggregates.length && this._groupLevel > 0)
-                    this._calculateGroups(0, {items: this._data})
+                    this._calculateGroups({items: this._data})
             },
             totalAggregates: function() {
                 return this._totals
             },
-            _aggregate: function(data, aggregates, container) {
+            _aggregate: function(aggregates, data, container) {
                 var i,
                     j;
                 for (i = 0; i < aggregates.length; i++) {
@@ -5850,43 +5907,52 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                 if (level === 0)
                     this._totals = this._seed(this._totalAggregates);
                 if (level === this._groupLevel)
-                    this._aggregate(data, this._totalAggregates, this._totals);
+                    this._aggregate(this._totalAggregates, data, this._totals);
                 else
                     for (i = 0; i < data.items.length; i++)
                         this._calculateTotals(level + 1, data.items[i]);
                 if (level === 0)
                     this._totals = this._finalize(this._totalAggregates, this._totals)
             },
-            _calculateGroups: function(level, data, outerAggregates) {
-                var i,
-                    innerAggregates;
-                if (level === this._groupLevel)
-                    this._aggregate(data, this._groupAggregates, outerAggregates);
-                else
-                    for (i = 0; i < data.items.length; i++) {
-                        innerAggregates = this._seed(this._groupAggregates);
-                        this._calculateGroups(level + 1, data.items[i], innerAggregates);
-                        data.items[i].aggregates = this._finalize(this._groupAggregates, innerAggregates);
-                        if (level > 0) {
-                            outerAggregates = outerAggregates || this._seed(this._groupAggregates);
-                            this._calculateGroups(level + 1, data.items[i], outerAggregates)
-                        }
-                    }
+            _calculateGroups: function(root) {
+                var maxLevel = this._groupLevel,
+                    currentLevel = maxLevel + 1,
+                    seedFn = $.proxy(this._seed, this, this._groupAggregates),
+                    stepFn = $.proxy(this._aggregate, this, this._groupAggregates),
+                    finalizeFn = $.proxy(this._finalize, this, this._groupAggregates);
+                function aggregator(node) {
+                    node.aggregates = seedFn();
+                    if (currentLevel === maxLevel)
+                        stepFn(node, node.aggregates);
+                    else
+                        dfs(currentLevel, maxLevel, node, function(innerNode) {
+                            stepFn(innerNode, node.aggregates)
+                        });
+                    node.aggregates = finalizeFn(node.aggregates)
+                }
+                while (--currentLevel > 0)
+                    dfs(0, currentLevel, root, aggregator)
             },
             _seed: function(aggregates) {
-                return $.map(aggregates, function(aggregate) {
+                return map(aggregates, function(aggregate) {
                         var aggregator = aggregate.aggregator,
                             seed = "seed" in aggregator ? $.isFunction(aggregator.seed) ? aggregator.seed() : aggregator.seed : NaN;
-                        return $.isArray(seed) ? [seed] : seed
+                        return seed
                     })
             },
             _accumulate: function(aggregateIndex, aggregate, results, item) {
                 var value = aggregate.selector(item),
-                    aggregator = aggregate.aggregator;
-                results[aggregateIndex] = results[aggregateIndex] !== results[aggregateIndex] ? value : aggregator.step(results[aggregateIndex], value)
+                    aggregator = aggregate.aggregator,
+                    skipEmptyValues = aggregate.skipEmptyValues;
+                if (skipEmptyValues && isEmpty(value))
+                    return;
+                if (results[aggregateIndex] !== results[aggregateIndex])
+                    results[aggregateIndex] = value;
+                else
+                    results[aggregateIndex] = aggregator.step(results[aggregateIndex], value)
             },
             _finalize: function(aggregates, results) {
-                return $.map(aggregates, function(aggregate, index) {
+                return map(aggregates, function(aggregate, index) {
                         var fin = aggregate.aggregator.finalize;
                         return fin ? fin(results[index]) : results[index]
                     })
@@ -6039,16 +6105,18 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                             xValue = toComparable(rule.getter(x)),
                             yValue = toComparable(rule.getter(y)),
                             factor = rule.desc ? -1 : 1;
-                        if (xValue === null || yValue === undefined)
+                        if (xValue === null && yValue !== null)
                             return -factor;
-                        if (yValue === null || xValue === undefined)
+                        if (xValue !== null && yValue === null)
                             return factor;
+                        if (xValue === undefined && yValue !== undefined)
+                            return factor;
+                        if (xValue !== undefined && yValue === undefined)
+                            return -factor;
                         if (xValue < yValue)
                             return -factor;
                         if (xValue > yValue)
-                            return factor;
-                        if (xValue !== yValue)
-                            return !xValue ? -factor : factor
+                            return factor
                     }
                     return xIndex - yIndex
                 }
@@ -6531,9 +6599,9 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
             var chunks = isoString.replace("Z", "").split("T"),
                 date = /(\d{4})-(\d{2})-(\d{2})/.exec(chunks[0]),
                 time = /(\d{2}):(\d{2}):(\d{2})\.?(\d{0,7})?/.exec(chunks[1]);
-            result.setDate(Number(date[3]));
-            result.setMonth(Number(date[2]) - 1);
             result.setFullYear(Number(date[1]));
+            result.setMonth(Number(date[2]) - 1);
+            result.setDate(Number(date[3]));
             if ($.isArray(time) && time.length) {
                 result.setHours(Number(time[1]));
                 result.setMinutes(Number(time[2]));
@@ -8086,8 +8154,8 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     this._init();
                     return this.load()
                 },
-                cancel: function(loadOperationId) {
-                    return operationManager.cancel(loadOperationId)
+                cancel: function(operationId) {
+                    return operationManager.cancel(operationId)
                 },
                 _addSearchOptions: function(storeLoadOptions) {
                     if (this._disposed)
@@ -9536,8 +9604,8 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     if ($container)
                         data = this._prepareDataForContainer(data, $container);
                     var $result = this._renderCore(data, index, $container);
-                    renderedCallbacks.fire($result);
                     this._ensureResultInContainer($result, $container);
+                    renderedCallbacks.fire($result, $container);
                     return $result
                 },
                 _ensureResultInContainer: function($result, $container) {
@@ -9919,7 +9987,8 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     if (this._handlerCount && !this.noBubble)
                         return;
                     element = this.noBubble ? element : document;
-                    $(element).off(this._originalEvents, this._selector)
+                    if (this._originalEvents !== "." + POINTER_EVENTS_NAMESPACE)
+                        $(element).off(this._originalEvents, this._selector)
                 },
                 dispose: function(element) {
                     element = this.noBubble ? element : document;
@@ -10200,7 +10269,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
         var EVENT_NAME = "dxmousewheel",
             EVENT_NAMESPACE = "dxWheel";
         $.event.fixHooks["wheel"] = $.event.mouseHooks;
-        var wheelEvent = document.onmousewheel !== undefined ? "mousewheel" : "wheel";
+        var wheelEvent = document.onwheel !== undefined ? "wheel" : "mousewheel";
         var wheel = {
                 setup: function(element, data) {
                     var $element = $(element);
@@ -12539,9 +12608,16 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
             };
         var outerHtml = function(element) {
                 element = $(element);
-                if (!element.length || element[0].nodeName.toLowerCase() !== "script")
+                var templateTag = element.length && element[0].nodeName.toLowerCase();
+                if (templateTag === "script")
+                    return element.html();
+                else {
                     element = $("<div>").append(element);
-                return element.html()
+                    var result = element.html();
+                    if (result.length)
+                        errors.log("W0007", result);
+                    return result
+                }
             };
         registerTemplateEngine("default", {
             compile: function(element) {
@@ -12553,10 +12629,10 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
         });
         registerTemplateEngine("jquery-tmpl", {
             compile: function(element) {
-                return $("<div>").append(domUtils.normalizeTemplateElement(element))
+                return outerHtml(element)
             },
             render: function(template, data) {
-                return template.tmpl(data)
+                return $.tmpl(template, data)
             }
         });
         registerTemplateEngine("jsrender", {
@@ -12743,7 +12819,10 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                                         return;
                                     locks.obtain(optionName);
                                     try {
-                                        component.option(optionName, optionValue)
+                                        if (ko.ignoreDependencies)
+                                            ko.ignoreDependencies(component.option, component, [optionName, optionValue]);
+                                        else
+                                            component.option(optionName, optionValue)
                                     }
                                     finally {
                                         locks.release(optionName)
@@ -13220,42 +13299,25 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
     /*! Module core, file ko.cleanNode.js */
     DevExpress.define("/integration/knockout/ko.cleanNode", ["jquery"], function($) {
         var ko = window.ko,
-            nodesToCleanByJquery,
-            cleanData = $.cleanData,
-            cleanNode = ko.cleanNode;
+            cleanData = $.cleanData;
         $.cleanData = function(nodes) {
             var result = cleanData(nodes);
-            for (var i = 0; i < nodes.length; i++) {
+            for (var i = 0; i < nodes.length; i++)
+                nodes[i].cleanedByJquery = true;
+            for (i = 0; i < nodes.length; i++) {
                 if (!nodes[i].cleanedByKo)
-                    cleanNode(nodes[i]);
+                    ko.cleanNode(nodes[i]);
                 delete nodes[i].cleanedByKo
             }
-            nodesToCleanByJquery = null;
-            return result
-        };
-        ko.cleanNode = function(node) {
-            var result = cleanNode(node);
-            if (nodesToCleanByJquery)
-                cleanData(nodesToCleanByJquery);
+            for (i = 0; i < nodes.length; i++)
+                delete nodes[i].cleanedByJquery;
             return result
         };
         ko.utils.domNodeDisposal.cleanExternalData = function(node) {
             node.cleanedByKo = true;
-            nodesToCleanByJquery = nodesToCleanByJquery || [];
-            nodesToCleanByJquery.push(node)
-        };
-        return {
-                cleanData: function(value) {
-                    if (value)
-                        cleanData = value;
-                    return cleanData
-                },
-                cleanNode: function(value) {
-                    if (value)
-                        cleanNode = value;
-                    return cleanNode
-                }
-            }
+            if (!node.cleanedByJquery)
+                $.cleanData([node])
+        }
     });
     /*! Module core, file ko.cleanNodeIE8.js */
     DevExpress.define("/integration/knockout/ko.cleanNodeIE8", ["jquery"], function($) {
@@ -13328,6 +13390,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     this._compile = options.compile;
                     this._itemAlias = options.itemAlias;
                     this._transcludeFn = options.transcludeFn;
+                    this._digestCallbacks = options.dxDigestCallbacks;
                     this._normalizeOptions(options.ngOptions);
                     this._initComponentBindings();
                     this._initComponent(this._scope);
@@ -13397,11 +13460,27 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     this._component = new this._componentClass(this._$element, this._evalOptions(scope));
                     this._component._isHidden = true
                 },
+                _handleDigestPhase: function() {
+                    var that = this,
+                        beginUpdate = function() {
+                            that._component.beginUpdate()
+                        },
+                        endUpdate = function() {
+                            that._component.endUpdate()
+                        };
+                    that._digestCallbacks.begin.add(beginUpdate);
+                    that._digestCallbacks.end.add(endUpdate);
+                    that._componentDisposing.add(function() {
+                        that._digestCallbacks.begin.remove(beginUpdate);
+                        that._digestCallbacks.end.remove(endUpdate)
+                    })
+                },
                 _initComponentBindings: function() {
                     var that = this,
                         optionDependencies = {};
                     if (!that._ngOptions.bindingOptions)
                         return;
+                    that._handleDigestPhase();
                     $.each(that._ngOptions.bindingOptions, function(optionPath, value) {
                         var separatorIndex = optionPath.search(/\[|\./),
                             optionForSubscribe = separatorIndex > -1 ? optionPath.substring(0, separatorIndex) : optionPath,
@@ -13644,7 +13723,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
         var registeredComponents = {};
         var registerComponentDirective = function(name) {
                 var priority = name !== "dxValidator" ? 1 : 10;
-                ngModule.directive(name, ["$compile", "$parse", function($compile, $parse) {
+                ngModule.directive(name, ["$compile", "$parse", "dxDigestCallbacks", function($compile, $parse, dxDigestCallbacks) {
                         return {
                                 restrict: "A",
                                 require: "^?ngModel",
@@ -13667,7 +13746,8 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                                                     ngModel: attrs.ngModel,
                                                     ngModelController: ngModelController,
                                                     transcludeFn: transcludeFn,
-                                                    itemAlias: attrs[ITEM_ALIAS_ATTRIBUTE_NAME]
+                                                    itemAlias: attrs[ITEM_ALIAS_ATTRIBUTE_NAME],
+                                                    dxDigestCallbacks: dxDigestCallbacks
                                                 })
                                             }, scope)
                                         }
@@ -13715,6 +13795,25 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                             $element.after(markup);
                             $compile(markup)($scope)
                         }
+                    }
+            }]);
+        ngModule.service("dxDigestCallbacks", ["$rootScope", function($rootScope) {
+                var begin = $.Callbacks(),
+                    end = $.Callbacks();
+                var digestPhase = false;
+                $rootScope.$watch(function() {
+                    if (digestPhase)
+                        return;
+                    digestPhase = true;
+                    begin.fire();
+                    $rootScope.$$postDigest(function() {
+                        digestPhase = false;
+                        end.fire()
+                    })
+                });
+                return {
+                        begin: begin,
+                        end: end
                     }
             }])
     });
@@ -14975,7 +15074,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                 },
                 _contextMenuHandler: function(e) {
                     e = this._fireContextMenu(e);
-                    if (!e.cancel)
+                    if (!e.cancel && !e._cancel)
                         e.preventDefault()
                 },
                 _fireContextMenu: function(e) {
@@ -15172,7 +15271,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                 _initDynamicTemplates: function() {
                     if (this._displayGetterExpr())
                         this._dynamicTemplates["item"] = new FunctionTempalte($.proxy(function(data) {
-                            return this._displayGetter(data)
+                            return $('<div/>').text(this._displayGetter(data)).html()
                         }, this));
                     else
                         delete this._dynamicTemplates["item"]
@@ -15863,7 +15962,9 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                 _init: function() {
                     this._initEditStrategy();
                     this.callBase();
-                    this._selectedItemIndices = []
+                    this._selectedItemIndices = [];
+                    if (this.option("selectionMode") === "multi")
+                        this.option("selectionMode", "multiple")
                 },
                 _initEditStrategy: function() {
                     var strategy = ui.CollectionWidget.PlainEditStrategy;
@@ -16025,8 +16126,15 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     if (this._cancelOptionChange)
                         return;
                     switch (args.name) {
+                        case"items":
+                            this.callBase(args);
+                            this._clearSelectedItems();
+                            break;
                         case"selectionMode":
-                            this._invalidate();
+                            if (args.value === "multi")
+                                this.option("selectionMode", "multiple");
+                            else
+                                this._invalidate();
                             break;
                         case"selectedIndex":
                         case"selectedItem":
@@ -16565,7 +16673,8 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     this._selectedNodesKeys = [];
                     this._expandedNodesKeys = [];
                     this._dataStructure = [];
-                    this._createInternalDataStructure()
+                    this._createInternalDataStructure();
+                    this.getTreeNodes()
                 },
                 _defaultOptions: function() {
                     return {
@@ -16704,6 +16813,8 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     if (node.internalFields[field] === state)
                         return;
                     node.internalFields[field] = state;
+                    if (node.internalFields.publicNode)
+                        node.internalFields.publicNode[field] = state;
                     this.options.dataAccessors.setters[field](node.internalFields.item, state)
                 },
                 _markChildren: function(keys) {
@@ -16721,7 +16832,7 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     this._markChildren(node.internalFields.childrenKeys);
                     var that = this,
                         counter = 0,
-                        items = $.extend(true, [], this._dataStructure);
+                        items = $.extend([], this._dataStructure);
                     $.each(items, function(index, item) {
                         if (!item) {
                             that._dataStructure.splice(index - counter, 1);
@@ -16773,7 +16884,6 @@ if (!window.DevExpress || !DevExpress.MOD_CORE) {
                     return this.options.dataConverter.getVisibleItemsCount()
                 },
                 getPublicNode: function(node) {
-                    this.options.dataConverter.convertToPublicNodes(this.getRootNodes());
                     return node.internalFields.publicNode
                 },
                 getRootNodes: function() {
@@ -20651,7 +20761,8 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
             };
         var MAP_CLASS = "dx-map",
             MAP_CONTAINER_CLASS = "dx-map-container",
-            MAP_SHIELD_CLASS = "dx-map-shield";
+            MAP_SHIELD_CLASS = "dx-map-shield",
+            NATIVE_CLICK_CLASS = "dx-native-click";
         var Map = Widget.inherit({
                 _getDefaultOptions: function() {
                     return $.extend(this.callBase(), {
@@ -20697,6 +20808,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 },
                 _init: function() {
                     this.callBase();
+                    this.element().addClass(MAP_CLASS).addClass(NATIVE_CLICK_CLASS);
                     this._asyncQueue = [];
                     this._checkOption("provider");
                     this._checkOption("markers");
@@ -20733,7 +20845,6 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 },
                 _render: function() {
                     this.callBase();
-                    this.element().addClass(MAP_CLASS);
                     this._renderShield();
                     this._saveRendered("markers");
                     this._saveRendered("routes");
@@ -22577,13 +22688,13 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     this._feedbackHideTimeout = BUTTON_FEEDBACK_HIDE_TIMEOUT
                 },
                 _render: function() {
-                    this.callBase();
                     this.element().addClass(BUTTON_CLASS);
                     this._renderType();
                     this.option("useInkRipple") && this._renderInkRipple();
                     this._renderClick();
                     this.setAria("role", "button");
-                    this._updateAriaLabel()
+                    this._updateAriaLabel();
+                    this.callBase()
                 },
                 _renderInkRipple: function() {
                     var isOnlyIconButton = !this.option("text") && this.option("icon") || this.option("type") === "back",
@@ -24311,13 +24422,18 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 _readOnlyPropValue: function() {
                     return !this.option("fieldEditEnabled") || this.callBase()
                 },
+                _cleanFocusState: function() {
+                    this.callBase();
+                    if (this.option("fieldTemplate"))
+                        this._input().off("focusin focusout beforeactivate")
+                },
                 _renderField: function() {
                     var fieldTemplate = this._getTemplateByOption("fieldTemplate");
                     if (!(fieldTemplate && this.option("fieldTemplate")))
                         return;
                     var isFocused = this._input().is(":focus");
-                    isFocused && this._input().focusout();
                     this._cleanFocusState();
+                    isFocused && this._input().focusout();
                     var $container = this._$container;
                     var data = this._fieldRenderData();
                     $container.empty();
@@ -24327,8 +24443,8 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     if (!this._input().length)
                         throw errors.Error("E1010");
                     this._refreshValueChangeEvent();
-                    this._renderFocusState();
-                    isFocused && this._input().focus()
+                    isFocused && this._input().focus();
+                    this._renderFocusState()
                 },
                 _fieldRenderData: function() {
                     return this.option("value")
@@ -24627,7 +24743,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
         return DropDownEditor
     });
     /*! Module widgets-base, file ui.dropDownList.js */
-    DevExpress.define("/ui/widgets/ui.dropDownList", ["jquery", "/ui/ui.errors", "/utils/utils.common", "/componentRegistrator", "/ui/widgets/ui.dropDownEditor", "/ui/uiNamespace", "/ui/ui.dataExpression"], function($, errors, commonUtils, registerComponent, DropDownEditor, uiNamespace, DataExpressionMixin) {
+    DevExpress.define("/ui/widgets/ui.dropDownList", ["jquery", "/ui/ui.errors", "/utils/utils.common", "/componentRegistrator", "/ui/widgets/ui.dropDownEditor", "/ui/uiNamespace", "/ui/ui.dataExpression", "/ui/ui.themes"], function($, errors, commonUtils, registerComponent, DropDownEditor, uiNamespace, DataExpressionMixin, themes) {
         var LIST_ITEM_SELECTOR = ".dx-list-item",
             LIST_ITEM_DATA_KEY = "dxListItemData",
             DROPDOWNLIST_SELECTED_CLASS = "dx-dropdownlist-selected",
@@ -24698,7 +24814,9 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                                 },
                                 options: {popupPosition: {offset: {v: -6}}}
                             }, {
-                                device: {platform: "android"},
+                                device: function() {
+                                    return /android5/.test(themes.current())
+                                },
                                 options: {popupWidthExtension: 32}
                             }, {
                                 device: {platform: "ios"},
@@ -24811,7 +24929,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     this._renderInputValue().fail($.proxy(function() {
                         if (this._isCustomValueAllowed())
                             return;
-                        this.reset()
+                        this._clearSelectedItem()
                     }, this))
                 },
                 _isCustomValueAllowed: function() {
@@ -24840,7 +24958,9 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                             },
                             onHidden: function() {
                                 that.element().removeClass(SKIP_GESTURE_EVENT_CLASS)
-                            }
+                            },
+                            height: "auto",
+                            maxHeight: $.proxy(this._getMaxHeight, this)
                         })
                 },
                 _renderPopupContent: function() {
@@ -25000,11 +25120,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     this._setPopupOption("width", this.element().outerWidth() + this.option("popupWidthExtension"))
                 },
                 _updatePopupHeight: function() {
-                    var popupPadding = this._popup.overlayContent().outerHeight() - this._popup.content().height();
-                    var listMargin = this._list ? this._list.element().outerHeight() - this._list.clientHeight() : 0;
-                    var listHeight = this._list ? this._list.scrollHeight() + listMargin : 0;
-                    var popupHeight = Math.min(listHeight + popupPadding, this._getMaxHeight());
-                    this._setPopupOption("height", popupHeight);
+                    this._popup.repaint();
                     this._list && this._list.updateDimensions()
                 },
                 _getMaxHeight: function() {
@@ -25295,12 +25411,15 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     e.stopPropagation()
                 },
                 _renderValue: function() {
-                    if (!this._input().val().length || Number(this._input().val()) !== this.option("value")) {
+                    var inputValue = this._input().val();
+                    if (!inputValue.length || Number(inputValue) !== this.option("value")) {
                         this._forceValueRender();
                         this._toggleEmptinessEventHandler()
                     }
+                    var value = this.option("value");
+                    this._validateValue(value);
                     this._renderInputAddons();
-                    this.setAria("valuenow", this.option("value"))
+                    this.setAria("valuenow", value)
                 },
                 _renderValueEventName: function() {
                     return this.callBase() + " keypress"
@@ -25314,8 +25433,10 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 },
                 _forceValueRender: function() {
                     var value = this.option("value"),
-                        valueFormat = this.option("valueFormat");
-                    this._renderDisplayText(valueFormat(value))
+                        number = Number(value),
+                        valueFormat = this.option("valueFormat"),
+                        formattedValue = isNaN(number) ? "" : valueFormat(value);
+                    this._renderDisplayText(formattedValue)
                 },
                 _renderProps: function() {
                     this.callBase();
@@ -25384,6 +25505,12 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     var value = parseFloat(this._normalizeInputValue()) || 0,
                         step = parseFloat(this.option("step"));
                     value = this._correctRounding(value, step * sign);
+                    var min = this.option("min"),
+                        max = this.option("max");
+                    if (min !== undefined)
+                        value = Math.max(min, value);
+                    if (max !== undefined)
+                        value = Math.min(max, value);
                     this.option("value", value)
                 },
                 _correctRounding: function(value, step) {
@@ -25411,29 +25538,28 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     this._input().focusout($.proxy(this._forceRefreshInputValue, this))
                 },
                 _forceRefreshInputValue: function() {
+                    if (this.option("mode") === "number")
+                        return;
                     var $input = this._input(),
                         valueFormat = this.option("valueFormat");
-                    if (this.option("mode") !== "number") {
-                        $input.val(null);
-                        $input.val(valueFormat(this.option("value")))
-                    }
+                    $input.val(null);
+                    $input.val(valueFormat(this.option("value")))
                 },
                 _valueChangeEventHandler: function(e) {
                     var $input = this._input(),
                         inputValue = $input.val(),
                         value = this._normalizeInputValue(),
                         valueFormat = this.option("valueFormat");
+                    if (this._shouldBeValidated() && !this._validateValue(value)) {
+                        $input.val(valueFormat(this.option("value")));
+                        return
+                    }
                     if (this.option("mode") === "number") {
-                        var numberValue = Number(value);
-                        this.callBase(e, isNaN(numberValue) ? null : numberValue);
+                        this.callBase(e, isNaN(value) ? null : value);
                         return
                     }
                     if (this._isValueIncomplete(inputValue))
                         return;
-                    if (!this._validateValue(this._normalizeText())) {
-                        this._resetValue();
-                        return
-                    }
                     if (Number(inputValue) !== value)
                         $input.val(valueFormat(value));
                     this.callBase(e, value)
@@ -25452,28 +25578,26 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     var incompleteRegex = /^(([+-])|([+-]?(0|[1-9]\d*)?[.,])|([+-]?(0|[1-9]\d*)?([.,]\d+)[eE][+-]?)|([+-]?(0|[1-9]\d*)[eE][+-]?))$/;
                     return incompleteRegex.test(value)
                 },
-                _validateValue: function(value) {
-                    var isValueValid = this._isValueValid();
-                    if (!value && isValueValid) {
-                        this.option("value", null);
-                        return true
-                    }
-                    var isNumber = /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/.test(value);
-                    this._oldValue = this.option("value");
-                    if (!isNumber && !isValueValid)
-                        return false;
-                    return true
+                _shouldBeValidated: function() {
+                    var inputValue = this._normalizeText();
+                    return !!inputValue && !isNaN(Number(inputValue)) && this._isValueValid()
                 },
-                _resetValue: function() {
-                    var $input = this._input(),
-                        isValueDefined = commonUtils.isDefined(this._oldValue);
-                    this.option("value", isValueDefined ? this._oldValue : null);
-                    isValueDefined && $input.val(this._oldValue);
-                    this._oldValue = null
+                _validateValue: function(value) {
+                    var inputValue = this._normalizeText(),
+                        isValueValid = this._isValueValid(),
+                        isValid = true,
+                        isNumber = /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/.test(inputValue);
+                    if (isNaN(Number(value)))
+                        isValid = false;
+                    if (!value && isValueValid)
+                        isValid = true;
+                    else if (!isNumber && !isValueValid)
+                        isValid = false;
+                    this.option("isValid", isValid);
+                    return isValid
                 },
                 _normalizeInputValue: function() {
-                    var value = this._normalizeValue();
-                    return commonUtils.isDefined(value) ? value : this.option("value")
+                    return this._normalizeValue()
                 },
                 _normalizeValue: function(value) {
                     return this._parseValue(this._normalizeText(value))
@@ -25483,30 +25607,14 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     return value.replace(",", ".")
                 },
                 _parseValue: function(value) {
+                    if (value === "")
+                        return null;
                     var number = parseFloat(value);
                     if (this.option("min") !== undefined)
                         number = math.max(number, this.option("min"));
                     if (this.option("max") !== undefined)
                         number = math.min(number, this.option("max"));
                     return number
-                },
-                _setValue: function(value, prevValue) {
-                    if (value == null || value === "") {
-                        this.option("value", null);
-                        if (value !== null)
-                            this._suppressValueChangeAction();
-                        return
-                    }
-                    var newValue = this._normalizeValue(value);
-                    if (!newValue && newValue !== 0) {
-                        this.option("value", prevValue);
-                        this._suppressValueChangeAction();
-                        return
-                    }
-                    if (value !== newValue) {
-                        this.option("value", newValue);
-                        this._suppressValueChangeAction()
-                    }
                 },
                 _clean: function() {
                     delete this._$spinContainer;
@@ -25517,8 +25625,8 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 _optionChanged: function(args) {
                     switch (args.name) {
                         case"value":
-                            this._setValue(args.value, args.previousValue);
                             this.callBase(args);
+                            this._validateValue(args.value);
                             this._resumeValueChangeAction();
                             break;
                         case"step":
@@ -25959,9 +26067,10 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
             },
             _renderContent: function() {
                 this.callBase();
+                var that = this;
                 if (this.option("templatesRenderAsynchronously"))
                     this._resizeEventTimer = setTimeout(function() {
-                        domUtils.triggerResizeEvent(this._$content)
+                        domUtils.triggerResizeEvent(that._$content)
                     }, 0)
             },
             _render: function() {
@@ -26021,7 +26130,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     this._inkRipple.hideWave(config)
             },
             _renderMultiple: function() {
-                if (this.option("selectionMode") === "multi")
+                if (this.option("selectionMode") === "multiple")
                     this.option("selectOnFocus", false)
             },
             _renderWrapper: function() {
@@ -27205,6 +27314,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     case"pullRefreshEnabled":
                     case"autoPagingEnabled":
                         this._initScrollView();
+                        this._updateLoadingState();
                         break;
                     case"nextButtonText":
                     case"onItemSwipe":
@@ -27876,7 +27986,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
             },
             _toggleContentShield: function($itemElement, enabled) {
                 if (enabled)
-                    $itemElement.find("." + LIST_ITEM_CONTENT_CLASS).append(this._$itemContentShield);
+                    $itemElement.find("." + LIST_ITEM_CONTENT_CLASS).first().append(this._$itemContentShield);
                 else
                     this._$itemContentShield.detach()
             },
@@ -30502,7 +30612,11 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 this.setAria({
                     role: "listbox",
                     label: "gallery"
-                })
+                });
+                this._fireContentReadyAction()
+            },
+            _renderContent: function() {
+                this._renderContentImpl()
             },
             _dimensionChanged: function() {
                 var selectedIndex = this.option("selectedIndex") || 0;
@@ -31562,7 +31676,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     closeOnScroll = this.option("closeOnTargetScroll");
                 if ($.isFunction(closeOnScroll))
                     closeHandled = closeOnScroll(e);
-                if (!closeHandled)
+                if (!closeHandled && !this._showAnimationProcessing)
                     this.hide()
             },
             _render: function() {
@@ -31573,7 +31687,11 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
             _renderContent: function() {
                 var shouldDeferRendering = !this.option("visible") && this.option("deferRendering");
                 var isParentHidden = this.option("visible") && this._isParentHidden();
-                if (this._contentAlreadyRendered || shouldDeferRendering || isParentHidden)
+                if (isParentHidden) {
+                    this._isHidden = true;
+                    return
+                }
+                if (this._contentAlreadyRendered || shouldDeferRendering)
                     return;
                 this._contentAlreadyRendered = true;
                 this.callBase()
@@ -32565,7 +32683,10 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
             },
             _renderResize: function() {
                 this.callBase();
-                this._$content.dxResizable("option", "onResize", $.proxy(this._setContentHeight, this))
+                this._$content.dxResizable("option", "onResize", $.proxy(function() {
+                    this._setContentHeight();
+                    this._actions.onResize(arguments)
+                }, this))
             },
             _setContentHeight: function() {
                 if (this._disallowUpdateContentHeight())
@@ -33660,11 +33781,11 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 },
                 _renderImpl: function() {
                     this._$table = $("<table>");
+                    this.element().append(this._$table);
                     this._renderBody();
                     this._renderContouredDate();
                     this._renderValue();
-                    this._renderEvents();
-                    this.element().append(this._$table)
+                    this._renderEvents()
                 },
                 _renderBody: function() {
                     this.$body = $("<tbody>").appendTo(this._$table);
@@ -36465,7 +36586,12 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 },
                 _listItemClickHandler: function(e) {
                     this.dateBox.option("opened", false);
-                    this.dateBoxValue(e.itemData)
+                    var date = this.dateBox.option("value");
+                    date = date ? new Date(date) : new Date;
+                    date.setHours(e.itemData.getHours());
+                    date.setMinutes(e.itemData.getMinutes());
+                    date.setSeconds(e.itemData.getSeconds());
+                    this.dateBoxValue(date)
                 },
                 attachKeyboardEvents: function(keyboardProcessor) {
                     var child = keyboardProcessor.attachChildProcessor();
@@ -36561,7 +36687,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
             },
             _render: function() {
                 this._renderWrapper();
-                this._renderContent();
+                this._renderIndicatorContent();
                 this._renderMarkup();
                 this.callBase()
             },
@@ -36569,7 +36695,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 this._$wrapper = $("<div>").addClass(LOADINDICATOR_WRAPPER_CLASS);
                 this.element().append(this._$wrapper)
             },
-            _renderContent: function() {
+            _renderIndicatorContent: function() {
                 this._$content = $("<div>").addClass(LOADINDICATOR_CONTENT_CLASS);
                 this._$wrapper.append(this._$content)
             },
@@ -37059,6 +37185,9 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                         });
                     delete result.animation;
                     delete result.position;
+                    result.maxHeight = function() {
+                        return $(window).height()
+                    };
                     $.each(["position", "animation", "popupWidth", "popupHeight"], $.proxy(function(_, optionName) {
                         if (this.option(optionName) !== undefined)
                             result[this._popupOptionMap(optionName)] = this.option(optionName)
@@ -37266,15 +37395,12 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                         }, this))
                 },
                 _refreshField: function() {
-                    this._$field.text(this.option("displayValue"));
+                    this._$field.text(this.option("displayValue") || this.option("placeholder"));
                     this.element().toggleClass(LOOKUP_EMPTY_CLASS, !this.option("selectedItem"))
                 },
                 _renderPlaceholder: function() {
-                    if (this.element().find("input").length === 0) {
-                        if ($.trim(this._$field.text()) === "")
-                            this._$field.text(this.option("placeholder"));
-                        return
-                    }
+                    if (this.element().find("input").length === 0)
+                        return;
                     this.callBase()
                 },
                 _clean: function() {
@@ -37409,9 +37535,12 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                             }
                         })
                 },
-                _setOptionAliases: function() {
+                _setDeprecatedOptions: function() {
                     this.callBase();
-                    $.extend(this._optionAliases, {displayExpr: "valueExpr"})
+                    $.extend(this._deprecatedOptions, {displayExpr: {
+                            since: "15.2",
+                            alias: "valueExpr"
+                        }})
                 },
                 _getDefaultOptions: function() {
                     return $.extend(this.callBase(), {
@@ -37602,8 +37731,8 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 },
                 _defaultOptionsRules: function() {
                     return this.callBase().concat([{
-                                device: function(device) {
-                                    return device.platform === "win" && device.version && device.version[0] === 8
+                                device: function() {
+                                    return /win8/.test(themes.current())
                                 },
                                 options: {
                                     _isAdaptablePopupPosition: true,
@@ -37616,8 +37745,8 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                                     }
                                 }
                             }, {
-                                device: function(device) {
-                                    return device.platform === "android"
+                                device: function() {
+                                    return /android5/.test(themes.current())
                                 },
                                 options: {
                                     _isAdaptablePopupPosition: true,
@@ -37761,14 +37890,20 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                         this._setValue(this._valueGetter(addedItem))
                     }, this))
                 },
-                _toggleOpenState: function() {
-                    if (this.option("disabled") || !this._wasSearch() || this.option("opened") || !this._isEditable()) {
-                        this.callBase.apply(this, arguments);
-                        return
+                _toggleOpenState: function(isVisible) {
+                    if (this.option("disabled"))
+                        return;
+                    isVisible = arguments.length ? isVisible : !this.option("opened");
+                    if (this._wasSearch() && isVisible) {
+                        this._wasSearch(false);
+                        if (this.option("showDataBeforeSearch") || this.option("minSearchLength") === 0)
+                            this._filterDataSource(null);
+                        else {
+                            this._setListOption("items", []);
+                            this._list && this._setListOption("noDataText", this._list.initialOption("noDataText"))
+                        }
                     }
-                    this._wasSearch(false);
-                    this._filterDataSource(null);
-                    this._input().focus()
+                    this.callBase(isVisible)
                 },
                 _renderTooltip: function() {
                     if (this.option("tooltipEnabled"))
@@ -40318,6 +40453,8 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                         transparence = rtlEnabled ? 1 : 0;
                     else if (transparence < 1)
                         transparence = transparence.toFixed(2);
+                    transparence = Math.max(transparence, 0);
+                    transparence = Math.min(transparence, 1);
                     this._alphaChannelInput.option("value", transparence)
                 },
                 _placeAlphaChannelHandle: function() {
@@ -40687,6 +40824,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
         var ui = DX.ui,
             errors = DX.require("/ui/ui.errors"),
             utils = DX.require("/utils/utils.common"),
+            stringUtils = DX.require("/utils/utils.string"),
             domUtils = DX.require("/utils/utils.dom"),
             registerComponent = DX.require("/componentRegistrator"),
             Widget = DX.require("/ui/ui.widget"),
@@ -40757,31 +40895,45 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                         text: " ",
                         location: this.option("labelLocation")
                     }).appendTo(this._$hiddenElement);
-                this._hiddenLabelText = $hiddenLabel.find("." + FIELD_ITEM_LABEL_TEXT_CLASS).first()
+                this._hiddenLabelText = $hiddenLabel.find("." + FIELD_ITEM_LABEL_TEXT_CLASS)[0]
             },
             _removeHiddenElement: function() {
                 this._$hiddenElement.remove();
                 this._hiddenLabelText = null
             },
             _getLabelWidthByText: function(text) {
-                return this._hiddenLabelText.text(text).width()
+                this._hiddenLabelText.innerHTML = text;
+                return this._hiddenLabelText.offsetWidth
             },
             _getLabelsSelectorByCol: function(index, options) {
                 options = options || {};
                 var cssExcludeTabbedSelector = options.excludeTabbed ? ":not(." + FIELD_ITEM_TAB_CLASS + ")" : "";
                 return "." + (options.inOneColumn ? FIELD_ITEM_CLASS : FORM_FIELD_ITEM_COL_CLASS + index) + cssExcludeTabbedSelector + "> ." + FIELD_ITEM_LABEL_CLASS + " > ." + FIELD_ITEM_LABEL_CONTENT_CLASS
             },
+            _getLabelText: function(labelText) {
+                var length = labelText.children.length,
+                    child,
+                    result = "",
+                    i;
+                for (i = 0; i < length; i++) {
+                    child = labelText.children[i];
+                    result = result + (!stringUtils.isEmpty(child.innerText) ? child.innerText : child.innerHTML)
+                }
+                return result
+            },
             _applyLabelsWidthByCol: function($container, index, options) {
                 var $labelTexts = $container.find(this._getLabelsSelectorByCol(index, options)),
+                    $labelTextsLength = $labelTexts.length,
                     labelWidth,
                     i,
                     maxWidth = 0;
-                for (i = 0; i < $labelTexts.length; i++) {
-                    labelWidth = this._getLabelWidthByText($labelTexts.eq(i).text());
+                for (i = 0; i < $labelTextsLength; i++) {
+                    labelWidth = this._getLabelWidthByText(this._getLabelText($labelTexts[i]));
                     if (labelWidth > maxWidth)
                         maxWidth = labelWidth
                 }
-                $labelTexts.width(maxWidth)
+                for (i = 0; i < $labelTextsLength; i++)
+                    $labelTexts[i].style.width = maxWidth + "px"
             },
             _applyLabelsWidth: function($container, excludeTabbed, inOneColumn) {
                 var colCount = inOneColumn ? 1 : this._getColCount($container),
@@ -40962,17 +41114,19 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     $tabPanel = $("<div/>").appendTo($container),
                     tabPanelOptions = $.extend({}, item.tabPanelOptions, {
                         dataSource: item.tabs,
-                        itemTemplate: function(itemData) {
-                            var $layoutManager = $("<div/>"),
-                                layoutManager,
+                        onItemRendered: function(args) {
+                            domUtils.triggerShownEvent(args.itemElement)
+                        },
+                        itemTemplate: function(itemData, e, $container) {
+                            var layoutManager,
                                 alignItemLabels = utils.ensureDefined(itemData.alignItemLabels, true);
-                            layoutManager = that._renderLayoutManager(itemData.items, $layoutManager, {
+                            layoutManager = that._renderLayoutManager(itemData.items, $container, {
                                 colCount: itemData.colCount,
                                 alignItemLabels: alignItemLabels,
                                 cssItemClass: itemData.cssItemClass,
                                 onLayoutChanged: function(inOneColumn) {
                                     $.proxy(that._alignLabelsInColumn, that)({
-                                        $container: $layoutManager,
+                                        $container: $container,
                                         layoutManager: layoutManager,
                                         items: itemData.items,
                                         inOneColumn: inOneColumn
@@ -40981,12 +41135,11 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                             });
                             if (alignItemLabels)
                                 $.proxy(that._alignLabelsInColumn, that)({
-                                    $container: $layoutManager,
+                                    $container: $container,
                                     layoutManager: layoutManager,
                                     items: itemData.items,
                                     inOneColumn: layoutManager.isLayoutChanged()
-                                });
-                            return $layoutManager
+                                })
                         }
                     });
                 that._createComponent($tabPanel, "dxTabPanel", tabPanelOptions)
@@ -41021,6 +41174,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
             _renderLayoutManager: function(items, $rootElement, options) {
                 var $element = $("<div />"),
                     that = this,
+                    instance,
                     config = $.extend({
                         items: items,
                         showRequiredMark: this.option("showRequiredMark"),
@@ -41051,27 +41205,29 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                         validationBoundary: that.option("scrollingEnabled") ? that.element() : undefined
                     });
                 $element.appendTo($rootElement);
-                return that._createComponent($element, "dxLayoutManager", config)
+                instance = that._createComponent($element, "dxLayoutManager", config);
+                that._attachSyncSubscriptions(instance);
+                return instance
             },
             _updateEditorInstancesFromLayoutManager: function(instancesByDataFields) {
                 $.extend(this._editorInstancesByField, instancesByDataFields)
             },
             _createComponent: function($element, type, config) {
-                var that = this,
-                    instance;
+                var that = this;
                 config = config || {};
                 that._extendConfig(config, {readOnly: that.option("readOnly")});
-                instance = that.callBase($element, type, config);
-                that._attachSyncSubscriptions(instance);
-                return instance
+                return that.callBase($element, type, config)
             },
             _attachSyncSubscriptions: function(instance) {
-                this.on("optionChanged", function(args) {
+                var that = this;
+                that.on("optionChanged", function(args) {
                     var formDataFieldStart = "formData.";
                     if (args.fullName.search(formDataFieldStart) === 0) {
                         var layoutDataField = args.fullName.replace(formDataFieldStart, "layoutData.");
                         instance.option(layoutDataField, args.value)
                     }
+                    if (utils.isDefined(that.option("items")) && args.fullName === "formData")
+                        instance.updateData(args.value);
                     if (args.name === "readOnly")
                         instance.option(args.fullName, args.value)
                 })
@@ -41084,9 +41240,11 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 }
                 switch (args.name) {
                     case"formData":
-                        this._options[args.name] = args.value;
-                        this._triggerOnFieldDataChangedByDataSet(args.value);
-                        this._invalidate();
+                        if (!utils.isDefined(this._options.items)) {
+                            this._options[args.name] = args.value;
+                            this._invalidate();
+                            this._triggerOnFieldDataChangedByDataSet(args.value)
+                        }
                         break;
                     case"items":
                     case"colCount":
@@ -41129,15 +41287,15 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                         this.callBase(args)
                 }
             },
-            _getRootLevelOfExpectedComplexOption: function(fullOptionName, expextedRootNames) {
-                var splittedFullName = fullOptionName.split("."),
+            _getRootLevelOfExpectedComplexOption: function(fullOptionName, expectedRootNames) {
+                var splitedFullName = fullOptionName.split("."),
                     result;
-                if (splittedFullName.length > 1) {
+                if (splitedFullName.length > 1) {
                     var i,
-                        rootOptionName = splittedFullName[0];
-                    for (i = 0; i < expextedRootNames.length; i++)
-                        if (rootOptionName.search(expextedRootNames[i]) !== -1)
-                            result = expextedRootNames[i]
+                        rootOptionName = splitedFullName[0];
+                    for (i = 0; i < expectedRootNames.length; i++)
+                        if (rootOptionName.search(expectedRootNames[i]) !== -1)
+                            result = expectedRootNames[i]
                 }
                 return result
             },
@@ -41145,11 +41303,20 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                 var nameParts = args.fullName.split(".");
                 switch (rootOptionName) {
                     case"items":
+                        var itemPath = this._getItemPath(nameParts),
+                            instance,
+                            items,
+                            name,
+                            item = this.option(itemPath);
                         if (args.fullName.search("editorOptions") !== -1) {
-                            var itemPath = this._getItemPath(nameParts),
-                                item = this.option(itemPath),
-                                instance = this.getEditor(item.dataField);
+                            instance = this.getEditor(item.dataField);
                             instance && instance.option(item.editorOptions)
+                        }
+                        else if (item) {
+                            name = args.fullName.replace(itemPath + ".", "");
+                            this._changeItemOption(item, name, args.value);
+                            items = this._generateItemsFromData(this.option("items"));
+                            this.option("items", items)
                         }
                         break;
                     case"formData":
@@ -41268,7 +41435,7 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     }
                     else
                         break;
-                while (path.length);
+                while (path.length && result !== false);
                 return result
             },
             _getSubItemField: function(itemType) {
@@ -41282,6 +41449,8 @@ if (!window.DevExpress || !DevExpress.MOD_WIDGETS_BASE) {
                     if (result)
                         return false
                 });
+                if (!result)
+                    result = false;
                 return result
             },
             _getTextWithoutSpaces: function(text) {
@@ -47009,17 +47178,20 @@ if (!window.DevExpress || !DevExpress.MOD_FRAMEWORK) {
             activeViewInfo: function() {
                 return this._visibleViews[this._defaultPaneName]
             },
-            _notifyShowing: function() {
+            _fireViewEvents: function(eventName) {
                 var that = this;
                 $.each(this._visibleViews, function(index, viewInfo) {
-                    that.fireEvent("viewShowing", [viewInfo])
+                    that.fireEvent(eventName, [viewInfo])
                 })
             },
+            _notifyShowing: function() {
+                this._fireViewEvents("viewShowing")
+            },
+            _notifyShown: function() {
+                this._fireViewEvents("viewShown")
+            },
             _notifyHidden: function() {
-                var that = this;
-                $.each(this._visibleViews, function(index, viewInfo) {
-                    that.fireEvent("viewHidden", [viewInfo])
-                })
+                this._fireViewEvents("viewHidden")
             },
             _applyTemplate: function($elements, model) {
                 $elements.each(function(i, element) {
@@ -47035,9 +47207,12 @@ if (!window.DevExpress || !DevExpress.MOD_FRAMEWORK) {
                 this._visibleViews = {}
             },
             _templateContextChangedHandler: function() {
-                $.each(this._visibleViews, $.proxy(function(index, viewInfo) {
-                    this.showView(viewInfo)
-                }, this))
+                var that = this;
+                $.when.apply($, $.map(that._visibleViews, function(viewInfo) {
+                    return that.showView(viewInfo)
+                })).then(function() {
+                    that._notifyShown()
+                })
             },
             _attachRefreshViewRequiredHandler: function() {
                 if (this._templateContext)
@@ -48153,6 +48328,13 @@ if (!window.DevExpress || !DevExpress.MOD_FRAMEWORK) {
                             });
                             controller.on("viewShowing", function(viewInfo, direction) {
                                 that._processEvent("viewShowing", {
+                                    viewInfo: viewInfo,
+                                    direction: direction,
+                                    params: viewInfo.routeData
+                                }, viewInfo.model)
+                            });
+                            controller.on("viewShown", function(viewInfo, direction) {
+                                that._processEvent("viewShown", {
                                     viewInfo: viewInfo,
                                     direction: direction,
                                     params: viewInfo.routeData

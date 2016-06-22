@@ -1,6 +1,6 @@
 {
   "name": "devextreme-mobile",
-  "version": "15.2.10",
+  "version": "16.1.4",
   "description": "A blazing-fast rich libraries of high-performance touch-enabled UI widgets",
   "moduleType": [
     "globals"
@@ -13,9 +13,9 @@
   "homepage": "https://js.devexpress.com",
   "keywords": [ "SPA", "widgets" ],
   "dependencies": {
-    "jquery": "2.1.4",
-    "jquery-1.11.3": "http://code.jquery.com/jquery-1.11.3.js",
-    "globalize": "0.1.1"
+    "jquery": "2.2.3",
+    "jquery-1.12.3": "http://code.jquery.com/jquery-1.12.3.js",
+    "globalize": "^1.1"
   },
   "ignore": []
 }

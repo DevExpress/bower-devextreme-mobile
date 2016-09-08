@@ -1,6 +1,6 @@
 {
   "name": "devextreme-mobile",
-  "version": "16.1.5",
+  "version": "16.1.6",
   "description": "A blazing-fast rich libraries of high-performance touch-enabled UI widgets",
   "moduleType": [
     "globals"

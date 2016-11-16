@@ -1,7 +1,7 @@
 /*! 
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.1.7
- * Build date: Tue Oct 11 2016
+ * Version: 16.1.8
+ * Build date: Mon Nov 14 2016
  *
  * Copyright (c) 2012 - 2016 Developer Express Inc. ALL RIGHTS RESERVED
  * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
@@ -271,7 +271,6 @@
             getData: __webpack_require__( /*! ./client_exporter/image_creator */ 25).getData
         };
         exports.pdf = {
-            creator: __webpack_require__( /*! ./client_exporter/pdf_creator */ 27).pdfCreator,
             getData: __webpack_require__( /*! ./client_exporter/pdf_creator */ 27).getData
         };
         exports.svg = {
@@ -902,7 +901,7 @@
       !*** ./Scripts/core/version.js ***!
       \*********************************/
     function(module, exports) {
-        module.exports = "16.1.7"
+        module.exports = "16.1.8"
     },
     /*!********************************!*\
       !*** ./Scripts/core/errors.js ***!
@@ -945,6 +944,7 @@
             W0004: "Timeout for theme loading is over: {0}",
             W0005: "'{0}' event is deprecated in {1}. {2}",
             W0006: "Invalid recurrence rule: '{0}'",
+            W0007: "'{0}' Globolize culture is not defined",
             W0008: "Invalid view name: '{0}'",
             W0009: "Invalid time zone name: '{0}'",
             W0010: "{0} is deprecated in {1}. {2}",
@@ -3003,213 +3003,108 @@
       !*** ./Scripts/client_exporter/pdf_creator.js ***!
       \************************************************/
     function(module, exports, __webpack_require__) {
-        var pdfString, $ = __webpack_require__( /*! jquery */ 9),
+        var $ = __webpack_require__( /*! jquery */ 9),
+            VERSION = __webpack_require__( /*! ../core/version */ 16),
             imageCreator = __webpack_require__( /*! ./image_creator */ 25).imageCreator,
-            browser = __webpack_require__( /*! ../core/utils/browser */ 18),
-            commonUtils = __webpack_require__( /*! ../core/utils/common */ 14),
-            _each = $.each,
-            DEFAULT_MARGIN_SIZE = {
-                x: 30,
-                y: 20
-            },
-            objectsCount = 0,
-            globalOffset = 0,
-            PAGES_POINTER = 1,
-            RESOURCES_POINTER = 2,
-            MAIN_PAGE_POINTER = 3,
-            CONTENT_POINTER = 4,
-            IMAGE_POINTER = 5,
-            INFO_POINTER = 6,
-            ROOT_POINTER = 7;
-
-        function addObject(pdfDoc, pointer, content, stream) {
-            pdfDoc.content.push({
-                type: stream ? "stream" : "object",
-                name: pointer + " 0 obj",
-                content: content,
-                stream: stream
-            });
-            objectsCount++
-        }
-
-        function _pxToPt(px) {
-            return .75 * px
-        }
-
-        function addMainPage(pdfDoc, options) {
-            var width = _pxToPt(options.width + 2 * DEFAULT_MARGIN_SIZE.x).toFixed(2),
-                height = _pxToPt(options.height + 2 * DEFAULT_MARGIN_SIZE.y).toFixed(2);
-            addObject(pdfDoc, MAIN_PAGE_POINTER, {
-                "/Type": "/Page",
-                "/Parent": PAGES_POINTER + " 0 R",
-                "/Resources": RESOURCES_POINTER + " 0 R",
-                "/MediaBox": "[0 0 " + width + " " + height + "]",
-                "/Contents": CONTENT_POINTER + " 0 R"
-            })
-        }
-
-        function addContents(pdfDoc, options) {
-            var width = _pxToPt(options.width + 2 * DEFAULT_MARGIN_SIZE.x),
-                height = _pxToPt(options.height + 2 * DEFAULT_MARGIN_SIZE.y);
-            addObject(pdfDoc, CONTENT_POINTER, {
-                "/Length": 54
-            }, "0.20 w\n0 G\nq " + width.toFixed(2) + " 0 0 " + height.toFixed(2) + " 0.00 0.00 cm /I0 Do Q")
-        }
-
-        function addPages(pdfDoc) {
-            addObject(pdfDoc, PAGES_POINTER, {
-                "/Type": "/Pages",
-                "/Kids": "[" + MAIN_PAGE_POINTER + " 0 R]",
-                "/Count": "1"
-            })
-        }
-
-        function addInfo(pdfDoc) {
-            addObject(pdfDoc, INFO_POINTER, {
-                "/Producer": "DevExtreme",
-                "/CreationDate": exports.pdfCreator.generateCurrentDate()
-            })
-        }
-
-        function addRoot(pdfDoc) {
-            addObject(pdfDoc, ROOT_POINTER, {
-                "/Type": "/Catalog",
-                "/Pages": "1 0 R",
-                "/OpenAction": "[3 0 R /FitH null]",
-                "/PageLayout": "/OneColumn"
-            })
-        }
-
-        function addResources(pdfDoc) {
-            addObject(pdfDoc, RESOURCES_POINTER, {
-                "/ProcSet": "[/PDF /ImageB /ImageC /ImageI]",
-                "/XObject": "<<\n/I0 5 0 R\n>>"
-            })
-        }
-
-        function addImage(pdfDoc, imageString, options) {
-            addObject(pdfDoc, IMAGE_POINTER, {
-                "/Type": "/XObject",
-                "/Subtype": "/Image",
-                "/Width": options.width + 2 * DEFAULT_MARGIN_SIZE.x,
-                "/Height": options.height + 2 * DEFAULT_MARGIN_SIZE.y,
-                "/ColorSpace": "/DeviceRGB",
-                "/BitsPerComponent": 8,
-                "/Filter": "/DCTDecode",
-                "/Length": imageString.length
-            }, imageString)
-        }
-
-        function generateXREF(pdfDoc) {
-            var cr = exports.pdfCreator;
-            cr.addLine("xref");
-            cr.addLine("0 " + objectsCount);
-            cr.addLine("0000000000 65535 f");
-            _each(pdfDoc.content, function(_, section) {
-                var i, zeroString = "",
-                    offset = section.offset;
-                for (i = String(offset).length; i < 10; i++) {
-                    zeroString += "0"
-                }
-                cr.addLine(zeroString + offset + " 00000 n")
-            })
-        }
-
-        function generateContent(pdfDoc) {
-            var cr = exports.pdfCreator;
-            _each(pdfDoc.content, function(_, section) {
-                cr.addLine(section.name);
-                cr.addLine("<<");
-                _each(section.content, function(key, value) {
-                    cr.addLine(key + " " + value)
-                });
-                cr.addLine(">>");
-                if ("stream" === section.type) {
-                    cr.addLine("stream");
-                    cr.addLine(section.stream);
-                    cr.addLine("endstream")
-                }
-                cr.addLine("endobj");
-                section.offset = globalOffset;
-                globalOffset = pdfString.length
-            })
-        }
-
-        function generateTrailer(pdfDoc) {
-            var cr = exports.pdfCreator;
-            cr.addLine("trailer");
-            cr.addLine("<<");
-            cr.addLine("/Size 8");
-            cr.addLine("/Root 7 0 R");
-            cr.addLine("/Info 6 0 R");
-            cr.addLine(">>");
-            cr.addLine("startxref");
-            cr.addLine(pdfString.length)
-        }
-        exports.pdfCreator = {
-            createPdfDoc: function(imageString, options) {
-                var pdfDoc = {
-                    content: []
-                };
-                addMainPage(pdfDoc, options);
-                addContents(pdfDoc, options);
-                addPages(pdfDoc);
-                addImage(pdfDoc, imageString, options);
-                addResources(pdfDoc);
-                addInfo(pdfDoc);
-                addRoot(pdfDoc);
-                return pdfDoc
-            },
-            addLine: function(line) {
-                pdfString += line + "\n"
-            },
-            closeLine: function() {
-                pdfString += "%%EOF"
-            },
-            generateCurrentDate: function() {
-                return new Date
-            },
-            generatePdfString: function(pdfDoc) {
-                exports.pdfCreator.addLine("%PDF-1.3");
-                globalOffset += pdfString.length;
-                generateContent(pdfDoc);
-                generateXREF(pdfDoc);
-                generateTrailer(pdfDoc);
-                exports.pdfCreator.closeLine();
-                return pdfString
-            },
-            getData: function(data, options, isFullMode) {
-                pdfString = "";
-                globalOffset = 0;
-                objectsCount = 1;
-                var that = this,
-                    imageData = imageCreator.getImageData(data, $.extend({}, options, {
-                        format: "jpeg"
-                    }), isFullMode),
-                    blob = $.Deferred();
-                $.when(imageData).done(function(imageString) {
-                    var binaryData, pdfData, pdfDoc = exports.pdfCreator.createPdfDoc(imageString, options);
-                    binaryData = exports.pdfCreator.generatePdfString(pdfDoc);
-                    pdfData = commonUtils.isFunction(window.Blob) ? that._getBlob(binaryData) : that._getBase64(binaryData);
-                    blob.resolve(pdfData)
-                });
-                return blob
-            },
-            _getBlob: function(binaryData) {
-                var i, dataArray = new Uint8Array(binaryData.length);
-                for (i = 0; i < binaryData.length; i++) {
-                    dataArray[i] = binaryData.charCodeAt(i)
-                }
-                return new Blob([dataArray.buffer], {
-                    type: "application/pdf"
-                })
-            },
-            _getBase64: function(binaryData) {
-                return window.btoa(binaryData)
+            isFunction = __webpack_require__( /*! ../core/utils/common */ 14).isFunction,
+            mainPageTpl = "%PDF-1.3\r\n2 0 obj\r\n<</ProcSet[/PDF/ImageB/ImageC/ImageI]/XObject<</I0 5 0 R>>>>\r\nendobj\r\n4 0 obj\r\n<</Type/Pages/Kids[1 0 R]/Count 1>>\r\nendobj\r\n7 0 obj\r\n<</OpenAction[1 0 R /FitH null]/Type/Catalog/Pages 4 0 R/PageLayout/OneColumn>>\r\nendobj\r\n1 0 obj\r\n<</Type/Page/Resources 2 0 R/MediaBox[0 0 _width_ _height_]/Contents 3 0 R/Parent 4 0 R>>\r\nendobj\r\n",
+            contentTpl = "3 0 obj\r\n<</Length 52>>stream\r\n0.20 w\n0 G\nq _width_ 0 0 _height_ 0.00 0.00 cm /I0 Do Q\r\nendstream\r\nendobj\r\n",
+            infoTpl = "6 0 obj\r\n<</CreationDate _date_/Producer(DevExtreme _version_)>>\r\nendobj\r\n",
+            imageStartTpl = "5 0 obj\r\n<</Type/XObject/Subtype/Image/Width _width_/Height _height_/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length _length_>>stream\r\n",
+            imageEndTpl = "\r\nendstream\r\nendobj\r\n",
+            trailerTpl = "trailer\r\n<<\r\n/Size 8\r\n/Root 7 0 R\r\n/Info 6 0 R\r\n>>\r\nstartxref\r\n_length_\r\n%%EOF",
+            xrefTpl = "xref\r\n0 8\r\n0000000000 65535 f\r\n0000000241 00000 n\r\n0000000010 00000 n\r\n_main_ 00000 n\r\n0000000089 00000 n\r\n_image_ 00000 n\r\n_info_ 00000 n\r\n0000000143 00000 n\r\n",
+            DEFAULT_MARGIN_X = 60,
+            DEFAULT_MARGIN_Y = 40;
+        var pad = function(str, len) {
+            return str.length < len ? pad("0" + str, len) : str
+        };
+        var composePdfString = function(imageString, options, curDate) {
+            var width = options.width + DEFAULT_MARGIN_X,
+                height = options.height + DEFAULT_MARGIN_Y,
+                widthPt = (.75 * width).toFixed(2),
+                heightPt = (.75 * height).toFixed(2);
+            var mainPage = mainPageTpl.replace("_width_", widthPt).replace("_height_", heightPt),
+                content = contentTpl.replace("_width_", widthPt).replace("_height_", heightPt),
+                info = infoTpl.replace("_date_", curDate).replace("_version_", VERSION),
+                image = imageStartTpl.replace("_width_", width).replace("_height_", height).replace("_length_", imageString.length) + imageString + imageEndTpl,
+                xref = getXref(mainPage.length, content.length, info.length);
+            var mainContent = mainPage + content + info + image,
+                trailer = trailerTpl.replace("_length_", mainContent.length);
+            return mainContent + xref + trailer
+        };
+        var getXref = function(mainPageLength, contentLength, infoLength) {
+            return xrefTpl.replace("_main_", pad(mainPageLength + "", 10)).replace("_info_", pad(mainPageLength + contentLength + "", 10)).replace("_image_", pad(mainPageLength + contentLength + infoLength + "", 10))
+        };
+        var getCurDate = function() {
+            return new Date
+        };
+        var getBlob = function(binaryData) {
+            var i = 0,
+                dataArray = new Uint8Array(binaryData.length);
+            for (; i < binaryData.length; i++) {
+                dataArray[i] = binaryData.charCodeAt(i)
             }
+            return new Blob([dataArray.buffer], {
+                type: "application/pdf"
+            })
+        };
+        var getBase64 = function(binaryData) {
+            return window.btoa(binaryData)
         };
         exports.getData = function(data, options, callback) {
-            exports.pdfCreator.getData(data, options, browser.msie).done(callback)
+            var imageData = imageCreator.getImageData(data, $.extend({}, options, {
+                    format: "jpeg"
+                })),
+                blob = $.Deferred();
+            blob.done(callback);
+            $.when(imageData).done(function(imageString) {
+                var binaryData = composePdfString(imageString, options, getCurDate()),
+                    pdfData = isFunction(window.Blob) ? getBlob(binaryData) : getBase64(binaryData);
+                blob.resolve(pdfData)
+            })
+        };
+        exports.__tests = {
+            set_composePdfString: function(func) {
+                exports.__tests.composePdfString = composePdfString;
+                composePdfString = func
+            },
+            restore_composePdfString: function(func) {
+                if (exports.__tests.composePdfString) {
+                    composePdfString = exports.__tests.composePdfString;
+                    exports.__tests.composePdfString = null
+                }
+            },
+            set_getCurDate: function(func) {
+                exports.__tests.getCurDate = getCurDate;
+                getCurDate = func
+            },
+            restore_getCurDate: function(func) {
+                if (exports.__tests.getCurDate) {
+                    getCurDate = exports.__tests.getCurDate;
+                    exports.__tests.getCurDate = null
+                }
+            },
+            set_getBlob: function(func) {
+                exports.__tests.getBlob = getBlob;
+                getBlob = func
+            },
+            restore_getBlob: function(func) {
+                if (exports.__tests.getBlob) {
+                    getBlob = exports.__tests.getBlob;
+                    exports.__tests.getBlob = null
+                }
+            },
+            set_getBase64: function(func) {
+                exports.__tests.getBase64 = getBase64;
+                getBase64 = func
+            },
+            restore_getBase64: function(func) {
+                if (exports.__tests.getBase64) {
+                    getBase64 = exports.__tests.getBase64;
+                    exports.__tests.getBase64 = null
+                }
+            }
         }
     },
     /*!************************************************!*\
@@ -3851,6 +3746,9 @@
                     this._setOptionsByReference();
                     this._setDeprecatedOptions();
                     this._setDefaultOptions();
+                    if (options && options.onInitializing) {
+                        options.onInitializing.apply(this, [options])
+                    }
                     this._setOptionsByDevice(options.defaultOptionsRules);
                     this._resumeDeprecatedWarnings();
                     this._initOptions(options)
@@ -4143,10 +4041,11 @@
                     if (!cachedSetters[name]) {
                         cachedSetters[name] = coreDataUtils.compileSetter(name)
                     }
+                    var path = name.split(/[.\[]/);
                     cachedSetters[name](that._options, value, {
                         functionsAsIs: true,
                         merge: !that._getOptionsByReference()[name],
-                        unwrapObservables: false
+                        unwrapObservables: path.length > 1 && !!that._getOptionsByReference()[path[0]]
                     })
                 };
                 var setOption = function(that, name, value) {
@@ -7769,6 +7668,15 @@
             }
             animation.strategy.stop($element, config, jumpToEnd)
         };
+        var scopedRemoveEvent = eventUtils.addNamespace(removeEvent, "dxFXStartAnimation");
+        var subscribeToRemoveEvent = function(animation) {
+            animation.element.off(scopedRemoveEvent).on(scopedRemoveEvent, function() {
+                fx.stop(animation.element)
+            });
+            animation.deferred.always(function() {
+                animation.element.off(scopedRemoveEvent)
+            })
+        };
         var createAnimation = function(element, initialConfig) {
             var defaultConfig = "css" === initialConfig.type ? defaultCssConfig : defaultJSConfig,
                 config = $.extend(true, {}, defaultConfig, initialConfig),
@@ -7788,6 +7696,7 @@
             if ($.isFunction(configurator.validateConfig)) {
                 configurator.validateConfig(config)
             }
+            subscribeToRemoveEvent(animation);
             return animation
         };
         var animate = function(element, config) {
@@ -7841,10 +7750,6 @@
             } else {
                 animation.startTimeout = setTimeout(function() {
                     animation.start()
-                });
-                var namespacedRemoveEvent = eventUtils.addNamespace(removeEvent, "dxFXStartAnimation");
-                animation.element.off(namespacedRemoveEvent).on(namespacedRemoveEvent, function() {
-                    clearTimeout(animation.startTimeout)
                 })
             }
             return animation.deferred.promise()
@@ -10271,9 +10176,26 @@
             }
             ko.bindingHandlers[componentName] = {
                 init: function(domNode, valueAccessor) {
-                    var $element = $(domNode),
+                    var component, $element = $(domNode),
                         optionChangedCallbacks = $.Callbacks(),
+                        optionsByReference = {},
                         ctorOptions = {
+                            onInitializing: function() {
+                                optionsByReference = this._getOptionsByReference();
+                                ko.computed(function() {
+                                    var model = ko.unwrap(valueAccessor());
+                                    if (component) {
+                                        component.beginUpdate()
+                                    }
+                                    unwrapModel(model);
+                                    if (component) {
+                                        component.endUpdate()
+                                    }
+                                }, null, {
+                                    disposeWhenNodeIsRemoved: domNode
+                                });
+                                component = this
+                            },
                             templateProvider: KoTemplateProvider,
                             modelByElement: function($element) {
                                 if ($element.length) {
@@ -10286,23 +10208,23 @@
                                     nestedComponentOptions: component.option("nestedComponentOptions")
                                 }
                             },
-                            watchMethod: function(watchValue, callback, element) {
-                                var values;
+                            watchMethod: function(watchValue, callback, options) {
+                                var skipCallback = options.skipImmediate;
                                 ko.computed(function() {
-                                    if (values) {
+                                    watchValue();
+                                    if (!skipCallback) {
                                         callback()
                                     }
-                                    values = watchValue()
+                                    skipCallback = false
                                 }, null, {
-                                    disposeWhenNodeIsRemoved: element
+                                    disposeWhenNodeIsRemoved: options.disposeWithElement
                                 })
                             },
                             _optionChangedCallbacks: optionChangedCallbacks
                         },
                         optionNameToModelMap = {};
                     var applyModelValueToOption = function(optionName, modelValue) {
-                        var component = $element.data(componentName),
-                            locks = $element.data(LOCKS_DATA_KEY),
+                        var locks = $element.data(LOCKS_DATA_KEY),
                             optionValue = ko.unwrap(modelValue);
                         if (ko.isWriteableObservable(modelValue)) {
                             optionNameToModelMap[optionName] = modelValue
@@ -10358,7 +10280,9 @@
                             disposeWhenNodeIsRemoved: domNode
                         });
                         if ($.isPlainObject(unwrappedPropertyValue)) {
-                            unwrapModel(unwrappedPropertyValue, propertyPath)
+                            if (!optionsByReference[propertyPath]) {
+                                unwrapModel(unwrappedPropertyValue, propertyPath)
+                            }
                         }
                     };
                     var unwrapModel = function(model, propertyPath) {
@@ -10368,21 +10292,7 @@
                             }
                         }
                     };
-                    ko.computed(function() {
-                        var component = $element.data(componentName),
-                            model = ko.unwrap(valueAccessor());
-                        if (component) {
-                            component.beginUpdate()
-                        }
-                        unwrapModel(model);
-                        if (component) {
-                            component.endUpdate()
-                        } else {
-                            createComponent()
-                        }
-                    }, null, {
-                        disposeWhenNodeIsRemoved: domNode
-                    });
+                    createComponent();
                     return {
                         controlsDescendantBindings: componentClass.subclassOf(Widget)
                     }
@@ -15039,7 +14949,7 @@
                 return str.replace(/^[\/.]+|\/+$/g, "")
             },
             _escapeRe: function(str) {
-                return str.replace(/\W/g, "\\$1")
+                return str.replace(/[^-\w]/g, "\\$1")
             },
             _checkConstraint: function(param, constraint) {
                 param = String(param);
@@ -20423,14 +20333,15 @@
                     }
                 };
                 result.templatesRenderAsynchronously = true;
-                result.watchMethod = function(watchValue, callback, element) {
-                    var disposeWatcher = scope.$watch(watchValue, function(oldValue, newValue) {
-                        if (oldValue !== newValue) {
-                            disposeWatcher();
-                            callback()
+                result.watchMethod = function(watchValue, callback, options) {
+                    var skipCallback = options.skipImmediate;
+                    var disposeWatcher = scope.$watch(watchValue, function(newValue) {
+                        if (!skipCallback) {
+                            callback(newValue)
                         }
-                    }, true);
-                    $(element).on(removeEvent, function() {
+                        skipCallback = false
+                    }, options.deep);
+                    $(options.disposeWithElement).on(removeEvent, function() {
                         disposeWatcher()
                     })
                 };
@@ -28094,8 +28005,8 @@
         };
         var getWaveStyleConfig = function(args, config) {
             var left, top, element = config.element,
-                elementWidth = element.width(),
-                elementHeight = element.height(),
+                elementWidth = element.outerWidth(),
+                elementHeight = element.outerHeight(),
                 elementDiagonal = parseInt(Math.sqrt(elementWidth * elementWidth + elementHeight * elementHeight)),
                 waveSize = Math.min(MAX_WAVE_SIZE, parseInt(elementDiagonal * args.waveSizeCoefficient));
             if (args.isCentered) {
@@ -29921,7 +29832,6 @@
             errors = __webpack_require__( /*! ../widget/ui.errors */ 10),
             positionUtils = __webpack_require__( /*! ../../animation/position */ 62),
             messageLocalization = __webpack_require__( /*! ../../localization/message */ 81),
-            devices = __webpack_require__( /*! ../../core/devices */ 41),
             Button = __webpack_require__( /*! ../button */ 197),
             eventUtils = __webpack_require__( /*! ../../events/utils */ 63),
             TextBox = __webpack_require__( /*! ../text_box */ 207),
@@ -30187,16 +30097,11 @@
                 if (this.option("disabled")) {
                     return
                 }
-                if (this._needFocusOnButtonClick()) {
-                    this._input().focus()
-                }
+                this._input().focus();
                 if (!this.option("readOnly")) {
                     isVisible = arguments.length ? isVisible : !this.option("opened");
                     this.option("opened", isVisible)
                 }
-            },
-            _needFocusOnButtonClick: function() {
-                return "desktop" === devices.real().deviceType
             },
             _renderOpenedState: function() {
                 var opened = this.option("opened");
@@ -37944,25 +37849,50 @@
             _unwrappedValue: function(value) {
                 value = commonUtils.isDefined(value) ? value : this._getCurrentValue();
                 if (value && this._dataSource && "this" === this._valueGetterExpr()) {
-                    var key = this._dataSource.key();
-                    if (key && "object" === typeof value) {
-                        value = value[key]
-                    }
+                    value = this._getItemKey(value)
                 }
                 return variableWrapper.unwrap(value)
             },
+            _getItemKey: function(value) {
+                var key = this._dataSource.key();
+                if (commonUtils.isArray(key)) {
+                    var result = {};
+                    for (var i = 0, n = key.length; i < n; i++) {
+                        result[key[i]] = value[key[i]]
+                    }
+                    return result
+                }
+                if (key && "object" === typeof value) {
+                    value = value[key]
+                }
+                return value
+            },
             _isValueEquals: function(value1, value2) {
-                var isDefined = commonUtils.isDefined;
-                var ensureDefined = commonUtils.ensureDefined;
-                var unwrapObservable = variableWrapper.unwrap;
                 var dataSourceKey = this._dataSource && this._dataSource.key();
+                if (commonUtils.isArray(dataSourceKey)) {
+                    return this._compareByCompositeKey(value1, value2, dataSourceKey)
+                }
+                var isDefined = commonUtils.isDefined;
                 var result = this._compareValues(value1, value2);
                 if (!result && isDefined(value1) && isDefined(value2) && dataSourceKey) {
-                    var valueKey1 = ensureDefined(unwrapObservable(value1[dataSourceKey]), value1);
-                    var valueKey2 = ensureDefined(unwrapObservable(value2[dataSourceKey]), value2);
-                    result = this._compareValues(valueKey1, valueKey2)
+                    result = this._compareByKey(value1, value2, dataSourceKey)
                 }
                 return result
+            },
+            _compareByCompositeKey: function(value1, value2, key) {
+                for (var i = 0, n = key.length; i < n; i++) {
+                    if (value1[key[i]] !== value2[key[i]]) {
+                        return false
+                    }
+                }
+                return true
+            },
+            _compareByKey: function(value1, value2, key) {
+                var ensureDefined = commonUtils.ensureDefined;
+                var unwrapObservable = variableWrapper.unwrap;
+                var valueKey1 = ensureDefined(unwrapObservable(value1[key]), value1);
+                var valueKey2 = ensureDefined(unwrapObservable(value2[key]), value2);
+                return this._compareValues(valueKey1, valueKey2)
             },
             _compareValues: function(value1, value2) {
                 return dataCoreUtils.toComparable(value1) === dataCoreUtils.toComparable(value2)
@@ -40998,7 +40928,7 @@
             SPIN_CLASS = "dx-numberbox-spin",
             SPIN_CONTAINER_CLASS = "dx-numberbox-spin-container",
             SPIN_TOUCH_FRIENDLY_CLASS = "dx-numberbox-spin-touch-friendly";
-        var FIREFOX_CONTROL_KEYS = ["Tab", "Del", "Delete", "Backspace", "Left", "ArrowLeft", "Right", "ArrowRight", "Home", "End"];
+        var FIREFOX_CONTROL_KEYS = ["Tab", "Del", "Delete", "Backspace", "Left", "ArrowLeft", "Right", "ArrowRight", "Home", "End", "Enter"];
         var NumberBox = TextEditor.inherit({
             _supportedKeys: function() {
                 return $.extend(this.callBase(), {
@@ -41011,7 +40941,8 @@
                         e.preventDefault();
                         e.stopPropagation();
                         this._spinDownChangeHandler(e)
-                    }
+                    },
+                    enter: function() {}
                 })
             },
             _getDefaultOptions: function() {
@@ -41199,7 +41130,7 @@
                 this.option("value", value)
             },
             _correctRounding: function(value, step) {
-                var regex = /[,|.](.*)/;
+                var regex = /[,.](.*)/;
                 var isFloatValue = regex.test(value),
                     isFloatStep = regex.test(step);
                 if (isFloatValue || isFloatStep) {
@@ -41251,9 +41182,15 @@
                 if (this._isValueIncomplete(inputValue)) {
                     return
                 }
+                if (commonUtils.isString(inputValue)) {
+                    inputValue = this._replaceCommaToPoint(inputValue)
+                }
                 if (Number(inputValue) !== value) {
                     $input.val(valueFormat(value))
                 }
+            },
+            _replaceCommaToPoint: function(value) {
+                return value.replace(",", ".")
             },
             _inputIsInvalid: function() {
                 var isNumberMode = "number" === this.option("mode");
@@ -41278,7 +41215,7 @@
                 var inputValue = this._normalizeText(),
                     isValueValid = this._isValueValid(),
                     isValid = true,
-                    isNumber = /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/.test(inputValue);
+                    isNumber = /^([-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?)$/.test(inputValue);
                 if (isNaN(Number(value))) {
                     isValid = false
                 }
@@ -41306,7 +41243,7 @@
             },
             _normalizeText: function(value) {
                 value = $.trim(commonUtils.isDefined(value) ? value : this._input().val());
-                return value.replace(",", ".")
+                return this._replaceCommaToPoint(value)
             },
             _parseValue: function(value) {
                 if ("" === value) {
@@ -41969,30 +41906,40 @@
                 return this.callBase() && !this._isNativeType()
             },
             _renderValue: function() {
-                var pattern, mode = this.option("mode"),
-                    value = this.dateOption("value");
-                if ("text" !== mode) {
-                    pattern = this._getPattern(uiDateUtils.FORMATS_MAP[mode]);
-                    this.option("text", uiDateUtils.toStandardDateFormat(value, mode, pattern))
-                } else {
-                    var displayFormat = this._strategy.getDisplayFormat(this.option("displayFormat"));
-                    this.option("text", dateLocalization.format(value, displayFormat))
-                }
+                var value = this.dateOption("value");
+                this.option("text", this._getDisplayedText(value));
                 this._strategy.renderValue();
                 this.callBase()
+            },
+            _getDisplayedText: function(value) {
+                var pattern, displayedText, mode = this.option("mode");
+                if ("text" !== mode) {
+                    pattern = this._getPattern(uiDateUtils.FORMATS_MAP[mode]);
+                    displayedText = uiDateUtils.toStandardDateFormat(value, mode, pattern)
+                } else {
+                    var displayFormat = this._strategy.getDisplayFormat(this.option("displayFormat"));
+                    displayedText = dateLocalization.format(value, displayFormat)
+                }
+                return displayedText
             },
             _getPattern: function(type) {
                 return !support.inputType(this.option("mode")) ? dateLocalization.getPatternByFormat(type) : null
             },
             _valueChangeEventHandler: function(e) {
                 var displayFormat = this._strategy.getDisplayFormat(this.option("displayFormat")),
-                    date = this._strategy.getParsedText(this.option("text"), displayFormat),
+                    text = this.option("text"),
+                    date = this._strategy.getParsedText(text, displayFormat),
                     value = this.dateOption("value"),
                     modelValue = new Date(value && value.valueOf()),
                     type = this.option("type"),
                     newValue = uiDateUtils.mergeDates(modelValue, date, type) || null;
                 if (this._validateValue(date)) {
-                    this.dateOption("value", newValue)
+                    var displayedText = this._getDisplayedText(newValue);
+                    if (value && newValue && value.getTime() === newValue.getTime() && displayedText !== text) {
+                        this._renderValue()
+                    } else {
+                        this.dateOption("value", newValue)
+                    }
                 }
                 this.validationRequest.fire({
                     value: newValue,
@@ -42001,7 +41948,7 @@
             },
             _validateValue: function(value) {
                 var text = this.option("text"),
-                    hasText = !!text,
+                    hasText = !!text && null !== value,
                     isDate = !!value && !isNaN(value.getTime()),
                     isDateInRange = isDate && dateUtils.dateInRange(value, this.dateOption("min"), this.dateOption("max"), this.option("type")),
                     isValid = !hasText || !hasText && !value || isDateInRange,
@@ -43841,14 +43788,22 @@
                 this._widget.option("items", this._widgetItems)
             },
             renderOpenedState: function() {
-                this.callBase();
-                this._widget && this._widget.option("focusedElement", null)
+                if (!this._widget) {
+                    return
+                }
+                this._widget.option("focusedElement", null);
+                this._setSelectedItemsByValue();
+                this._scrollToSelectedItem()
             },
             _updateValue: function() {
                 if (!this._widget) {
                     return
                 }
                 this._refreshItems();
+                this._setSelectedItemsByValue();
+                this._scrollToSelectedItem()
+            },
+            _setSelectedItemsByValue: function() {
                 var value = this.dateBoxValue();
                 var dateIndex = this._getDateIndex(value);
                 if (dateIndex === -1) {
@@ -43856,7 +43811,6 @@
                 } else {
                     this._widget.option("selectedIndex", dateIndex)
                 }
-                this._scrollToSelectedItem()
             },
             _scrollToSelectedItem: function() {
                 this._widget.scrollToItem(this._widget.option("selectedIndex"))
@@ -45748,6 +45702,12 @@
                     scrollingEnabled: false
                 })
             },
+            _setOptionsByReference: function() {
+                this.callBase();
+                $.extend(this._optionsByReference, {
+                    formData: true
+                })
+            },
             _getColCount: function($element) {
                 var $cols, index = 0,
                     isFinding = true;
@@ -46061,41 +46021,45 @@
             _renderLayoutManager: function(items, $rootElement, options) {
                 var instance, $element = $("<div />"),
                     that = this,
-                    config = $.extend({
+                    config = $.extend(that._getLayoutManagerDefaultConfig(), {
                         items: items,
-                        showRequiredMark: this.option("showRequiredMark"),
-                        showOptionalMark: this.option("showOptionalMark"),
-                        requiredMark: this.option("requiredMark"),
-                        optionalMark: this.option("optionalMark"),
-                        requiredMessage: this.option("requiredMessage"),
-                        screenByWidth: this.option("screenByWidth"),
-                        form: that,
-                        layoutData: this.option("formData"),
-                        labelLocation: this.option("labelLocation"),
-                        customizeItem: this.option("customizeItem"),
-                        minColWidth: this.option("minColWidth"),
-                        showColonAfterLabel: this.option("showColonAfterLabel"),
-                        onEditorEnterKey: this.option("onEditorEnterKey"),
                         onContentReady: function(args) {
                             that._updateEditorInstancesFromLayoutManager(args.component._editorInstancesByField);
                             options.onContentReady && options.onContentReady(args)
                         },
-                        onFieldDataChanged: function(args) {
-                            that._updateFieldValue(args.dataField, args.value)
-                        }
-                    }, {
                         colCount: options.colCount,
                         alignItemLabels: options.alignItemLabels,
                         cssItemClass: options.cssItemClass,
                         colCountByScreen: options.colCountByScreen,
                         onLayoutChanged: options.onLayoutChanged,
-                        width: options.width,
-                        validationBoundary: that.option("scrollingEnabled") ? that.element() : void 0
+                        width: options.width
                     });
                 $element.appendTo($rootElement);
                 instance = that._createComponent($element, "dxLayoutManager", config);
                 that._attachSyncSubscriptions(instance);
                 return instance
+            },
+            _getLayoutManagerDefaultConfig: function() {
+                var that = this;
+                return {
+                    form: that,
+                    showRequiredMark: that.option("showRequiredMark"),
+                    showOptionalMark: that.option("showOptionalMark"),
+                    requiredMark: that.option("requiredMark"),
+                    optionalMark: that.option("optionalMark"),
+                    requiredMessage: that.option("requiredMessage"),
+                    screenByWidth: that.option("screenByWidth"),
+                    layoutData: that.option("formData"),
+                    labelLocation: that.option("labelLocation"),
+                    customizeItem: that.option("customizeItem"),
+                    minColWidth: that.option("minColWidth"),
+                    showColonAfterLabel: that.option("showColonAfterLabel"),
+                    onEditorEnterKey: that.option("onEditorEnterKey"),
+                    onFieldDataChanged: function(args) {
+                        that._triggerOnFieldDataChanged(args)
+                    },
+                    validationBoundary: that.option("scrollingEnabled") ? that.element() : void 0
+                }
             },
             _updateEditorInstancesFromLayoutManager: function(instancesByDataFields) {
                 $.extend(this._editorInstancesByField, instancesByDataFields)
@@ -46111,11 +46075,6 @@
             _attachSyncSubscriptions: function(instance) {
                 var that = this;
                 that.on("optionChanged", function(args) {
-                    var formDataFieldStart = "formData.";
-                    if (0 === args.fullName.search(formDataFieldStart)) {
-                        var layoutDataField = args.fullName.replace(formDataFieldStart, "layoutData.");
-                        instance.option(layoutDataField, args.value)
-                    }
                     if (utils.isDefined(that.option("items")) && "formData" === args.fullName) {
                         instance.updateData(args.value)
                     }
@@ -46133,7 +46092,6 @@
                 switch (args.name) {
                     case "formData":
                         if (!utils.isDefined(this._options.items)) {
-                            this._options[args.name] = args.value;
                             this._invalidate();
                             this._triggerOnFieldDataChangedByDataSet(args.value)
                         } else {
@@ -46252,7 +46210,14 @@
             },
             _updateFieldValue: function(dataField, value) {
                 if (utils.isDefined(this.option("formData"))) {
-                    this.option("formData." + dataField, value)
+                    var editor = this.getEditor(dataField);
+                    this.option("formData." + dataField, value);
+                    if (editor) {
+                        var editorValue = editor.option("value");
+                        if (editorValue !== value) {
+                            editor.option("value", value)
+                        }
+                    }
                 }
             },
             _generateItemsFromData: function(items) {
@@ -46520,14 +46485,16 @@
             FIELD_ITEM_CONTENT_LOCATION_CLASS = "dx-field-item-content-location-",
             FIELD_ITEM_CONTENT_WRAPPER_CLASS = "dx-field-item-content-wrapper",
             FIELD_ITEM_HELP_TEXT_CLASS = "dx-field-item-help-text",
-            FORM_LAYOUT_MANAGER_CLASS = "dx-layout-manager",
             LABEL_HORIZONTAL_ALIGNMENT_CLASS = "dx-label-h-align",
             LABEL_VERTICAL_ALIGNMENT_CLASS = "dx-label-v-align",
+            FORM_LAYOUT_MANAGER_CLASS = "dx-layout-manager",
             LAYOUT_MANAGER_FIRST_ROW_CLASS = "dx-first-row",
             LAYOUT_MANAGER_FIRST_COL_CLASS = "dx-first-col",
             LAYOUT_MANAGER_LAST_COL_CLASS = "dx-last-col",
+            LAYOUT_MANAGER_ONE_COLUMN = "dx-layout-manager-one-col",
             FLEX_LAYOUT_CLASS = "dx-flex-layout",
-            LAYOUT_MANAGER_ONE_COLUMN = "dx-layout-manager-one-col";
+            LAYOUT_STRATEGY_FLEX = "flex",
+            LAYOUT_STRATEGY_FALLBACK = "fallback";
         var LayoutManager = Widget.inherit({
             _getDefaultOptions: function() {
                 return $.extend(this.callBase(), {
@@ -46547,6 +46514,12 @@
                     requiredMark: "*",
                     optionalMark: messageLocalization.format("dxForm-optionalMark"),
                     requiredMessage: messageLocalization.getFormatter("dxForm-requiredMessage")
+                })
+            },
+            _setOptionsByReference: function() {
+                this.callBase();
+                $.extend(this._optionsByReference, {
+                    layoutData: true
                 })
             },
             _init: function() {
@@ -46573,19 +46546,20 @@
                 return dataField ? this.option("layoutData." + dataField) : null
             },
             _updateFieldValue: function(dataField, value) {
-                var layoutData = this.option("layoutData");
+                var layoutData = this.option("layoutData"),
+                    newValue = value;
                 if (!isWrapped(layoutData[dataField]) && utils.isDefined(dataField)) {
-                    this.option("layoutData." + dataField, value);
-                    this._triggerOnFieldDataChanged({
-                        dataField: dataField,
-                        value: value
-                    })
+                    this.option("layoutData." + dataField, newValue)
                 } else {
                     if (isWritableWrapped(layoutData[dataField])) {
-                        var newValue = utils.isFunction(value) ? value() : value;
+                        newValue = utils.isFunction(value) ? value() : value;
                         layoutData[dataField](newValue)
                     }
                 }
+                this._triggerOnFieldDataChanged({
+                    dataField: dataField,
+                    value: newValue
+                })
             },
             _triggerOnFieldDataChanged: function(args) {
                 this._createActionByOption("onFieldDataChanged")(args)
@@ -46683,60 +46657,65 @@
                 this._editorInstancesByField = {}
             },
             _hasBrowserFlex: function() {
-                return "flex" === support.styleProp("flex")
+                return support.styleProp(LAYOUT_STRATEGY_FLEX) === LAYOUT_STRATEGY_FLEX
             },
             _renderContentImpl: function() {
                 this.callBase();
                 this._renderResponsiveBox()
             },
             _renderResponsiveBox: function() {
-                var layoutItems, that = this,
-                    colCount = that._getColCount(),
-                    colCountByScreen = this.option("colCountByScreen"),
-                    xsColCount = colCountByScreen && colCountByScreen.xs;
+                var that = this;
                 if (that._items && that._items.length) {
+                    var layoutItems, colCount = that._getColCount(),
+                        $container = $("<div />").appendTo(that.element());
                     that._prepareItemsWithMerging(colCount);
                     layoutItems = that._generateLayoutItems();
-                    that._responsiveBox = new ResponsiveBox($("<div />").appendTo(that.element()), {
-                        _layoutStrategy: that._hasBrowserFlex() ? "flex" : "fallback",
-                        onLayoutChanged: function() {
-                            var onLayoutChanged = that.option("onLayoutChanged"),
-                                isLayoutChanged = that.isLayoutChanged();
-                            if (onLayoutChanged) {
-                                that.element().toggleClass(LAYOUT_MANAGER_ONE_COLUMN, isLayoutChanged);
-                                onLayoutChanged(isLayoutChanged)
-                            }
-                        },
-                        onContentReady: function(e) {
-                            if (that.option("onLayoutChanged")) {
-                                that.element().toggleClass(LAYOUT_MANAGER_ONE_COLUMN, that.isLayoutChanged(e.component))
-                            }
-                            that._fireContentReadyAction()
-                        },
-                        itemTemplate: function(e, itemData, $itemElement) {
-                            if (!e.location) {
-                                return
-                            }
-                            var itemRenderedCountInPreviousRows = e.location.row * colCount,
-                                item = that._items[e.location.col + itemRenderedCountInPreviousRows],
-                                $fieldItem = $("<div/>").addClass(item.cssClass).appendTo($itemElement);
-                            if (0 === e.location.row) {
-                                $fieldItem.addClass(LAYOUT_MANAGER_FIRST_ROW_CLASS)
-                            }
-                            if (0 === e.location.col) {
-                                $fieldItem.addClass(LAYOUT_MANAGER_FIRST_COL_CLASS)
-                            }
-                            if (e.location.col === colCount - 1 || e.location.col + e.location.colspan === colCount) {
-                                $fieldItem.addClass(LAYOUT_MANAGER_LAST_COL_CLASS)
-                            }
-                            "empty" === item.itemType ? that._renderEmptyItem($fieldItem) : that._renderFieldItem(item, $fieldItem)
-                        },
-                        cols: that._generateRatio(colCount),
-                        rows: that._generateRatio(that._getRowsCount(), true),
-                        dataSource: layoutItems,
-                        screenByWidth: this.option("screenByWidth"),
-                        singleColumnScreen: xsColCount ? false : "xs"
-                    })
+                    that._responsiveBox = new ResponsiveBox($container, that._getResponsiveBoxConfig(layoutItems, colCount))
+                }
+            },
+            _getResponsiveBoxConfig: function(layoutItems, colCount) {
+                var that = this,
+                    colCountByScreen = that.option("colCountByScreen"),
+                    xsColCount = colCountByScreen && colCountByScreen.xs;
+                return {
+                    _layoutStrategy: that._hasBrowserFlex() ? LAYOUT_STRATEGY_FLEX : LAYOUT_STRATEGY_FALLBACK,
+                    onLayoutChanged: function() {
+                        var onLayoutChanged = that.option("onLayoutChanged"),
+                            isLayoutChanged = that.isLayoutChanged();
+                        if (onLayoutChanged) {
+                            that.element().toggleClass(LAYOUT_MANAGER_ONE_COLUMN, isLayoutChanged);
+                            onLayoutChanged(isLayoutChanged)
+                        }
+                    },
+                    onContentReady: function(e) {
+                        if (that.option("onLayoutChanged")) {
+                            that.element().toggleClass(LAYOUT_MANAGER_ONE_COLUMN, that.isLayoutChanged(e.component))
+                        }
+                        that._fireContentReadyAction()
+                    },
+                    itemTemplate: function(e, itemData, $itemElement) {
+                        if (!e.location) {
+                            return
+                        }
+                        var itemRenderedCountInPreviousRows = e.location.row * colCount,
+                            item = that._items[e.location.col + itemRenderedCountInPreviousRows],
+                            $fieldItem = $("<div/>").addClass(item.cssClass).appendTo($itemElement);
+                        if (0 === e.location.row) {
+                            $fieldItem.addClass(LAYOUT_MANAGER_FIRST_ROW_CLASS)
+                        }
+                        if (0 === e.location.col) {
+                            $fieldItem.addClass(LAYOUT_MANAGER_FIRST_COL_CLASS)
+                        }
+                        if (e.location.col === colCount - 1 || e.location.col + e.location.colspan === colCount) {
+                            $fieldItem.addClass(LAYOUT_MANAGER_LAST_COL_CLASS)
+                        }
+                        "empty" === item.itemType ? that._renderEmptyItem($fieldItem) : that._renderFieldItem(item, $fieldItem)
+                    },
+                    cols: that._generateRatio(colCount),
+                    rows: that._generateRatio(that._getRowsCount(), true),
+                    dataSource: layoutItems,
+                    screenByWidth: that.option("screenByWidth"),
+                    singleColumnScreen: xsColCount ? false : "xs"
                 }
             },
             _getColCount: function() {
@@ -46812,56 +46791,50 @@
                 return $container.addClass(FIELD_EMPTY_ITEM_CLASS).html("&nbsp;")
             },
             _renderFieldItem: function(item, $container) {
-                var $label, helpID, name = this._getName(item),
-                    id = this.getItemID(name),
-                    isRequired = utils.isDefined(item.isRequired) ? item.isRequired : !!this._hasRequiredRuleInSet(item.validationRules),
-                    labelOptions = $.extend({
-                        showColon: this.option("showColonAfterLabel"),
-                        location: this.option("labelLocation"),
-                        id: id,
-                        visible: true,
-                        isRequired: isRequired
-                    }, item ? item.label : {}),
-                    $editor = $("<div/>");
-                $container.addClass(FIELD_ITEM_CLASS).addClass(isRequired ? FIELD_ITEM_REQUIRED_CLASS : FIELD_ITEM_OPTIONAL_CLASS).addClass(this.option("cssItemClass")).addClass(utils.isDefined(item.col) ? "dx-col-" + item.col : "");
-                this._prepareLabelOptions(item.dataField, labelOptions);
+                var $label, that = this,
+                    name = that._getName(item),
+                    id = that.getItemID(name),
+                    isRequired = utils.isDefined(item.isRequired) ? item.isRequired : !!that._hasRequiredRuleInSet(item.validationRules),
+                    labelOptions = that._getLabelOptions(item, id, isRequired),
+                    $editor = $("<div/>"),
+                    helpID = item.helpText ? new Guid : null;
+                $container.addClass(FIELD_ITEM_CLASS).addClass(isRequired ? FIELD_ITEM_REQUIRED_CLASS : FIELD_ITEM_OPTIONAL_CLASS).addClass(that.option("cssItemClass")).addClass(utils.isDefined(item.col) ? "dx-col-" + item.col : "");
                 if (labelOptions.visible && labelOptions.text) {
-                    $label = this._renderLabel(labelOptions);
-                    $label.appendTo($container)
+                    $label = that._renderLabel(labelOptions).appendTo($container)
                 }
                 if (item.helpText) {
                     helpID = new Guid
                 }
                 if ("simple" === item.itemType) {
-                    if (this._isLabelNeedBaselineAlign(item) && "top" !== labelOptions.location) {
+                    if (that._isLabelNeedBaselineAlign(item) && "top" !== labelOptions.location) {
                         $container.addClass(FIELD_ITEM_LABEL_ALIGN_CLASS)
                     }
-                    this._hasBrowserFlex() && $container.addClass(FLEX_LAYOUT_CLASS)
+                    that._hasBrowserFlex() && $container.addClass(FLEX_LAYOUT_CLASS)
                 }
                 $editor.data("dx-form-item", item);
-                this._appendEditorToField({
+                that._appendEditorToField({
                     $fieldItem: $container,
                     $label: $label,
                     $editor: $editor,
                     labelOptions: labelOptions
                 });
-                this._renderEditor({
+                that._renderEditor({
                     $container: $editor,
                     dataField: name,
                     editorType: item.editorType,
                     editorOptions: item.editorOptions,
-                    template: this._getTemplateByFieldItem(item),
+                    template: that._getTemplateByFieldItem(item),
                     isRequired: isRequired,
                     helpID: helpID,
                     id: id,
-                    validationBoundary: this.option("validationBoundary")
+                    validationBoundary: that.option("validationBoundary")
                 });
                 var $validationTarget = $editor.children().first();
                 if ($validationTarget && $validationTarget.data("dx-validation-target")) {
-                    this._renderValidator($validationTarget, item)
+                    that._renderValidator($validationTarget, item)
                 }
-                this._renderHelpText(item, $editor, helpID);
-                this._attachClickHandler($label, $editor, item.editorType)
+                that._renderHelpText(item, $editor, helpID);
+                that._attachClickHandler($label, $editor, item.editorType)
             },
             _hasRequiredRuleInSet: function(rules) {
                 var hasRequiredRule;
@@ -46882,13 +46855,21 @@
                 var largeEditors = ["dxTextArea", "dxRadioGroup", "dxCalendar"];
                 return !!item.helpText && !this._hasBrowserFlex() || $.inArray(item.editorType, largeEditors) !== -1
             },
-            _prepareLabelOptions: function(dataField, options) {
-                if (!options.text && dataField) {
-                    options.text = inflector.captionize(dataField)
+            _getLabelOptions: function(item, id, isRequired) {
+                var labelOptions = $.extend({
+                    showColon: this.option("showColonAfterLabel"),
+                    location: this.option("labelLocation"),
+                    id: id,
+                    visible: true,
+                    isRequired: isRequired
+                }, item ? item.label : {});
+                if (!labelOptions.text && item.dataField) {
+                    labelOptions.text = inflector.captionize(item.dataField)
                 }
-                if (options.text) {
-                    options.text += options.showColon ? ":" : ""
+                if (labelOptions.text) {
+                    labelOptions.text += labelOptions.showColon ? ":" : ""
                 }
+                return labelOptions
             },
             _renderLabel: function(options) {
                 if (utils.isDefined(options.text) && options.text.length > 0) {
@@ -46940,6 +46921,7 @@
                     },
                     validationBoundary: options.validationBoundary
                 });
+                editorOptions.items = options.editorOptions && options.editorOptions.items || editorOptions.items;
                 this._createEditor(options.$container, {
                     editorType: options.editorType,
                     dataField: options.dataField,
@@ -46986,6 +46968,7 @@
                 if (template) {
                     var data = {
                         dataField: renderOptions.dataField,
+                        editorType: renderOptions.editorType,
                         editorOptions: editorOptions,
                         component: template.owner()
                     };
@@ -47007,12 +46990,32 @@
                                 }))
                             });
                             that._registerEditorInstance(editorInstance, renderOptions.dataField);
+                            that._createWatcher(editorInstance, $container, renderOptions);
                             that.linkEditorToDataField(editorInstance, renderOptions.dataField, renderOptions.editorType)
                         }
                     } catch (e) {
                         errors.log("E1035", e.message)
                     }
                 }
+            },
+            _createWatcher: function(editorInstance, $container, renderOptions) {
+                var that = this,
+                    watch = that._getWatch();
+                $.isFunction(watch) && watch(function() {
+                    return that._getDataByField(renderOptions.dataField)
+                }, function() {
+                    editorInstance.option("value", that._getDataByField(renderOptions.dataField))
+                }, {
+                    disposeWithElement: $container.get(0),
+                    skipImmediate: true
+                })
+            },
+            _getWatch: function() {
+                if (!utils.isDefined(this._watch)) {
+                    var formInstance = this.option("form");
+                    this._watch = formInstance && formInstance.option("watchMethod")
+                }
+                return this._watch
             },
             _addItemContentClasses: function($itemContent) {
                 var locationSpecificClass = this._getItemContentLocationSpecificClass();
@@ -47156,24 +47159,18 @@
                     that = this;
                 that.on("optionChanged", function(args) {
                     if (args.fullName === fullFieldName) {
-                        switch (editorType) {
-                            case "dxTagBox":
-                            case "dxSelectBox":
-                                that._managedUpdateEditorOption(editorInstance, "value", args.value);
-                                break;
-                            default:
-                                editorInstance.option("value", args.value)
+                        if ("object" === typeof args.value) {
+                            that._managedUpdateEditorOption(editorInstance, "value", args.value)
+                        } else {
+                            editorInstance.option("value", args.value)
                         }
                     }
                 });
                 editorInstance.on("valueChanged", function(args) {
-                    switch (editorType) {
-                        case "dxTagBox":
-                        case "dxSelectBox":
-                            that._managedUpdateFieldValue(dataField, args.value);
-                            break;
-                        default:
-                            that._updateFieldValue(dataField, args.value)
+                    if ("object" === typeof args.value) {
+                        that._managedUpdateFieldValue(dataField, args.value)
+                    } else {
+                        that._updateFieldValue(dataField, args.value)
                     }
                 })
             },
@@ -47703,10 +47700,10 @@
                     height: "100%",
                     itemTemplate: this.option("itemTemplate"),
                     itemHoldTimeout: this.option("itemHoldTimeout"),
-                    onItemHold: this.option("onItemHold"),
-                    onItemClick: this.option("onItemClick"),
-                    onItemContextMenu: this.option("onItemContextMenu"),
-                    onItemRendered: this.option("onItemRendered")
+                    onItemHold: this._createActionByOption("onItemHold"),
+                    onItemClick: this._createActionByOption("onItemClick"),
+                    onItemContextMenu: this._createActionByOption("onItemContextMenu"),
+                    onItemRendered: this._createActionByOption("onItemRendered")
                 }, {
                     _layoutStrategy: this.option("_layoutStrategy")
                 })
@@ -53456,6 +53453,9 @@
                 this._focusListElement(focusedElement)
             },
             _renderFocusedElement: function() {
+                if (!this._list) {
+                    return
+                }
                 var searchValue = this._searchValue();
                 if (!searchValue || this.option("acceptCustomValue")) {
                     this._focusListElement(null);
@@ -53466,9 +53466,6 @@
                 this._focusListElement(focusedElement)
             },
             _focusListElement: function(element) {
-                if (!this._list) {
-                    return
-                }
                 this._preventInputValueRender = true;
                 this._list.option("focusedElement", element);
                 delete this._preventInputValueRender
@@ -53482,10 +53479,13 @@
             },
             _listContentReadyHandler: function() {
                 this.callBase();
-                if (this._dataSource.paginate() && this._isEditable()) {
+                var isPaginate = this._dataSource.paginate();
+                if (isPaginate && this._needPopupRepaint()) {
                     return
                 }
-                this._list.scrollToItem(this._list.option("selectedItem"))
+                if (!isPaginate || !this._isEditable()) {
+                    this._list.scrollToItem(this._list.option("selectedItem"))
+                }
             },
             _renderValue: function() {
                 this._renderInputValue()
@@ -55630,6 +55630,9 @@
                 this._renderWidget()
             },
             renderMenuItems: function() {
+                if (!this._menu) {
+                    this.render()
+                }
                 this.callBase();
                 if (this._menu && !this._menu.option("items").length) {
                     this._menu.close()

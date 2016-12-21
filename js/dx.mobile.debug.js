@@ -1,7 +1,7 @@
 /*! 
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.1.8
- * Build date: Mon Nov 14 2016
+ * Version: 16.1.9
+ * Build date: Mon Dec 19 2016
  *
  * Copyright (c) 2012 - 2016 Developer Express Inc. ALL RIGHTS RESERVED
  * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
@@ -451,7 +451,7 @@
             E1036: "Validation rules are not defined for any form item",
             E1037: "Invalid structure of grouped data",
             E1038: "Your browser does not support local storage for local web pages",
-            E0139: "The cell position can not be calculated",
+            E1039: "The cell position can not be calculated",
             E1040: "The key value should be unique within the data array",
             W1001: "Key option can not be modified after initialization",
             W1002: "Item '{0}' you are trying to select does not exist",
@@ -901,7 +901,7 @@
       !*** ./Scripts/core/version.js ***!
       \*********************************/
     function(module, exports) {
-        module.exports = "16.1.8"
+        module.exports = "16.1.9"
     },
     /*!********************************!*\
       !*** ./Scripts/core/errors.js ***!
@@ -1030,7 +1030,7 @@
                 trillions: "#,##0{0},,,,&quot;T&quot;",
                 percent: "0{0}%",
                 decimal: "#{0}",
-                fixedPoint: "#,##0{0}",
+                fixedpoint: "#,##0{0}",
                 exponential: "0{0}E+00",
                 currency: " "
             },
@@ -1065,7 +1065,7 @@
                 return DEFINED_DATE_FORMATS[format] || DEFINED_DATE_FORMATS[DEFAULT_DATE_FORMAT]
             },
             _convertNumberFormat: function(format, precision) {
-                var result, excelFormat = "currency" === format ? this._getCurrencyFormat() : DEFINED_NUMBER_FORMTATS[format];
+                var result, excelFormat = "currency" === format ? this._getCurrencyFormat() : DEFINED_NUMBER_FORMTATS[format.toLowerCase()];
                 if (excelFormat) {
                     result = stringUtils.format(excelFormat, this._applyPrecision(format, precision))
                 }
@@ -1076,7 +1076,7 @@
                     if ("date" === type) {
                         return exports.excelFormatConverter._convertDateFormat(format)
                     } else {
-                        if (DEFINED_NUMBER_FORMTATS[format]) {
+                        if (DEFINED_NUMBER_FORMTATS[format.toLowerCase()]) {
                             return exports.excelFormatConverter._convertNumberFormat(format, precision)
                         }
                     }
@@ -1124,13 +1124,29 @@
             _getDataType: function(dataType) {
                 return VALID_TYPES[dataType] || "s"
             },
-            _appendFormat: function(format, precision, dataType) {
+            _formatObjectConverter: function(format, precision, dataType, currency) {
                 if (commonUtils.isObject(format)) {
                     if (format.precision) {
                         precision = format.precision
                     }
+                    if (format.currency) {
+                        currency = format.currency
+                    }
                     format = format.type
                 }
+                return {
+                    format: format,
+                    precision: precision,
+                    dataType: dataType,
+                    currency: currency
+                }
+            },
+            _appendFormat: function(format, precision, dataType, currency) {
+                var newFormat = this._formatObjectConverter(format, precision, dataType, currency);
+                format = newFormat.format;
+                precision = newFormat.precision;
+                currency = newFormat.currency;
+                dataType = newFormat.dataType;
                 format = exports.excelFormatConverter.convertFormat(format, precision, dataType);
                 if (format) {
                     if ($.inArray(format, this._styleFormat) === -1) {
@@ -2271,8 +2287,6 @@
                     textOffset = 0;
                     drawCanvasElements(element.childNodes, context, options);
                     break;
-                case "title":
-                    return;
                 case "image":
                     drawImage(context, options);
                     break;
@@ -5480,6 +5494,7 @@
             isObject = commonUtils.isObject,
             isString = commonUtils.isString,
             isDate = commonUtils.isDate,
+            isNumber = commonUtils.isNumber,
             isDefined = commonUtils.isDefined,
             camelize = inflector.camelize;
         var dateUnitIntervals = ["millisecond", "second", "minute", "hour", "day", "week", "month", "quarter", "year"];
@@ -5960,10 +5975,10 @@
             DATE_SERIALIZATION_FORMAT = "yyyy'/'MM'/'dd",
             DATETIME_SERIALIZATION_FORMAT = "yyyy'/'MM'/'dd HH:mm:ss";
         var getDateSerializationFormat = function(value) {
-            if (commonUtils.isNumber(value)) {
+            if (isNumber(value)) {
                 return NUMBER_SERIALIZATION_FORMAT
             } else {
-                if (commonUtils.isString(value)) {
+                if (isString(value)) {
                     if (value.indexOf(":") >= 0) {
                         return DATETIME_SERIALIZATION_FORMAT
                     } else {
@@ -5976,7 +5991,7 @@
             var parsedValue;
             if (!serializationFormat || serializationFormat === NUMBER_SERIALIZATION_FORMAT || serializationFormat === DATE_SERIALIZATION_FORMAT || serializationFormat === DATETIME_SERIALIZATION_FORMAT) {
                 parsedValue = serializationFormat === NUMBER_SERIALIZATION_FORMAT ? value : !isDate(value) && Date.parse(value);
-                return parsedValue ? new Date(parsedValue) : value
+                return isNumber(parsedValue) ? new Date(parsedValue) : value
             }
             if (void 0 !== value) {
                 return localizationParseFunc(value, serializationFormat)
@@ -11778,7 +11793,12 @@
             POINTERLEAVE_NAMESPACED_EVENT_NAME = eventUtils.addNamespace(pointerEvents.leave, HOVEREND_NAMESPACE);
         var Hover = Class.inherit({
             noBubble: true,
-            handlerCache: {},
+            ctor: function() {
+                this._handlerArrayKeyPath = this._eventNamespace + "_HandlerStore"
+            },
+            setup: function(element) {
+                $.data(element, this._handlerArrayKeyPath, {})
+            },
             add: function(element, handleObj) {
                 var that = this,
                     $element = $(element),
@@ -11786,7 +11806,7 @@
                         that._handler(e)
                     };
                 $element.on(this._originalEventName, handleObj.selector, handler);
-                this.handlerCache[handleObj.guid] = handler
+                $.data(element, this._handlerArrayKeyPath)[handleObj.guid] = handler
             },
             _handler: function(e) {
                 if (eventUtils.isTouchEvent(e) || devices.isSimulator()) {
@@ -11799,15 +11819,19 @@
                 })
             },
             remove: function(element, handleObj) {
-                $(element).off(this._originalEventName, handleObj.selector, this.handlerCache[handleObj.guid]);
-                delete this.handlerCache[handleObj.guid]
+                var handler = $.data(element, this._handlerArrayKeyPath)[handleObj.guid];
+                $(element).off(this._originalEventName, handleObj.selector, handler)
+            },
+            teardown: function(element) {
+                $.removeData(element, this._handlerArrayKeyPath)
             }
         });
         var HoverStart = Hover.inherit({
             ctor: function() {
+                this._eventNamespace = HOVERSTART_NAMESPACE;
                 this._eventName = HOVERSTART;
                 this._originalEventName = POINTERENTER_NAMESPACED_EVENT_NAME;
-                this._isMouseDown = false
+                this.callBase()
             },
             _handler: function(e) {
                 var pointers = e.pointers || [];
@@ -11818,8 +11842,10 @@
         });
         var HoverEnd = Hover.inherit({
             ctor: function() {
+                this._eventNamespace = HOVEREND_NAMESPACE;
                 this._eventName = HOVEREND;
-                this._originalEventName = POINTERLEAVE_NAMESPACED_EVENT_NAME
+                this._originalEventName = POINTERLEAVE_NAMESPACED_EVENT_NAME;
+                this.callBase()
             }
         });
         registerEvent(HOVERSTART, new HoverStart);
@@ -12217,7 +12243,7 @@
         TEMPLATE_GENERATORS.dxActionSheet = {
             item: function() {
                 return ["<div>", createElementWithBindAttr("div", {
-                    dxButton: "{ text: $data.text, onClick: $data.clickAction || $data.onClick, type: $data.type, disabled: !!ko.unwrap($data.disabled) }"
+                    dxButton: "{ icon: $data.icon, text: $data.text, onClick: $data.clickAction || $data.onClick, type: $data.type, disabled: !!ko.unwrap($data.disabled) }"
                 }), "</div>"].join("")
             }
         };
@@ -13357,15 +13383,17 @@
                 }
             },
             _renderShadingDimensions: function() {
+                var wrapperWidth = "",
+                    wrapperHeight = "";
                 if (this.option("shading")) {
-                    var $container = this._getContainer(),
-                        wrapperWidth = this._isWindow($container) ? "100%" : $container.outerWidth(),
-                        wrapperHeight = this._isWindow($container) ? "100%" : $container.outerHeight();
-                    this._$wrapper.css({
-                        width: wrapperWidth,
-                        height: wrapperHeight
-                    })
+                    var $container = this._getContainer();
+                    wrapperWidth = this._isWindow($container) ? "100%" : $container.outerWidth();
+                    wrapperHeight = this._isWindow($container) ? "100%" : $container.outerHeight()
                 }
+                this._$wrapper.css({
+                    width: wrapperWidth,
+                    height: wrapperHeight
+                })
             },
             _isWindow: function($element) {
                 return !!$element && $.isWindow($element.get(0))
@@ -18644,7 +18672,10 @@
                 var widgetItem;
                 itemOptions.onClick = executeCommandCallback;
                 if ("menu" === itemOptions.location || "always" === itemOptions.locateInMenu) {
-                    widgetItem = itemOptions
+                    widgetItem = itemOptions;
+                    $.extend(widgetItem, {
+                        isAction: true
+                    })
                 } else {
                     widgetItem = {
                         locateInMenu: itemOptions.locateInMenu,
@@ -20114,6 +20145,9 @@
                     endUpdate = function() {
                         that._component.endUpdate()
                     };
+                if (that._digestCallbacks.isDigestPhase()) {
+                    beginUpdate()
+                }
                 that._digestCallbacks.begin.add(beginUpdate);
                 that._digestCallbacks.end.add(endUpdate);
                 that._componentDisposing.add(function() {
@@ -20182,7 +20216,7 @@
                             that._parse(valuePath).assign(that._scope, value);
                             var scopeValue = that._parse(valuePath)(that._scope);
                             if (scopeValue !== value) {
-                                that._component.option(optionPath, scopeValue)
+                                args.component.option(optionPath, scopeValue)
                             }
                         })
                     }, that._scope);
@@ -20192,6 +20226,7 @@
                         }
                         that._digestCallbacks.end.remove(releaseOption)
                     };
+                    releaseOption();
                     that._digestCallbacks.end.add(releaseOption)
                 })
             },
@@ -24086,7 +24121,6 @@
       \***************************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            MemorizedCallbacks = __webpack_require__( /*! ../../core/memorized_callbacks */ 45),
             ngModule = __webpack_require__( /*! ./module */ 151),
             iconUtils = __webpack_require__( /*! ../../core/utils/icon */ 100),
             inflector = __webpack_require__( /*! ../../core/utils/inflector */ 50),
@@ -24127,8 +24161,8 @@
             }
         }]);
         ngModule.service("dxDigestCallbacks", ["$rootScope", function($rootScope) {
-            var begin = new MemorizedCallbacks,
-                end = new MemorizedCallbacks;
+            var begin = $.Callbacks(),
+                end = $.Callbacks();
             var digestPhase = false;
             $rootScope.$watch(function() {
                 if (digestPhase) {
@@ -24143,7 +24177,10 @@
             });
             return {
                 begin: begin,
-                end: end
+                end: end,
+                isDigestPhase: function() {
+                    return digestPhase
+                }
             }
         }])
     },
@@ -27218,7 +27255,8 @@
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 44),
             Button = __webpack_require__( /*! ./button */ 197),
             themes = __webpack_require__( /*! ./themes */ 144),
-            Overlay = __webpack_require__( /*! ./overlay */ 110);
+            Overlay = __webpack_require__( /*! ./overlay */ 110),
+            domUtils = __webpack_require__( /*! ../core/utils/dom */ 51);
         __webpack_require__( /*! ./toolbar/ui.toolbar.base */ 199);
         var POPUP_CLASS = "dx-popup",
             POPUP_WRAPPER_CLASS = "dx-popup-wrapper",
@@ -27443,8 +27481,11 @@
             },
             _render: function() {
                 var isFullscreen = this.option("fullScreen");
-                this._$content.toggleClass(POPUP_FULL_SCREEN_CLASS, isFullscreen).toggleClass(POPUP_NORMAL_CLASS, !isFullscreen);
+                this._toggleFullScreenClass(isFullscreen);
                 this.callBase()
+            },
+            _toggleFullScreenClass: function(value) {
+                this._$content.toggleClass(POPUP_FULL_SCREEN_CLASS, value).toggleClass(POPUP_NORMAL_CLASS, !value)
             },
             _renderContentImpl: function() {
                 this.callBase();
@@ -27539,9 +27580,7 @@
                         item.toolbar = "top";
                         index++
                     }
-                    $.extend(item, commonUtils.isDefined(data.toolbar) ? {
-                        toolbar: data.toolbar
-                    } : {});
+                    item.toolbar = data.toolbar || item.toolbar || "top";
                     if (item && item.toolbar === toolbar) {
                         if (isShortcut) {
                             $.extend(item, {
@@ -27716,8 +27755,9 @@
                         this._renderDrag();
                         break;
                     case "fullScreen":
-                        this._$content.toggleClass(POPUP_FULL_SCREEN_CLASS, args.value);
-                        this._refresh();
+                        this._toggleFullScreenClass(args.value);
+                        this._renderGeometry();
+                        domUtils.triggerResizeEvent(this._$content);
                         break;
                     case "showCloseButton":
                         this._renderTitle();
@@ -28438,6 +28478,7 @@
                 this._toggleCloseEvents("Swipe");
                 this._toggleCloseEvents("Click")
             },
+            _renderScrollTerminator: $.noop,
             _toggleCloseEvents: function(event) {
                 var dxEvent = "dx" + event.toLowerCase();
                 this._$content.off(dxEvent);
@@ -29266,6 +29307,10 @@
                 } else {
                     this.callBase(args)
                 }
+            },
+            reset: function() {
+                this.callBase();
+                this.close()
             }
         });
         registerComponent("dxAutocomplete", Autocomplete);
@@ -30994,7 +31039,7 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             commonUtils = __webpack_require__( /*! ../../core/utils/common */ 14),
             browser = __webpack_require__( /*! ../../core/utils/browser */ 18);
-        var isIE = browser.msie && parseInt(browser.version) <= 11;
+        var isIE = browser.msie && parseInt(browser.version) <= 12;
         var getCaret = function(input) {
             if (isObsoleteBrowser(input)) {
                 return getCaretForObsoleteBrowser(input)
@@ -37170,11 +37215,6 @@
                     this._$selectAll.remove();
                     this._$selectAll = null
                 }
-            },
-            handleClick: function($itemElement) {
-                var newState = !this._isSelected($itemElement) || this._singleStrategy;
-                this._processCheckedState($itemElement, newState);
-                return true
             }
         }))
     },
@@ -37535,8 +37575,8 @@
                     $container = config.$container;
                 var $handle = $("<div>").addClass(REORDER_HANDLE_CLASS);
                 var lockedDrag = false;
-                $handle.on("dxpointerdown", function() {
-                    lockedDrag = true
+                $handle.on("dxpointerdown", function(e) {
+                    lockedDrag = !eventUtils.isMouseEvent(e)
                 });
                 $handle.on("dxhold", {
                     timeout: 30
@@ -37869,17 +37909,22 @@
             },
             _isValueEquals: function(value1, value2) {
                 var dataSourceKey = this._dataSource && this._dataSource.key();
-                if (commonUtils.isArray(dataSourceKey)) {
-                    return this._compareByCompositeKey(value1, value2, dataSourceKey)
-                }
                 var isDefined = commonUtils.isDefined;
                 var result = this._compareValues(value1, value2);
                 if (!result && isDefined(value1) && isDefined(value2) && dataSourceKey) {
-                    result = this._compareByKey(value1, value2, dataSourceKey)
+                    if (commonUtils.isArray(dataSourceKey)) {
+                        result = this._compareByCompositeKey(value1, value2, dataSourceKey)
+                    } else {
+                        result = this._compareByKey(value1, value2, dataSourceKey)
+                    }
                 }
                 return result
             },
             _compareByCompositeKey: function(value1, value2, key) {
+                var isObject = commonUtils.isObject;
+                if (!isObject(value1) || !isObject(value2)) {
+                    return false
+                }
                 for (var i = 0, n = key.length; i < n; i++) {
                     if (value1[key[i]] !== value2[key[i]]) {
                         return false
@@ -43409,7 +43454,7 @@
                 this.callBase();
                 this._currentAdaptiveMode = this._isShrinkView();
                 var $popupContent = this._getPopup().content();
-                var box = this.dateBox._createComponent($("<div>").appendTo($popupContent), Box, {
+                this._box = this.dateBox._createComponent($("<div>").appendTo($popupContent), Box, {
                     direction: "row",
                     crossAlign: "start",
                     items: this._getBoxItems(),
@@ -43428,13 +43473,19 @@
                         return $container
                     }, this)
                 });
-                clearTimeout(this._removeMinWidthTimer);
-                this._removeMinWidthTimer = setTimeout(function() {
-                    if ("fallback" === box.option("_layoutStrategy")) {
-                        $popupContent.find(".dx-timeview-clock").css("minWidth", 0)
-                    }
-                }, 0);
                 this._attachTabHandler()
+            },
+            popupConfig: function(popupConfig) {
+                var calendarPopupConfig = this.callBase(popupConfig),
+                    result = $.extend(calendarPopupConfig, {
+                        onShowing: $.proxy(function() {
+                            if ("fallback" === this._box.option("_layoutStrategy")) {
+                                var clockMinWidth = this._getPopup().content().find(".dx-timeview-clock").css("minWidth");
+                                this._timeView.element().css("width", clockMinWidth)
+                            }
+                        }, this)
+                    });
+                return result
             },
             getFirstPopupElement: function() {
                 return this._timeView._hourBox.element().find("input")
@@ -43831,7 +43882,7 @@
             _getTimeListItems: function() {
                 var min = this.dateBox.dateOption("min") || this._getBoundaryDate("min"),
                     max = this.dateBox.dateOption("max") || this._getBoundaryDate("max"),
-                    value = this.dateBox.dateOption("value"),
+                    value = this.dateBox.dateOption("value") || null,
                     delta = max - min,
                     minutes = min.getMinutes() % this.dateBox.option("interval");
                 if (delta < 0) {
@@ -45674,7 +45725,14 @@
         var Form = Widget.inherit({
             _init: function() {
                 this.callBase();
+                this._cachedColCountOptions = [];
                 this._groupsColCount = []
+            },
+            _initOptions: function(options) {
+                if (!("screenByWidth" in options)) {
+                    options.screenByWidth = windowUtils.defaultScreenFactorFunc
+                }
+                this.callBase(options)
             },
             _getDefaultOptions: function() {
                 return $.extend(this.callBase(), {
@@ -45836,7 +45894,9 @@
             },
             _clean: function() {
                 this.callBase();
-                this._groupsColCount = []
+                this._groupsColCount = [];
+                this._cachedColCountOptions = [];
+                delete this._cachedScreenFactor
             },
             _renderContentImpl: function() {
                 this.callBase();
@@ -46034,6 +46094,10 @@
                         onLayoutChanged: options.onLayoutChanged,
                         width: options.width
                     });
+                that._cachedColCountOptions.push({
+                    colCount: options.colCount,
+                    colCountByScreen: options.colCountByScreen
+                });
                 $element.appendTo($rootElement);
                 instance = that._createComponent($element, "dxLayoutManager", config);
                 that._attachSyncSubscriptions(instance);
@@ -46186,7 +46250,7 @@
             _getItemPath: function(nameParts) {
                 var i, itemPath = nameParts[0];
                 for (i = 1; i < nameParts.length; i++) {
-                    if (nameParts[i].search("items") !== -1) {
+                    if (nameParts[i].search("items|tabs") !== -1) {
                         itemPath += "." + nameParts[i]
                     } else {
                         break
@@ -46344,13 +46408,25 @@
             _dimensionChanged: function() {
                 var currentScreenFactor = windowUtils.getCurrentScreenFactor(this.option("screenByWidth"));
                 if (this._cachedScreenFactor !== currentScreenFactor) {
+                    if (this._isColCountChanged(this._cachedScreenFactor, currentScreenFactor)) {
+                        this._refresh()
+                    }
                     this._cachedScreenFactor = currentScreenFactor;
-                    this._refresh();
                     return
                 }
                 if ("auto" === this.option("colCount")) {
                     this._refresh()
                 }
+            },
+            _isColCountChanged: function(oldScreenSize, newScreenSize) {
+                var isChanged = false;
+                $.each(this._cachedColCountOptions, function(index, item) {
+                    if (1 !== item.colCount || item.colCountByScreen && item.colCountByScreen[oldScreenSize] !== item.colCountByScreen[newScreenSize]) {
+                        isChanged = true;
+                        return false
+                    }
+                });
+                return isChanged
             },
             _refresh: function() {
                 this.element().find(".dx-state-focused input, .dx-state-focused textarea").trigger("change");
@@ -46494,7 +46570,8 @@
             LAYOUT_MANAGER_ONE_COLUMN = "dx-layout-manager-one-col",
             FLEX_LAYOUT_CLASS = "dx-flex-layout",
             LAYOUT_STRATEGY_FLEX = "flex",
-            LAYOUT_STRATEGY_FALLBACK = "fallback";
+            LAYOUT_STRATEGY_FALLBACK = "fallback",
+            DATA_OPTIONS = ["dataSource", "items"];
         var LayoutManager = Widget.inherit({
             _getDefaultOptions: function() {
                 return $.extend(this.callBase(), {
@@ -46565,23 +46642,22 @@
                 this._createActionByOption("onFieldDataChanged")(args)
             },
             _updateItems: function(layoutData) {
-                var items, visibleItems, that = this,
+                var items, processedItems, that = this,
                     userItems = this.option("items"),
                     customizeItem = that.option("customizeItem");
                 items = utils.isDefined(userItems) ? userItems : this._generateItemsByData(layoutData);
                 if (utils.isDefined(items)) {
-                    visibleItems = [];
+                    processedItems = [];
                     $.each(items, function(index, item) {
                         if (that._isAcceptableItem(item)) {
                             item = that._processItem(item);
                             customizeItem && customizeItem(item);
-                            var isItemVisibleDefined = utils.isDefined(item.visible);
-                            if (utils.isObject(item) && !isItemVisibleDefined || isItemVisibleDefined && item.visible) {
-                                visibleItems.push(item)
+                            if (utils.isObject(item)) {
+                                processedItems.push(item)
                             }
                         }
                     });
-                    this._items = visibleItems;
+                    this._items = processedItems;
                     this._sortItems()
                 }
             },
@@ -46670,8 +46746,19 @@
                         $container = $("<div />").appendTo(that.element());
                     that._prepareItemsWithMerging(colCount);
                     layoutItems = that._generateLayoutItems();
-                    that._responsiveBox = new ResponsiveBox($container, that._getResponsiveBoxConfig(layoutItems, colCount))
+                    that._extendItemsWithDefaultTemplateOptions(layoutItems, that._items);
+                    that._responsiveBox = that._createComponent($container, ResponsiveBox, that._getResponsiveBoxConfig(layoutItems, colCount))
                 }
+            },
+            _extendItemsWithDefaultTemplateOptions: function(targetItems, sourceItems) {
+                sourceItems.forEach(function(item, index) {
+                    if (utils.isDefined(item.disabled)) {
+                        targetItems[index].disabled = item.disabled
+                    }
+                    if (utils.isDefined(item.visible)) {
+                        targetItems[index].visible = item.visible
+                    }
+                })
             },
             _getResponsiveBoxConfig: function(layoutItems, colCount) {
                 var that = this,
@@ -46921,7 +47008,7 @@
                     },
                     validationBoundary: options.validationBoundary
                 });
-                editorOptions.items = options.editorOptions && options.editorOptions.items || editorOptions.items;
+                this._replaceDataOptions(options.editorOptions, editorOptions);
                 this._createEditor(options.$container, {
                     editorType: options.editorType,
                     dataField: options.dataField,
@@ -46930,6 +47017,15 @@
                     helpID: options.helpID,
                     isRequired: options.isRequired
                 }, editorOptions)
+            },
+            _replaceDataOptions: function(originalOptions, resultOptions) {
+                if (originalOptions) {
+                    DATA_OPTIONS.forEach(function(item) {
+                        if (resultOptions[item]) {
+                            resultOptions[item] = originalOptions[item]
+                        }
+                    })
+                }
             },
             _renderValidator: function($editor, item) {
                 var fieldName = this._getFieldLabelName(item),
@@ -47487,7 +47583,7 @@
                 clearTimeout(this._updateTimer);
                 this._updateTimer = setTimeout($.proxy(function() {
                     if (this._$root) {
-                        this._$root.trigger("dxupdate")
+                        this._$root.triggerHandler("dxupdate")
                     }
                 }, this))
             },
@@ -48049,13 +48145,14 @@
             },
             _optionChanged: function(args) {
                 var name = args.name,
-                    value = args.value;
+                    value = args.value,
+                    fullName = args.fullName;
                 switch (name) {
                     case "dataSource":
                         this.callBase(args);
                         break;
                     case "items":
-                        this._setTabsOption(name, value);
+                        this._setTabsOption(fullName, value);
                         this._updateLayout();
                         this.callBase(args);
                         break;
@@ -48064,13 +48161,13 @@
                     case "itemHoldTimeout":
                     case "focusStateEnabled":
                     case "hoverStateEnabled":
-                        this._setTabsOption(name, value);
+                        this._setTabsOption(fullName, value);
                         this.callBase(args);
                         break;
                     case "scrollingEnabled":
                     case "scrollByContent":
                     case "showNavButtons":
-                        this._setTabsOption(name, value);
+                        this._setTabsOption(fullName, value);
                         break;
                     case "focusedElement":
                         var id = value ? value.index() : value;
@@ -52896,7 +52993,8 @@
             translator = __webpack_require__( /*! ../../animation/translator */ 61),
             positionUtils = __webpack_require__( /*! ../../animation/position */ 62),
             mathUtils = __webpack_require__( /*! ../../core/utils/math */ 80),
-            numberLocalization = __webpack_require__( /*! ../../localization/number */ 22);
+            numberLocalization = __webpack_require__( /*! ../../localization/number */ 22),
+            commonUtils = __webpack_require__( /*! ../../core/utils/common */ 14);
         var SLIDER_CLASS = "dx-slider",
             SLIDER_HANDLE_CLASS = "dx-slider-handle";
         var POSITION_ALIASES = {
@@ -53092,7 +53190,7 @@
                         break;
                     case "value":
                         this._renderValue();
-                        if (args.value.toString().length !== args.previousValue.toString().length) {
+                        if (commonUtils.isDefined(args.value) && commonUtils.isDefined(args.previousValue) && args.value.toString().length !== args.previousValue.toString().length) {
                             this._centeredTooltipPosition()
                         }
                         this.setAria("valuenow", args.value);
@@ -53556,7 +53654,8 @@
                 });
                 if (this.option("showSelectionControls")) {
                     $.extend(result, {
-                        showSelectionControls: true
+                        showSelectionControls: true,
+                        selectionByClick: true
                     })
                 }
                 return result
@@ -53623,7 +53722,7 @@
                 var selectedItem = this.option("selectedItem");
                 this._renderInputValue().always($.proxy(function(e) {
                     this._setSelectedItem(selectedItem);
-                    this._renderDisplayText(this._displayGetter(this.option("selectedItem")))
+                    this._updateField(this.option("selectedItem"))
                 }, this))
             },
             _clearTextValue: function() {
@@ -53646,13 +53745,18 @@
             _isSelectedValue: function(value) {
                 return this._isValueEquals(value, this.option("value"))
             },
+            _shouldCloseOnItemClick: function() {
+                return !(this.option("showSelectionControls") && "single" !== this.option("selectionMode"))
+            },
             _listItemClickHandler: function(e) {
                 var previousValue = this._getCurrentValue();
                 this._saveValueChangeEvent(e.jQueryEvent);
                 this._completeSelection(this._valueGetter(e.itemData));
-                this.option("opened", false);
+                if (this._shouldCloseOnItemClick()) {
+                    this.option("opened", false)
+                }
                 if (this.option("searchEnabled") && previousValue === this._valueGetter(e.itemData)) {
-                    this._renderDisplayText(this._displayGetter(e.itemData))
+                    this._updateField(e.itemData)
                 }
             },
             _completeSelection: function(value) {
@@ -54086,6 +54190,7 @@
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 44),
             eventUtils = __webpack_require__( /*! ../events/utils */ 63),
             SelectBox = __webpack_require__( /*! ./select_box */ 308),
+            pointerEvents = __webpack_require__( /*! ../events/pointer */ 66),
             clickEvent = __webpack_require__( /*! ../events/click */ 65),
             caret = __webpack_require__( /*! ./text_box/utils.caret */ 211),
             browser = __webpack_require__( /*! ../core/utils/browser */ 18);
@@ -54280,16 +54385,26 @@
                 this._initSelectAllValueChangedAction()
             },
             _render: function() {
-                this.element().addClass(TAGBOX_CLASS).toggleClass(TAGBOX_ONLY_SELECT_CLASS, !(this.option("searchEnabled") || this.option("acceptCustomValue"))).toggleClass(TAGBOX_SINGLE_LINE_CLASS, !this.option("multiline"));
+                var isSingleLineMode = !this.option("multiline");
+                this.element().addClass(TAGBOX_CLASS).toggleClass(TAGBOX_ONLY_SELECT_CLASS, !(this.option("searchEnabled") || this.option("acceptCustomValue"))).toggleClass(TAGBOX_SINGLE_LINE_CLASS, isSingleLineMode);
                 this._toggleRTLDirection(this.option("rtlEnabled"));
                 this._initTagTemplate();
                 this.callBase();
+                if (isSingleLineMode) {
+                    this._renderPreventBlur()
+                }
                 this._renderTagRemoveAction();
                 this._renderSingleLineScroll();
                 this._scrollContainer("start")
             },
             _initTagTemplate: function() {
                 this._tagTemplate = this._getTemplateByOption("tagTemplate")
+            },
+            _renderPreventBlur: function() {
+                var eventName = eventUtils.addNamespace(pointerEvents.down, "dxTagBoxContainer");
+                this._$tagsContainer && this._$tagsContainer.off(eventName).on(eventName, function(e) {
+                    e.preventDefault()
+                })
             },
             _renderTagRemoveAction: function() {
                 var tagRemoveAction = this._createAction($.proxy(this._removeTagHandler, this));
@@ -54561,6 +54676,9 @@
             },
             _setValue: function(value) {
                 if (null === value) {
+                    return
+                }
+                if (this.option("showSelectionControls")) {
                     return
                 }
                 var valueIndex = this._valueIndex(value),
@@ -54837,7 +54955,7 @@
             _renderInputType: $.noop,
             _visibilityChanged: function(visible) {
                 if (visible) {
-                    this.repaint()
+                    this._updateInputHeight()
                 }
             },
             _optionChanged: function(args) {
@@ -54855,6 +54973,10 @@
                     case "maxHeight":
                         this._renderDimensions();
                         this._updateInputHeight();
+                        break;
+                    case "visible":
+                        this.callBase(args);
+                        args.value && this._updateInputHeight();
                         break;
                     default:
                         this.callBase(args)
@@ -55721,7 +55843,7 @@
                     })) {
                     itemElement.addClass("dx-toolbar-menu-custom")
                 }
-                if ("menu" === location || "dxButton" === item.widget) {
+                if ("menu" === location || "dxButton" === item.widget || item.isAction) {
                     itemElement.addClass(TOOLBAR_MENU_ACTION_CLASS)
                 }
                 if ("dxButton" === item.widget) {

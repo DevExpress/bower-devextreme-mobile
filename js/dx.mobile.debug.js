@@ -1,7 +1,7 @@
 /*! 
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.1.10
- * Build date: Thu Jan 26 2017
+ * Version: 16.1.11
+ * Build date: Mon Feb 27 2017
  *
  * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
  * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
@@ -453,11 +453,13 @@
             E1038: "Your browser does not support local storage for local web pages",
             E1039: "The cell position can not be calculated",
             E1040: "The key value should be unique within the data array",
+            E1041: "The jszip script should be included before DevExtreme scripts",
             W1001: "Key option can not be modified after initialization",
             W1002: "Item '{0}' you are trying to select does not exist",
             W1003: "Group with key '{0}' in which you are trying to select items does not exist",
             W1004: "Item '{0}' you are trying to select in group '{1}' does not exist",
-            W1005: "Due to column data types being unspecified, data has been loaded twice in order to apply initial filter settings. To resolve this issue, specify data types for all grid columns."
+            W1005: "Due to column data types being unspecified, data has been loaded twice in order to apply initial filter settings. To resolve this issue, specify data types for all grid columns.",
+            W1006: "The map service returned the '{0}' error"
         })
     },
     /*!*************************************!*\
@@ -901,7 +903,7 @@
       !*** ./Scripts/core/version.js ***!
       \*********************************/
     function(module, exports) {
-        module.exports = "16.1.10"
+        module.exports = "16.1.11"
     },
     /*!********************************!*\
       !*** ./Scripts/core/errors.js ***!
@@ -961,11 +963,12 @@
             ieRegExp = /(msie) (\d{1,2}\.\d)/,
             ie11RegExp = /(trident).*rv:(\d{1,2}\.\d)/,
             msEdge = /(edge)\/((\d+)?[\w\.]+)/,
+            safari = /(safari)\/([0-9.]+)/,
             mozillaRegExp = /(mozilla)(?:.*? rv:([\w.]+))/;
         var browserFromUA = function(ua) {
             ua = ua.toLowerCase();
             var result = {},
-                matches = ieRegExp.exec(ua) || ie11RegExp.exec(ua) || msEdge.exec(ua) || ua.indexOf("compatible") < 0 && mozillaRegExp.exec(ua) || webkitRegExp.exec(ua) || [],
+                matches = ieRegExp.exec(ua) || ie11RegExp.exec(ua) || msEdge.exec(ua) || ua.indexOf("compatible") < 0 && mozillaRegExp.exec(ua) || ua.indexOf("chrome") < 0 && safari.exec(ua) || webkitRegExp.exec(ua) || [],
                 browserName = matches[1],
                 browserVersion = matches[2];
             if ("trident" === browserName || "edge" === browserName) {
@@ -989,6 +992,7 @@
             Class = __webpack_require__( /*! ../core/class */ 20),
             commonUtils = __webpack_require__( /*! ../core/utils/common */ 14),
             stringUtils = __webpack_require__( /*! ../core/utils/string */ 13),
+            errors = __webpack_require__( /*! ../ui/widget/ui.errors */ 10),
             JSZip = __webpack_require__( /*! jszip */ 21),
             fileSaver = __webpack_require__( /*! ./file_saver */ 8),
             excelFormatConverter = __webpack_require__( /*! ./excel_format_converter */ 22),
@@ -1522,7 +1526,16 @@
                 this._styleFormat = [];
                 this._needSheetPr = false;
                 this._dataProvider = dataProvider;
-                this._zip = new JSZip
+                if (commonUtils.isDefined(JSZip)) {
+                    this._zip = new JSZip
+                } else {
+                    this._zip = null
+                }
+            },
+            _checkZipState: function() {
+                if (!this._zip) {
+                    throw errors.Error("E1041")
+                }
             },
             ready: function() {
                 return this._dataProvider.ready()
@@ -1533,12 +1546,14 @@
                     compression: "DEFLATE",
                     mimeType: fileSaver.MIME_TYPES.EXCEL
                 };
+                this._checkZipState();
                 this._generateContent();
                 return this._zip.generateAsync ? this._zip.generateAsync(options) : this._zip.generate(options)
             }
         });
         exports.getData = function(data, options, callback) {
             var excelCreator = new exports.ExcelCreator(data, options);
+            excelCreator._checkZipState();
             excelCreator.ready().done(function() {
                 if (excelCreator._zip.generateAsync) {
                     excelCreator.getData(commonUtils.isFunction(window.Blob)).then(callback)
@@ -1902,7 +1917,7 @@
                     if ("date" === type) {
                         return excelFormatConverter._convertDateFormat(format)
                     } else {
-                        if (DEFINED_NUMBER_FORMTATS[format.toLowerCase()]) {
+                        if (commonUtils.isString(format) && DEFINED_NUMBER_FORMTATS[format.toLowerCase()]) {
                             return excelFormatConverter._convertNumberFormat(format, precision, currency)
                         }
                     }
@@ -26347,7 +26362,8 @@
         var LocalStoreBackend = Class.inherit({
             ctor: function(store, storeOptions) {
                 this._store = store;
-                this._dirty = false;
+                this._dirty = !!storeOptions.data;
+                this.save();
                 var immediate = this._immediate = storeOptions.immediate;
                 var flushInterval = Math.max(100, storeOptions.flushInterval || 1e4);
                 if (!immediate) {
@@ -26381,12 +26397,12 @@
         });
         var DomLocalStoreBackend = LocalStoreBackend.inherit({
             ctor: function(store, storeOptions) {
-                this.callBase(store, storeOptions);
                 var name = storeOptions.name;
                 if (!name) {
                     throw errors.Error("E4013")
                 }
-                this._key = "dx-data-localStore-" + name
+                this._key = "dx-data-localStore-" + name;
+                this.callBase(store, storeOptions)
             },
             _loadImpl: function() {
                 var raw = localStorage.getItem(this._key);
@@ -26618,7 +26634,7 @@
                 } else {
                     url = this._url
                 }
-                if ("customQueryParams" in loadOptions) {
+                if (loadOptions.customQueryParams) {
                     var params = mixins.escapeServiceOperationParams(loadOptions.customQueryParams, this.version());
                     if (4 === this.version()) {
                         url = mixins.formatFunctionInvocationUrl(url, params)
@@ -26900,7 +26916,7 @@
                     response = $.parseJSON(obj.responseText)
                 } catch (x) {}
             }
-            var errorObj = response && (response.error || response["odata.error"] || response["@odata.error"]);
+            var errorObj = response && (response.then && response || response.error || response["odata.error"] || response["@odata.error"]);
             if (errorObj) {
                 message = formatDotNetError(errorObj) || message;
                 if (200 === httpStatus) {
@@ -29888,9 +29904,7 @@
                 })
             },
             _setSelectedElement: function($element) {
-                this._list.selectItem($element);
-                var selectedItems = this._list.option("selectedItems");
-                var value = this._valueGetter(selectedItems[selectedItems.length - 1]);
+                var value = this._valueGetter(this._list._getItemData($element));
                 this._setValue(value)
             },
             _setValue: function(value) {
@@ -31583,7 +31597,7 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             commonUtils = __webpack_require__( /*! ../../core/utils/common */ 14),
             browser = __webpack_require__( /*! ../../core/utils/browser */ 18);
-        var isIE = browser.msie && parseInt(browser.version) <= 12;
+        var isFocusingOnCaretChange = browser.msie || browser.safari;
         var getCaret = function(input) {
             if (isObsoleteBrowser(input)) {
                 return getCaretForObsoleteBrowser(input)
@@ -31632,7 +31646,7 @@
             if (!commonUtils.isDefined(position)) {
                 return getCaret(input)
             }
-            if (isIE && document.activeElement !== input) {
+            if (isFocusingOnCaretChange && document.activeElement !== input) {
                 return
             }
             setCaret(input, position)
@@ -32057,16 +32071,16 @@
             },
             reset: function() {
                 this.option("value", "")
+            },
+            on: function(eventName, eventHandler) {
+                var result = this.callBase(eventName, eventHandler),
+                    event = eventName.charAt(0).toUpperCase() + eventName.substr(1);
+                if (EVENTS_LIST.indexOf(event) >= 0) {
+                    this._refreshEvents()
+                }
+                return result
             }
         });
-        var originalOnMethod = TextEditorBase.prototype.on;
-        TextEditorBase.prototype.on = function(eventName, eventHandler) {
-            originalOnMethod.call(this, eventName, eventHandler);
-            var event = eventName.charAt(0).toUpperCase() + eventName.substr(1);
-            if (EVENTS_LIST.indexOf(event) >= 0) {
-                this._refreshEvents()
-            }
-        };
         module.exports = TextEditorBase
     },
     /*!*********************************************************!*\
@@ -42272,7 +42286,8 @@
                     invalidDateMessage: messageLocalization.format("dxDateBox-validation-datetime"),
                     dateOutOfRangeMessage: messageLocalization.format("validation-range"),
                     applyButtonText: messageLocalization.format("Done"),
-                    adaptivityEnabled: false
+                    adaptivityEnabled: false,
+                    onContentReady: null
                 })
             },
             _defaultOptionsRules: function() {
@@ -45234,7 +45249,8 @@
                         return browser.msie && browser.version <= 10
                     },
                     options: {
-                        useNativeInputClick: true
+                        useNativeInputClick: true,
+                        uploadMode: "useForm"
                     }
                 }, {
                     device: function(device) {
@@ -45534,7 +45550,7 @@
                 this._$inputLabel.addClass(FILEUPLOADER_INPUT_LABEL_CLASS).appendTo(this._$inputContainer)
             },
             _renderInput: function() {
-                if (this.option("useNativeInputClick") && "useForm" === this.option("uploadMode")) {
+                if (this.option("useNativeInputClick")) {
                     this._selectButton.option("template", $.proxy(this._selectButtonInputTemplate, this))
                 } else {
                     this._$fileInput.appendTo(this._$inputContainer);
@@ -47109,6 +47125,7 @@
             isWritableWrapped = __webpack_require__( /*! ../../core/utils/variable_wrapper */ 49).isWritableWrapped,
             windowUtils = __webpack_require__( /*! ../../core/utils/window */ 41),
             stringUtils = __webpack_require__( /*! ../../core/utils/string */ 13),
+            browser = __webpack_require__( /*! ../../core/utils/browser */ 18),
             clickEvent = __webpack_require__( /*! ../../events/click */ 72),
             normalizeIndexes = __webpack_require__( /*! ../../core/utils/array */ 114).normalizeIndexes,
             errors = __webpack_require__( /*! ../widget/ui.errors */ 10),
@@ -47909,6 +47926,11 @@
                 var responsiveBox = this._responsiveBox || component;
                 if (responsiveBox) {
                     return responsiveBox.option("currentScreenFactor") === responsiveBox.option("singleColumnScreen")
+                }
+            },
+            _visibilityChanged: function(visible) {
+                if (visible && browser.msie) {
+                    this._refresh()
                 }
             }
         });
@@ -51663,6 +51685,7 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             DynamicProvider = __webpack_require__( /*! ./ui.map.provider.dynamic */ 297),
+            errors = __webpack_require__( /*! ../widget/ui.errors */ 10),
             Color = __webpack_require__( /*! ../../color */ 36);
         var GOOGLE_MAP_READY = "_googleScriptReady",
             GOOGLE_URL = "https://maps.google.com/maps/api/js?sensor=false&callback=" + GOOGLE_MAP_READY;
@@ -51743,6 +51766,7 @@
                     if (status === google.maps.GeocoderStatus.OK) {
                         d.resolve(results[0].geometry.location)
                     } else {
+                        errors.log("W1006", status);
                         d.resolve(new google.maps.LatLng(0, 0))
                     }
                 });
@@ -51976,6 +52000,11 @@
                                 northEast: bounds.getNorthEast(),
                                 southWest: bounds.getSouthWest()
                             })
+                        } else {
+                            errors.log("W1006", status);
+                            d.resolve({
+                                instance: new google.maps.DirectionsRenderer({})
+                            })
                         }
                     })
                 });
@@ -52207,8 +52236,8 @@
                     that._extendBounds(markerObject.location)
                 });
                 $.each(this._routes, function(_, routeObject) {
-                    that._extendBounds(routeObject.northEast);
-                    that._extendBounds(routeObject.southWest)
+                    routeObject.northEast && that._extendBounds(routeObject.northEast);
+                    routeObject.southWest && that._extendBounds(routeObject.southWest)
                 })
             },
             _clearBounds: function() {

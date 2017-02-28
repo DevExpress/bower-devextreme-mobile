@@ -1,7 +1,7 @@
 /*!
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.2.4
- * Build date: Tue Jan 17 2017
+ * Version: 16.2.5
+ * Build date: Mon Feb 27 2017
  *
  * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
  * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
@@ -32,17 +32,17 @@
       !*** multi dx.mobile.debug ***!
       \*****************************/
     function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__( /*! c:\Projects\DevExtreme\16.2\BuildLabel\Temp\DevExtreme.v16.2\repo\GitHub\js\bundles\dx.mobile.js */ 593)
+        module.exports = __webpack_require__( /*! c:\Projects\DevExtreme\16.2\BuildLabel\Temp\DevExtreme.v16.2\repo\GitHub\js\bundles\dx.mobile.js */ 596)
     }, , ,
     /*!****************************************************!*\
       !*** ./js/bundles/modules/parts/widgets-mobile.js ***!
       \****************************************************/
     function(module, exports, __webpack_require__) {
         var ui = __webpack_require__( /*! ./widgets-base */ 4);
-        ui.dxPanorama = __webpack_require__( /*! ../../../ui/panorama */ 323);
-        ui.dxPivot = __webpack_require__( /*! ../../../ui/pivot */ 325);
-        ui.dxSlideOut = __webpack_require__( /*! ../../../ui/slide_out */ 327);
-        ui.dxSlideOutView = __webpack_require__( /*! ../../../ui/slide_out_view */ 328)
+        ui.dxPanorama = __webpack_require__( /*! ../../../ui/panorama */ 324);
+        ui.dxPivot = __webpack_require__( /*! ../../../ui/pivot */ 326);
+        ui.dxSlideOut = __webpack_require__( /*! ../../../ui/slide_out */ 328);
+        ui.dxSlideOutView = __webpack_require__( /*! ../../../ui/slide_out_view */ 329)
     },
     /*!**************************************************!*\
       !*** ./js/bundles/modules/parts/widgets-base.js ***!
@@ -61,47 +61,47 @@
         ui.dxButton = __webpack_require__( /*! ../../../ui/button */ 196);
         ui.dxCalendar = __webpack_require__( /*! ../../../ui/calendar */ 248);
         ui.dxCheckBox = __webpack_require__( /*! ../../../ui/check_box */ 243);
-        ui.dxColorBox = __webpack_require__( /*! ../../../ui/color_box */ 254);
-        ui.dxDateBox = __webpack_require__( /*! ../../../ui/date_box */ 261);
-        ui.dxDeferRendering = __webpack_require__( /*! ../../../ui/defer_rendering */ 273);
-        ui.dxDropDownMenu = __webpack_require__( /*! ../../../ui/drop_down_menu */ 274);
-        ui.dxFileUploader = __webpack_require__( /*! ../../../ui/file_uploader */ 275);
-        ui.dxForm = __webpack_require__( /*! ../../../ui/form */ 278);
-        ui.dxGallery = __webpack_require__( /*! ../../../ui/gallery */ 290);
+        ui.dxColorBox = __webpack_require__( /*! ../../../ui/color_box */ 255);
+        ui.dxDateBox = __webpack_require__( /*! ../../../ui/date_box */ 262);
+        ui.dxDeferRendering = __webpack_require__( /*! ../../../ui/defer_rendering */ 274);
+        ui.dxDropDownMenu = __webpack_require__( /*! ../../../ui/drop_down_menu */ 275);
+        ui.dxFileUploader = __webpack_require__( /*! ../../../ui/file_uploader */ 276);
+        ui.dxForm = __webpack_require__( /*! ../../../ui/form */ 279);
+        ui.dxGallery = __webpack_require__( /*! ../../../ui/gallery */ 291);
         ui.dxList = __webpack_require__( /*! ../../../ui/list */ 213);
         ui.dxLoadIndicator = __webpack_require__( /*! ../../../ui/load_indicator */ 233);
         ui.dxLoadPanel = __webpack_require__( /*! ../../../ui/load_panel */ 241);
-        ui.dxLookup = __webpack_require__( /*! ../../../ui/lookup */ 291);
-        ui.dxMap = __webpack_require__( /*! ../../../ui/map */ 292);
-        ui.dxMultiView = __webpack_require__( /*! ../../../ui/multi_view */ 285);
-        ui.dxNavBar = __webpack_require__( /*! ../../../ui/nav_bar */ 299);
-        ui.dxNumberBox = __webpack_require__( /*! ../../../ui/number_box */ 257);
+        ui.dxLookup = __webpack_require__( /*! ../../../ui/lookup */ 292);
+        ui.dxMap = __webpack_require__( /*! ../../../ui/map */ 293);
+        ui.dxMultiView = __webpack_require__( /*! ../../../ui/multi_view */ 286);
+        ui.dxNavBar = __webpack_require__( /*! ../../../ui/nav_bar */ 300);
+        ui.dxNumberBox = __webpack_require__( /*! ../../../ui/number_box */ 258);
         ui.dxOverlay = __webpack_require__( /*! ../../../ui/overlay */ 104);
         ui.dxPopover = __webpack_require__( /*! ../../../ui/popover */ 202);
         ui.dxPopup = __webpack_require__( /*! ../../../ui/popup */ 195);
-        ui.dxProgressBar = __webpack_require__( /*! ../../../ui/progress_bar */ 276);
-        ui.dxRadioGroup = __webpack_require__( /*! ../../../ui/radio_group */ 301);
-        ui.dxRangeSlider = __webpack_require__( /*! ../../../ui/range_slider */ 303);
+        ui.dxProgressBar = __webpack_require__( /*! ../../../ui/progress_bar */ 277);
+        ui.dxRadioGroup = __webpack_require__( /*! ../../../ui/radio_group */ 302);
+        ui.dxRangeSlider = __webpack_require__( /*! ../../../ui/range_slider */ 304);
         ui.dxResizable = __webpack_require__( /*! ../../../ui/resizable */ 107);
-        ui.dxResponsiveBox = __webpack_require__( /*! ../../../ui/responsive_box */ 283);
+        ui.dxResponsiveBox = __webpack_require__( /*! ../../../ui/responsive_box */ 284);
         ui.dxScrollView = __webpack_require__( /*! ../../../ui/scroll_view */ 228);
-        ui.dxSelectBox = __webpack_require__( /*! ../../../ui/select_box */ 310);
-        ui.dxSlider = __webpack_require__( /*! ../../../ui/slider */ 304);
-        ui.dxSwitch = __webpack_require__( /*! ../../../ui/switch */ 311);
-        ui.dxTabPanel = __webpack_require__( /*! ../../../ui/tab_panel */ 284);
-        ui.dxTabs = __webpack_require__( /*! ../../../ui/tabs */ 286);
-        ui.dxTagBox = __webpack_require__( /*! ../../../ui/tag_box */ 312);
-        ui.dxTextArea = __webpack_require__( /*! ../../../ui/text_area */ 313);
+        ui.dxSelectBox = __webpack_require__( /*! ../../../ui/select_box */ 311);
+        ui.dxSlider = __webpack_require__( /*! ../../../ui/slider */ 305);
+        ui.dxSwitch = __webpack_require__( /*! ../../../ui/switch */ 312);
+        ui.dxTabPanel = __webpack_require__( /*! ../../../ui/tab_panel */ 285);
+        ui.dxTabs = __webpack_require__( /*! ../../../ui/tabs */ 287);
+        ui.dxTagBox = __webpack_require__( /*! ../../../ui/tag_box */ 313);
+        ui.dxTextArea = __webpack_require__( /*! ../../../ui/text_area */ 314);
         ui.dxTextBox = __webpack_require__( /*! ../../../ui/text_box */ 206);
-        ui.dxTileView = __webpack_require__( /*! ../../../ui/tile_view */ 314);
+        ui.dxTileView = __webpack_require__( /*! ../../../ui/tile_view */ 315);
         ui.dxToast = __webpack_require__( /*! ../../../ui/toast */ 200);
-        ui.dxToolbar = __webpack_require__( /*! ../../../ui/toolbar */ 315);
-        ui.dxTooltip = __webpack_require__( /*! ../../../ui/tooltip */ 307);
-        ui.dxTrackBar = __webpack_require__( /*! ../../../ui/track_bar */ 277);
+        ui.dxToolbar = __webpack_require__( /*! ../../../ui/toolbar */ 316);
+        ui.dxTooltip = __webpack_require__( /*! ../../../ui/tooltip */ 308);
+        ui.dxTrackBar = __webpack_require__( /*! ../../../ui/track_bar */ 278);
         DevExpress.validationEngine = __webpack_require__( /*! ../../../ui/validation_engine */ 113);
-        ui.dxValidationSummary = __webpack_require__( /*! ../../../ui/validation_summary */ 288);
-        ui.dxValidationGroup = __webpack_require__( /*! ../../../ui/validation_group */ 289);
-        ui.dxValidator = __webpack_require__( /*! ../../../ui/validator */ 281);
+        ui.dxValidationSummary = __webpack_require__( /*! ../../../ui/validation_summary */ 289);
+        ui.dxValidationGroup = __webpack_require__( /*! ../../../ui/validation_group */ 290);
+        ui.dxValidator = __webpack_require__( /*! ../../../ui/validator */ 282);
         ui.CollectionWidget = __webpack_require__( /*! ../../../ui/collection/ui.collection_widget.edit */ 145);
         ui.dxDropDownEditor = __webpack_require__( /*! ../../../ui/drop_down_editor/ui.drop_down_editor */ 205);
         module.exports = ui
@@ -671,9 +671,17 @@
         };
         var normalizeKey = function(id) {
             var key = isString(id) ? id : id.toString(),
-                arr = key.match(/[^a-zA-Z0-9]/g);
+                arr = key.match(/[^a-zA-Z0-9_]/g);
             arr && $.each(arr, function(_, sign) {
-                key = key.replace(sign, "_" + sign.charCodeAt() + "_")
+                key = key.replace(sign, "__" + sign.charCodeAt() + "__")
+            });
+            return key
+        };
+        var denormalizeKey = function(key) {
+            var arr = key.match(/__\d+__/g);
+            arr && arr.forEach(function(char) {
+                var charCode = parseInt(char.replace("__", ""));
+                key = key.replace(char, String.fromCharCode(charCode))
             });
             return key
         };
@@ -765,6 +773,7 @@
         exports.findBestMatches = findBestMatches;
         exports.getDefaultAlignment = getDefaultAlignment;
         exports.normalizeKey = normalizeKey;
+        exports.denormalizeKey = denormalizeKey;
         exports.equalByValue = equalByValue;
         exports.getKeyHash = getKeyHash;
         exports.escapeRegExp = escapeRegExp;
@@ -856,7 +865,7 @@
       !*** ./js/core/version.js ***!
       \****************************/
     function(module, exports) {
-        module.exports = "16.2.4"
+        module.exports = "16.2.5"
     },
     /*!*******************************!*\
       !*** ./js/client_exporter.js ***!
@@ -1076,14 +1085,15 @@
             E1037: "Invalid structure of grouped data",
             E1038: "Your browser does not support local storage for local web pages",
             E1039: "The cell position can not be calculated",
-            E1040: "The key value should be unique within the data array",
+            E1040: "The '{0}' key value should be unique within the data array",
             E1041: "The jszip script should be included before DevExtreme scripts",
             E1042: 'Deferred selection cannot be performed if the "key" field is not set for the Store.',
             W1001: "Key option can not be modified after initialization",
             W1002: "The item with the key '{0}' does not exist",
             W1003: "Group with key '{0}' in which you are trying to select items does not exist",
             W1004: "Item '{0}' you are trying to select in group '{1}' does not exist",
-            W1005: "Due to column data types being unspecified, data has been loaded twice in order to apply initial filter settings. To resolve this issue, specify data types for all grid columns."
+            W1005: "Due to column data types being unspecified, data has been loaded twice in order to apply initial filter settings. To resolve this issue, specify data types for all grid columns.",
+            W1006: "The map service returned the '{0}' error"
         })
     },
     /*!**********************************!*\
@@ -1095,11 +1105,12 @@
             ieRegExp = /(msie) (\d{1,2}\.\d)/,
             ie11RegExp = /(trident).*rv:(\d{1,2}\.\d)/,
             msEdge = /(edge)\/((\d+)?[\w\.]+)/,
+            safari = /(safari)\/([0-9.]+)/,
             mozillaRegExp = /(mozilla)(?:.*? rv:([\w.]+))/;
         var browserFromUA = function(ua) {
             ua = ua.toLowerCase();
             var result = {},
-                matches = ieRegExp.exec(ua) || ie11RegExp.exec(ua) || msEdge.exec(ua) || ua.indexOf("compatible") < 0 && mozillaRegExp.exec(ua) || webkitRegExp.exec(ua) || [],
+                matches = ieRegExp.exec(ua) || ie11RegExp.exec(ua) || msEdge.exec(ua) || ua.indexOf("compatible") < 0 && mozillaRegExp.exec(ua) || ua.indexOf("chrome") < 0 && safari.exec(ua) || webkitRegExp.exec(ua) || [],
                 browserName = matches[1],
                 browserVersion = matches[2];
             if ("trident" === browserName || "edge" === browserName) {
@@ -1160,14 +1171,6 @@
                     result = result + " " + attr.name + '="' + attr.value + '"'
                 }
                 return commonUtils.isDefined(content) ? result + ">" + content + "</" + tagName + ">" : result + " />"
-            },
-            _getDataProviderRowIndex: function(rowIndex) {
-                var correctRowIndex = this._dataProvider.getHeaderRowCount ? this._dataProvider.getHeaderRowCount() : 0;
-                return rowIndex - correctRowIndex
-            },
-            _getExcelRowIndex: function(exRowIndex) {
-                var correctRowIndex = this._dataProvider.getHeaderRowCount ? this._dataProvider.getHeaderRowCount() : 0;
-                return exRowIndex + correctRowIndex
             },
             _getCellIndex: function(rowIndex, cellIndex) {
                 var charCode, sheetIndex = "",
@@ -1248,7 +1251,7 @@
                 var dataProvider = this._dataProvider,
                     value = dataProvider.getCellValue(rowIndex, cellIndex),
                     type = this._getDataType(dataProvider.getCellType(rowIndex, cellIndex)),
-                    formatID = this._styleArray[cellIndex + BOLD_STYLES_COUNT].formatID,
+                    formatID = this._styleArray[this._dataProvider.getStyleId(rowIndex, cellIndex)].formatID,
                     format = commonUtils.isNumber(formatID) ? this._styleFormat[formatID - 1] : null;
                 if ("d" === type && !commonUtils.isDate(value)) {
                     type = "s"
@@ -1266,50 +1269,25 @@
                     type: type
                 }
             },
-            _getHeadersArray: function() {
-                var i, j, column, columns = this._dataProvider.getColumns(true),
-                    result = [];
-                for (i = 0; i < columns.length - 1; i++) {
-                    result.push([]);
-                    for (j = 0; j < columns[i].length; j++) {
-                        column = columns[i][j];
-                        result[i].push({
-                            style: 0,
-                            type: "s",
-                            value: this._appendString(column.caption)
-                        })
-                    }
-                }
-                return result
-            },
             _getDataArray: function() {
-                var rowIndex, cellIndex, cellsArray, cellData, cellsLength, type, styleID, result = [],
-                    rowsLength = this._dataProvider.getRowsCount(),
-                    columns = this._dataProvider.getColumns();
+                var rowIndex, cellIndex, cellsArray, cellData, cellsLength, that = this,
+                    result = [],
+                    dataProvider = that._dataProvider,
+                    rowsLength = dataProvider.getRowsCount(),
+                    columns = dataProvider.getColumns();
                 for (rowIndex = 0; rowIndex < rowsLength; rowIndex++) {
                     cellsArray = [];
                     cellsLength = columns.length;
                     for (cellIndex = 0; cellIndex !== cellsLength; cellIndex++) {
-                        cellData = this._prepareValue(rowIndex, cellIndex);
-                        type = cellData.type;
-                        if (!this._dataProvider.isGroupRow(rowIndex) && commonUtils.isDefined(this._styleArray[cellIndex + BOLD_STYLES_COUNT].formatID) && "s" !== cellData.type) {
-                            type = "n"
-                        }
-                        styleID = cellIndex + BOLD_STYLES_COUNT;
-                        if (this._dataProvider.isGroupRow(rowIndex)) {
-                            styleID = BOLD_STYLES_COUNT - 1
-                        }
-                        if (this._dataProvider.isTotalCell(rowIndex, cellIndex)) {
-                            styleID = this._getBoldStyleID(columns[cellIndex].alignment)
-                        }
+                        cellData = that._prepareValue(rowIndex, cellIndex);
                         cellsArray.push({
-                            style: styleID,
+                            style: dataProvider.getStyleId(rowIndex, cellIndex),
                             value: cellData.value,
-                            type: type
+                            type: cellData.type
                         })
                     }
-                    if (rowIndex && !this._needSheetPr && this._dataProvider.getGroupLevel(this._getDataProviderRowIndex(rowIndex)) > 0) {
-                        this._needSheetPr = true
+                    if (!that._needSheetPr && dataProvider.getGroupLevel(rowIndex) > 0) {
+                        that._needSheetPr = true
                     }
                     result.push(cellsArray)
                 }
@@ -1330,36 +1308,22 @@
                 return Math.min(255, Math.floor((pixelsWidth - 5) / MAX_DIGIT_WIDTH_IN_PIXELS * 100 + .5) / 100)
             },
             _prepareStyleData: function() {
-                var i, column, wrapText = Number(!!this._options.wrapTextEnabled),
-                    alignments = ["center", "left", "right"],
-                    columns = this._dataProvider.getColumns();
-                for (i = 0; i < alignments.length; i++) {
-                    this._styleArray.push({
-                        bold: true,
-                        alignment: alignments[i],
-                        wrapText: 1
-                    })
-                }
-                this._styleArray.push({
-                    bold: true,
-                    alignment: commonUtils.getDefaultAlignment(this._rtlEnabled),
-                    wrapText: 0
+                var that = this,
+                    styles = that._dataProvider.getStyles();
+                that._dataProvider.getColumns().forEach(function(column) {
+                    that._colsArray.push(that._calculateWidth(column.width))
                 });
-                for (i = 0; i < columns.length; i++) {
-                    column = columns[i];
-                    this._styleArray.push({
-                        alignment: commonUtils.isDefined(column.alignment) ? column.alignment : "left",
-                        formatID: this._appendFormat(column.format, column.precision, column.dataType),
-                        wrapText: wrapText
-                    });
-                    this._colsArray.push(this._calculateWidth(column.width))
-                }
+                styles.forEach(function(style) {
+                    that._styleArray.push({
+                        bold: !!style.bold,
+                        alignment: style.alignment || "left",
+                        formatID: that._appendFormat(style.format, style.precision, style.dataType),
+                        wrapText: style.wrapText
+                    })
+                })
             },
             _prepareCellData: function() {
-                if (this._dataProvider.isHeadersVisible()) {
-                    this._cellsArray = this._cellsArray.concat(this._getHeadersArray())
-                }
-                this._cellsArray = this._cellsArray.concat(this._getDataArray())
+                this._cellsArray = this._getDataArray()
             },
             _createXMLRelationships: function(xmlRelationships) {
                 return this._getXMLTag("Relationships", [{
@@ -1393,26 +1357,25 @@
                 return XML_TAG + '<Types xmlns="' + OPEN_XML_FORMAT_URL + '/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml" /><Default Extension="xml" ContentType="application/xml" /><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml" /><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml" /><Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml" /><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml" /></Types>'
             },
             _generateStylesXML: function() {
-                var styleIndex, style, formatIndex, folder = this._zip.folder(XL_FOLDER_NAME),
-                    stylesLength = this._styleArray.length,
+                var formatIndex, that = this,
+                    folder = that._zip.folder(XL_FOLDER_NAME),
                     xmlStyles = [],
                     XML = "";
-                for (formatIndex = 0; formatIndex < this._styleFormat.length; formatIndex++) {
-                    this._styleFormat[formatIndex] = this._getXMLTag("numFmt", [{
+                for (formatIndex = 0; formatIndex < that._styleFormat.length; formatIndex++) {
+                    that._styleFormat[formatIndex] = that._getXMLTag("numFmt", [{
                         name: "numFmtId",
                         value: Number(formatIndex) + CUSTOM_FORMAT_START_INDEX
                     }, {
                         name: "formatCode",
-                        value: this._styleFormat[formatIndex]
+                        value: that._styleFormat[formatIndex]
                     }])
                 }
-                XML = XML + this._getXMLTag("numFmts", [{
+                XML = XML + that._getXMLTag("numFmts", [{
                     name: "count",
-                    value: this._styleFormat.length
-                }], this._styleFormat.join("")) + BASE_STYLE_XML;
-                for (styleIndex = 0; styleIndex < stylesLength; styleIndex++) {
-                    style = this._styleArray[styleIndex];
-                    xmlStyles.push(this._getXMLTag("xf", [{
+                    value: that._styleFormat.length
+                }], that._styleFormat.join("")) + BASE_STYLE_XML;
+                this._styleArray.forEach(function(style) {
+                    xmlStyles.push(that._getXMLTag("xf", [{
                         name: "xfId",
                         value: 0
                     }, {
@@ -1427,25 +1390,25 @@
                     }, {
                         name: "numFmtId",
                         value: commonUtils.isDefined(style.formatID) ? Number(style.formatID) + CUSTOM_FORMAT_START_INDEX - 1 : 0
-                    }], this._getXMLTag("alignment", [{
-                        name: "horizontal",
-                        value: style.alignment
-                    }, {
+                    }], that._getXMLTag("alignment", [{
                         name: "vertical",
                         value: "top"
                     }, {
                         name: "wrapText",
-                        value: style.wrapText
+                        value: Number(!!style.wrapText)
+                    }, {
+                        name: "horizontal",
+                        value: style.alignment
                     }])))
-                }
-                XML += this._getXMLTag("cellXfs", [{
+                });
+                XML += that._getXMLTag("cellXfs", [{
                     name: "count",
                     value: xmlStyles.length
                 }], xmlStyles.join(""));
-                XML += this._getXMLTag("cellStyles", [{
+                XML += that._getXMLTag("cellStyles", [{
                     name: "count",
                     value: 1
-                }], this._getXMLTag("cellStyle", [{
+                }], that._getXMLTag("cellStyle", [{
                     name: "name",
                     value: "Normal"
                 }, {
@@ -1455,12 +1418,12 @@
                     name: "builtinId",
                     value: 0
                 }]));
-                XML = XML_TAG + this._getXMLTag("styleSheet", [{
+                XML = XML_TAG + that._getXMLTag("styleSheet", [{
                     name: "xmlns",
                     value: OPEN_XML_FORMAT_URL + "/spreadsheetml/2006/main"
                 }], XML);
                 folder.file(STYLE_FILE_NAME, XML);
-                this._styleArray = []
+                that._styleArray = []
             },
             _generateStringsXML: function() {
                 var stringIndex, folder = this._zip.folder(XL_FOLDER_NAME),
@@ -1560,7 +1523,7 @@
                         value: rSpans
                     }, {
                         name: "outlineLevel",
-                        value: rowIndex >= headerRowCount ? this._dataProvider.getGroupLevel(this._getDataProviderRowIndex(rowIndex)) : 0
+                        value: rowIndex >= headerRowCount ? this._dataProvider.getGroupLevel(rowIndex) : 0
                     }, {
                         name: "x14ac:dyDescent",
                         value: "0.25"
@@ -2044,7 +2007,7 @@
                     if ("date" === type) {
                         return excelFormatConverter._convertDateFormat(format)
                     } else {
-                        if (DEFINED_NUMBER_FORMTATS[format.toLowerCase()]) {
+                        if (commonUtils.isString(format) && DEFINED_NUMBER_FORMTATS[format.toLowerCase()]) {
                             return excelFormatConverter._convertNumberFormat(format, precision, currency)
                         }
                     }
@@ -2293,6 +2256,7 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             numberLocalization = __webpack_require__( /*! ./number */ 25),
             dependencyInjector = __webpack_require__( /*! ../core/utils/dependency_injector */ 26),
+            isString = __webpack_require__( /*! ../core/utils/common */ 12).isString,
             errors = __webpack_require__( /*! ../core/errors */ 7);
         __webpack_require__( /*! ./core */ 28);
         var FORMATS_TO_PATTERN_MAP = {
@@ -2315,8 +2279,7 @@
             hour: "HH",
             minute: "mm",
             second: "ss",
-            millisecond: "SSS",
-            "datetime-local": "yyyy-MM-ddTHH':'mm':'ss"
+            millisecond: "SSS"
         };
         var parseTime = function(text) {
             var now = new Date,
@@ -2365,12 +2328,6 @@
             minute: function(date) {
                 return formatNumber(date.getMinutes(), 2)
             },
-            h: function(date) {
-                return formatNumber(getTwelveHourTimeFormat(date.getHours()), 1)
-            },
-            hh: function(date) {
-                return formatNumber(getTwelveHourTimeFormat(date.getHours()), 2)
-            },
             hour: function(date) {
                 return formatNumber(date.getHours(), 2)
             },
@@ -2379,12 +2336,6 @@
             },
             dayofweek: function(date) {
                 return days[date.getDay()]
-            },
-            M: function(date) {
-                return date.getMonth() + 1
-            },
-            MM: function(date) {
-                return formatNumber(date.getMonth() + 1, 2)
             },
             month: function(date) {
                 return months[date.getMonth()]
@@ -2422,86 +2373,6 @@
             longdatelongtime: function(date) {
                 return [FORMATTERS.longdate(date), FORMATTERS.longtime(date)].join(", ")
             },
-            d: function(date) {
-                return formatNumber(FORMATTERS.day(date), 1)
-            },
-            dd: function(date) {
-                return formatNumber(FORMATTERS.day(date), 2)
-            },
-            "d MMMM": function(date) {
-                return FORMATTERS.day(date) + " " + FORMATTERS.month(date)
-            },
-            "yyyy/M/d": function(date) {
-                return [FORMATTERS.year(date), FORMATTERS.M(date), FORMATTERS.day(date)].join("/")
-            },
-            "yyyy/MM/dd": function(date) {
-                return [FORMATTERS.year(date), FORMATTERS.MM(date), FORMATTERS.dd(date)].join("/")
-            },
-            "dd.MM.yyyy": function(date) {
-                return [FORMATTERS.dd(date), FORMATTERS.MM(date), FORMATTERS.year(date)].join(".")
-            },
-            "HH:mm": function(date) {
-                return [FORMATTERS.hour(date), FORMATTERS.minute(date)].join(":")
-            },
-            "HH:mm:ss": function(date) {
-                return [FORMATTERS["HH:mm"](date), FORMATTERS.second(date)].join(":")
-            },
-            "h:mm:ss": function(date) {
-                return [FORMATTERS.h(date), FORMATTERS.minute(date), FORMATTERS.second(date)].join(":")
-            },
-            "h:mm:ss:SSS": function(date) {
-                return [FORMATTERS.h(date), FORMATTERS.minute(date), FORMATTERS.second(date), FORMATTERS.SSS(date)].join(":")
-            },
-            "yyyy/MM/dd HH:mm:ss": function(date) {
-                return [FORMATTERS["yyyy/MM/dd"](date), FORMATTERS["HH:mm:ss"](date)].join(" ")
-            },
-            "yyyy-MM-dd hh:mm:ss.SSS a": function(date) {
-                return [
-                    [FORMATTERS.year(date), FORMATTERS.MM(date), FORMATTERS.dd(date)].join("-"), [FORMATTERS.hh(date), FORMATTERS.minute(date), FORMATTERS.second(date)].join(":") + "." + FORMATTERS.SSS(date), amPm(date)
-                ].join(" ")
-            },
-            "yyyy-MM-dd": function(date) {
-                return [FORMATTERS.year(date), FORMATTERS.MM(date), FORMATTERS.dd(date)].join("-")
-            },
-            yyyyMMddTHHmmss: function(date) {
-                return [FORMATTERS.year(date), FORMATTERS.MM(date), FORMATTERS.dd(date), "T", FORMATTERS.hour(date), FORMATTERS.minute(date), FORMATTERS.second(date)].join("")
-            },
-            "datetime-local": function(date) {
-                return FORMATTERS["yyyy-MM-dd"](date) + "T" + FORMATTERS["HH:mm:ss"](date)
-            },
-            "yyyy-MM-ddTHH:mm:ssZ": function(date) {
-                return FORMATTERS["datetime-local"](date) + "Z"
-            },
-            "yyyy-MM-ddTHH:mmZ": function(date) {
-                return FORMATTERS["yyyy-MM-dd"](date) + "T" + FORMATTERS.hour(date) + ":" + FORMATTERS.minute(date) + "Z"
-            },
-            "dd/MM/yyyy": function(date) {
-                return [FORMATTERS.dd(date), FORMATTERS.MM(date), FORMATTERS.year(date)].join("/")
-            },
-            "yyyy MMMM d": function(date) {
-                return [FORMATTERS.year(date), FORMATTERS.month(date), FORMATTERS.day(date)].join(" ")
-            },
-            "EEEE, d": function(date) {
-                return [FORMATTERS.dayofweek(date), FORMATTERS.d(date)].join(", ")
-            },
-            "EEEE MM yy": function(date) {
-                return [FORMATTERS.dayofweek(date), FORMATTERS.MM(date), FORMATTERS.shortyear(date)].join(" ")
-            },
-            "d MMMM yyyy": function(date) {
-                return [FORMATTERS.day(date), FORMATTERS.month(date), FORMATTERS.year(date)].join(" ")
-            },
-            E: function(date) {
-                return cutCaptions([FORMATTERS.dayofweek(date)], "abbreviated")[0]
-            },
-            EEE: function(date) {
-                return FORMATTERS.E(date)
-            },
-            "EEE hh": function(date) {
-                return [FORMATTERS.EEE(date), FORMATTERS.hh(date)].join(" ")
-            },
-            "ss SSS": function(date) {
-                return [FORMATTERS.second(date), FORMATTERS.SSS(date)].join(" ")
-            },
             quarter: function(date) {
                 var month = date.getMonth();
                 if (month >= 0 && month < 3) {
@@ -2517,13 +2388,28 @@
             },
             quarterandyear: function(date) {
                 return FORMATTERS.quarter(date) + " " + FORMATTERS.year(date)
+            },
+            h: function(date) {
+                return formatNumber(getTwelveHourTimeFormat(date.getHours()), 1)
+            },
+            hh: function(date) {
+                return formatNumber(getTwelveHourTimeFormat(date.getHours()), 2)
+            },
+            M: function(date) {
+                return date.getMonth() + 1
+            },
+            MM: function(date) {
+                return formatNumber(date.getMonth() + 1, 2)
+            },
+            dd: function(date) {
+                return formatNumber(FORMATTERS.day(date), 2)
+            },
+            E: function(date) {
+                return cutCaptions([FORMATTERS.dayofweek(date)], "abbreviated")[0]
+            },
+            EEE: function(date) {
+                return FORMATTERS.E(date)
             }
-        };
-        var parseWithoutTimezone = function(text) {
-            if ("Z" !== text.slice(-1)) {
-                text += "Z"
-            }
-            return removeTimezoneOffset(new Date(text))
         };
         var PARSERS = {
             day: function(text) {
@@ -2573,10 +2459,10 @@
                 return PARSERS.year(year)
             },
             shortdate: function(text) {
-                var parts = text.split("/");
-                if (3 !== parts.length) {
+                if (!/^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}/.test(text)) {
                     return
                 }
+                var parts = text.split("/");
                 return new Date(Number(parts[2]), Number(parts[0]) - 1, Number(parts[1]))
             },
             longtime: function(text) {
@@ -2588,20 +2474,6 @@
             millisecond: function(text) {
                 return new Date(Number(text))
             },
-            "yyyy MMMM d": function(text) {
-                var parts = text.split(" ");
-                if (3 !== parts.length) {
-                    return
-                }
-                return new Date(Number(parts[0]), $.inArray(parts[1], months), Number(parts[2]))
-            },
-            "HH:mm": function(text) {
-                var parts = text.split(":");
-                return new Date(0, 0, 0, Number(parts[0]), Number(parts[1]), 0, 0)
-            },
-            "yyyy-MM-ddTHH:mm:ssZ": parseWithoutTimezone,
-            "yyyy-MM-ddTHH:mmZ": parseWithoutTimezone,
-            "datetime-local": parseWithoutTimezone,
             mediumdatemediumtime: function(text) {
                 var parts = text.split(", "),
                     dateParts = parts[0].split(" "),
@@ -2629,7 +2501,7 @@
             PARSERS[value] = PARSERS[key]
         });
         var getByFormat = function(obj, format) {
-            return obj[format.toLowerCase()] || obj[format.replace(/'/g, "")]
+            return isString(format) && (obj[format.toLowerCase()] || obj[format.replace(/'/g, "")])
         };
         var cutCaptions = function(captions, format) {
             var lengthByFormat = {
@@ -5098,7 +4970,8 @@
                         }
                         if (0 === optionName.indexOf("on")) {
                             eventName = that._getEventName(optionName)
-                        } else {
+                        }
+                        if (0 !== optionName.indexOf("on")) {
                             throw Error("The '" + optionName + "' option name should start with 'on' prefix")
                         }
                         actionFunc = that.option(optionName)
@@ -5780,7 +5653,7 @@
             androidTablet: "Android",
             win8: "MSAppHost",
             win8Phone: "Windows Phone 8.0",
-            msSurface: "MSIE ARM Tablet PC",
+            msSurface: "Windows Tablet PC",
             desktop: "desktop",
             win10Phone: "Windows Phone 10.0",
             win10: "MSAppHost/3.0"
@@ -5801,7 +5674,7 @@
         var uaParsers = {
             win: function(userAgent) {
                 var isPhone = /windows phone/i.test(userAgent) || userAgent.match(/WPDesktop/),
-                    isTablet = !isPhone && /arm(.*)trident/i.test(userAgent),
+                    isTablet = !isPhone && /Windows(.*)Tablet PC/i.test(userAgent),
                     isDesktop = !isPhone && !isTablet && /msapphost/i.test(userAgent);
                 if (!(isPhone || isTablet || isDesktop)) {
                     return
@@ -6218,7 +6091,7 @@
             clipboard && clipboard.setData("Text", text)
         };
         exports.ready = function(callback) {
-            if ("complete" === document.readyState) {
+            if ("complete" === document.readyState || "loading" !== document.readyState && !document.documentElement.doScroll) {
                 callback();
                 return
             }
@@ -6664,13 +6537,11 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             commonUtils = __webpack_require__( /*! ./common */ 12),
-            inflector = __webpack_require__( /*! ./inflector */ 57),
+            camelize = __webpack_require__( /*! ./inflector */ 57).camelize,
             isObject = commonUtils.isObject,
             isString = commonUtils.isString,
             isDate = commonUtils.isDate,
-            isNumber = commonUtils.isNumber,
-            isDefined = commonUtils.isDefined,
-            camelize = inflector.camelize;
+            isDefined = commonUtils.isDefined;
         var dateUnitIntervals = ["millisecond", "second", "minute", "hour", "day", "week", "month", "quarter", "year"];
         var toMilliseconds = function(value) {
             switch (value) {
@@ -6841,7 +6712,8 @@
                 day: date1.getDate() !== date2.getDate(),
                 hour: date1.getHours() !== date2.getHours(),
                 minute: date1.getMinutes() !== date2.getMinutes(),
-                second: date1.getSeconds() !== date2.getSeconds()
+                second: date1.getSeconds() !== date2.getSeconds(),
+                millisecond: date1.getMilliseconds() !== date2.getMilliseconds()
             };
             $.each(differences, function(key, value) {
                 if (value) {
@@ -7075,7 +6947,7 @@
             return date && date.getFullYear() - date.getFullYear() % 10
         };
         var getShortDateFormat = function() {
-            return "yyyy/M/d"
+            return "yyyy/MM/dd"
         };
         var getFirstMonthDate = function(date) {
             if (!isDefined(date)) {
@@ -7146,45 +7018,6 @@
         var makeDate = function(date) {
             return new Date(date)
         };
-        var NUMBER_SERIALIZATION_FORMAT = "number",
-            DATE_SERIALIZATION_FORMAT = "yyyy'/'MM'/'dd",
-            DATETIME_SERIALIZATION_FORMAT = "yyyy'/'MM'/'dd HH:mm:ss";
-        var getDateSerializationFormat = function(value) {
-            if (isNumber(value)) {
-                return NUMBER_SERIALIZATION_FORMAT
-            } else {
-                if (isString(value)) {
-                    if (value.indexOf(":") >= 0) {
-                        return DATETIME_SERIALIZATION_FORMAT
-                    } else {
-                        return DATE_SERIALIZATION_FORMAT
-                    }
-                } else {
-                    if (value) {
-                        return null
-                    }
-                }
-            }
-        };
-        var deserializeDate = function(value, serializationFormat, localizationParseFunc) {
-            var parsedValue;
-            if (!serializationFormat || serializationFormat === NUMBER_SERIALIZATION_FORMAT || serializationFormat === DATE_SERIALIZATION_FORMAT || serializationFormat === DATETIME_SERIALIZATION_FORMAT) {
-                parsedValue = serializationFormat === NUMBER_SERIALIZATION_FORMAT ? value : !isDate(value) && Date.parse(value);
-                return isNumber(parsedValue) ? new Date(parsedValue) : value
-            }
-            if (void 0 !== value) {
-                return localizationParseFunc(value, serializationFormat)
-            }
-        };
-        var serializeDate = function(value, serializationFormat, localizationFormatFunc) {
-            if (serializationFormat === NUMBER_SERIALIZATION_FORMAT) {
-                return value && value.valueOf && value.valueOf()
-            }
-            if (serializationFormat) {
-                return localizationFormatFunc(value, serializationFormat) || null
-            }
-            return value
-        };
         var dateUtils = {
             dateUnitIntervals: dateUnitIntervals,
             convertMillisecondsToDateUnits: convertMillisecondsToDateUnits,
@@ -7230,9 +7063,6 @@
             fixTimezoneGap: fixTimezoneGap,
             getTimezonesDifference: getTimezonesDifference,
             makeDate: makeDate,
-            deserializeDate: deserializeDate,
-            serializeDate: serializeDate,
-            getDateSerializationFormat: getDateSerializationFormat,
             getDatesInterval: getDatesInterval
         };
         module.exports = dateUtils
@@ -7400,7 +7230,8 @@
                         day: true,
                         hour: ticks[0].getHours() > 0,
                         minute: ticks[0].getMinutes() > 0,
-                        second: ticks[0].getSeconds() > 0
+                        second: ticks[0].getSeconds() > 0,
+                        millisecond: ticks[0].getMilliseconds() > 0
                     }
                 }
                 resultFormat = this.getDateFormatByDifferences(maxDiff);
@@ -10965,7 +10796,8 @@
             Widget = __webpack_require__( /*! ../../ui/widget/ui.widget */ 91),
             KoTemplate = __webpack_require__( /*! ./template */ 101),
             Editor = __webpack_require__( /*! ../../ui/editor/editor */ 102),
-            Locker = __webpack_require__( /*! ../../core/utils/locker */ 108);
+            Locker = __webpack_require__( /*! ../../core/utils/locker */ 108),
+            config = __webpack_require__( /*! ../../core/config */ 13);
         var LOCKS_DATA_KEY = "dxKoLocks",
             CREATED_WITH_KO_DATA_KEY = "dxKoCreation",
             DX_POLYMORPH_WIDGET_TEMPLATE = "<!-- ko dxPolymorphWidget: { name: $data.widget, options: $data.options } --><!-- /ko -->";
@@ -10976,9 +10808,11 @@
             }
             ko.bindingHandlers[componentName] = {
                 init: function(domNode, valueAccessor) {
-                    var component, $element = $(domNode),
+                    var component, isBindingPropertyPredicate, $element = $(domNode),
                         optionChangedCallbacks = $.Callbacks(),
                         optionsByReference = {},
+                        knockoutConfig = config().knockout,
+                        isBindingPropertyPredicateName = knockoutConfig && knockoutConfig.isBindingPropertyPredicateName,
                         ctorOptions = {
                             onInitializing: function() {
                                 optionsByReference = this._getOptionsByReference();
@@ -10987,6 +10821,7 @@
                                     if (component) {
                                         component.beginUpdate()
                                     }
+                                    isBindingPropertyPredicate = isBindingPropertyPredicateName && model && model[isBindingPropertyPredicateName];
                                     unwrapModel(model);
                                     if (component) {
                                         component.endUpdate()
@@ -11080,18 +10915,25 @@
                         ctorOptions = null
                     };
                     var unwrapModelValue = function(currentModel, propertyName, propertyPath) {
-                        var unwrappedPropertyValue;
-                        ko.computed(function() {
-                            var propertyValue = currentModel[propertyName];
-                            applyModelValueToOption(propertyPath, propertyValue);
-                            unwrappedPropertyValue = ko.unwrap(propertyValue)
-                        }, null, {
-                            disposeWhenNodeIsRemoved: domNode
-                        });
-                        if ($.isPlainObject(unwrappedPropertyValue)) {
-                            if (!optionsByReference[propertyPath]) {
-                                unwrapModel(unwrappedPropertyValue, propertyPath)
+                        if (propertyPath === isBindingPropertyPredicateName) {
+                            return
+                        }
+                        if (!isBindingPropertyPredicate || isBindingPropertyPredicate(propertyPath, propertyName, currentModel)) {
+                            var unwrappedPropertyValue;
+                            ko.computed(function() {
+                                var propertyValue = currentModel[propertyName];
+                                applyModelValueToOption(propertyPath, propertyValue);
+                                unwrappedPropertyValue = ko.unwrap(propertyValue)
+                            }, null, {
+                                disposeWhenNodeIsRemoved: domNode
+                            });
+                            if ($.isPlainObject(unwrappedPropertyValue)) {
+                                if (!optionsByReference[propertyPath]) {
+                                    unwrapModel(unwrappedPropertyValue, propertyPath)
+                                }
                             }
+                        } else {
+                            ctorOptions[propertyPath] = currentModel[propertyName]
                         }
                     };
                     var unwrapModel = function(model, propertyPath) {
@@ -11303,7 +11145,7 @@
                 if (templateSource instanceof ChildDefaultTemplate) {
                     return this._defaultTemplates[templateSource.name]
                 }
-                if (commonUtils.isFunction(templateSource.render)) {
+                if (commonUtils.isFunction(templateSource.render) && !templateSource.jquery) {
                     return templateSource
                 }
                 if (templateSource.nodeType || templateSource.jquery) {
@@ -11805,10 +11647,10 @@
         });
         registerTemplateEngine("mustache", {
             compile: function(element) {
-                return Mustache.compile(outerHtml(element))
+                return outerHtml(element)
             },
             render: function(template, data) {
-                return template(data)
+                return Mustache.render(template, data)
             }
         });
         registerTemplateEngine("hogan", {
@@ -13283,7 +13125,9 @@
                     _clearSelection: $.noop,
                     isNative: true
                 }, function(e) {
-                    if ("mousemove" !== e.originalEvent.originalEvent.type) {
+                    var originalEvent = e.originalEvent.originalEvent;
+                    e._cancelPreventDefault = true;
+                    if (originalEvent && "mousemove" !== originalEvent.type) {
                         e.preventDefault()
                     }
                 })
@@ -13308,8 +13152,8 @@
                     $container = this._$container;
                 var contentWidth = $content.outerWidth(),
                     contentHeight = $content.outerHeight(),
-                    containerWidth = $container.width(),
-                    containerHeight = $container.height();
+                    containerWidth = $container.outerWidth(),
+                    containerHeight = $container.outerHeight();
                 return {
                     width: containerWidth - contentWidth,
                     height: containerHeight - contentHeight
@@ -13713,11 +13557,13 @@
             _move: function(e) {
                 var eventData = eventUtils.eventData(e),
                     dragOffset = this._calculateOffset(eventData);
-                this._fireEvent(DRAG_EVENT, e, {
+                e = this._fireEvent(DRAG_EVENT, e, {
                     offset: dragOffset
                 });
                 this._processDropTargets(e);
-                e.preventDefault()
+                if (!e._cancelPreventDefault) {
+                    e.preventDefault()
+                }
             },
             _calculateOffset: function(eventData) {
                 return {
@@ -16989,7 +16835,7 @@
             },
             canBack: function(stackKey) {
                 var stack = stackKey ? this.navigationStacks[stackKey] : this.currentStack;
-                return stack.canBack()
+                return stack ? stack.canBack() : false
             },
             saveState: function(storage) {
                 if (this.currentStack.items.length) {
@@ -20642,7 +20488,6 @@
             _getDefaultOptions: function() {
                 return $.extend(this.callBase(), {
                     selectionMode: "none",
-                    selectAllMode: "page",
                     selectionRequired: false,
                     selectionByClick: true,
                     selectedItems: [],
@@ -20687,12 +20532,6 @@
             _getIndexByItemData: function(itemData) {
                 return this._editStrategy.getIndexByItemData(itemData)
             },
-            _initDataSource: function() {
-                this.callBase();
-                if ("allPages" === this.option("selectAllMode")) {
-                    this._dataSource && this._dataSource.requireTotalCount(true)
-                }
-            },
             _isKeySpecified: function() {
                 return !!(this._dataSource && this._dataSource.key())
             },
@@ -20723,12 +20562,6 @@
                     filter: function() {
                         return that._dataSource && that._dataSource.filter()
                     },
-                    getItemData: function(item) {
-                        return item
-                    },
-                    isItemSelected: function() {
-                        return false
-                    },
                     totalCount: function() {
                         var items = that.option("items");
                         var dataSource = that._dataSource;
@@ -20741,9 +20574,6 @@
                         return that._dataSource && that._dataSource.key()
                     },
                     keyOf: that.keyOf.bind(that),
-                    isSelectableItem: function() {
-                        return true
-                    },
                     load: function(options) {
                         if (that._dataSource) {
                             var loadOptions = that._dataSource.loadOptions();
@@ -21003,11 +20833,6 @@
                     return
                 }
                 switch (args.name) {
-                    case "selectAllMode":
-                        this._initDataSource();
-                        this._dataSource.pageIndex(0);
-                        this._loadDataSource();
-                        break;
                     case "selectionMode":
                         if ("multi" === args.value) {
                             this._showDeprecatedSelectionMode()
@@ -21235,6 +21060,7 @@
             Action = __webpack_require__( /*! ../../core/action */ 42),
             Guid = __webpack_require__( /*! ../../core/guid */ 147),
             domUtils = __webpack_require__( /*! ../../core/utils/dom */ 51),
+            dataUtils = __webpack_require__( /*! ../../core/utils/data */ 43),
             Widget = __webpack_require__( /*! ../widget/ui.widget */ 91),
             eventUtils = __webpack_require__( /*! ../../events/utils */ 67),
             pointerEvents = __webpack_require__( /*! ../../events/pointer */ 72),
@@ -21517,7 +21343,7 @@
             _getIndexByItem: function(item) {
                 return this.option("items").indexOf(item)
             },
-            _itemOptionChanged: function(item, property, value) {
+            _itemOptionChanged: function(item, property, value, oldValue) {
                 var $item = this._findItemElementByItem(item);
                 if (!$item.length) {
                     return
@@ -21535,7 +21361,7 @@
                         var property = matches[matches.length - 1],
                             itemPath = args.fullName.replace("." + property, ""),
                             item = this.option(itemPath);
-                        this._itemOptionChanged(item, property, args.value);
+                        this._itemOptionChanged(item, property, args.value, args.previousValue);
                         return
                     }
                 }
@@ -21836,13 +21662,26 @@
             },
             _renderItemFrame: function(index, itemData, $container, $itemToReplace) {
                 var $itemFrame = $("<div>");
-                new this.constructor.ItemClass($itemFrame, this, itemData || {});
+                new this.constructor.ItemClass($itemFrame, this._itemOptions(), itemData || {});
                 if ($itemToReplace && $itemToReplace.length) {
                     $itemToReplace.replaceWith($itemFrame)
                 } else {
                     $itemFrame.appendTo($container)
                 }
                 return $itemFrame
+            },
+            _itemOptions: function() {
+                var that = this;
+                return {
+                    watchMethod: function() {
+                        return that.option("integrationOptions.watchMethod")
+                    },
+                    fieldGetter: function(field) {
+                        var expr = that.option(field + "Expr"),
+                            getter = dataUtils.compileGetter(expr);
+                        return getter
+                    }
+                }
             },
             _postprocessRenderItem: $.noop,
             _executeItemRenderAction: function(index, itemData, itemElement) {
@@ -22561,6 +22400,10 @@
                             extra = data;
                             data = data.data
                         }
+                        if (!$.isArray(data)) {
+                            errors.log("W4000");
+                            data = $.makeArray(data)
+                        }
                         loadResult = $.extend({
                             data: data,
                             extra: extra
@@ -22585,8 +22428,8 @@
                 return this.store().load(loadOptions.storeLoadOptions).done(handleSuccess).fail(pendingDeferred.reject)
             },
             _processStoreLoadResult: function(loadResult, pendingDeferred) {
-                var that = this;
-                var data = $.makeArray(loadResult.data),
+                var that = this,
+                    data = loadResult.data,
                     extra = loadResult.extra,
                     storeLoadOptions = loadResult.storeLoadOptions;
 
@@ -22862,7 +22705,9 @@
             E4018: "The server has returned a non-numeric value in a response to an item count request",
             E4019: "Mixing of group operators inside a single group of filter expression is not allowed",
             E4020: "Unknown store type is detected: {0}",
-            E4021: "The server hasn't returned value in a response to an total count request"
+            E4021: "The server response does not provide the totalCount value",
+            E4022: "The server response does not provide the groupCount value",
+            W4000: "Data returned from the server has an incorrect structure"
         });
 
         function handleError(error) {
@@ -23850,8 +23695,7 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             Class = __webpack_require__( /*! ../../core/class */ 22),
-            publicComponentUtils = __webpack_require__( /*! ../../core/utils/public_component */ 38),
-            dataUtils = __webpack_require__( /*! ../../core/utils/data */ 43);
+            publicComponentUtils = __webpack_require__( /*! ../../core/utils/public_component */ 38);
         var INVISIBLE_STATE_CLASS = "dx-state-invisible",
             DISABLED_STATE_CLASS = "dx-state-disabled",
             ITEM_CONTENT_PLACEHOLDER_CLASS = "dx-item-content-placeholder";
@@ -23860,7 +23704,7 @@
                 var oldValue;
                 return function(value) {
                     if (oldValue !== value) {
-                        callback(value);
+                        callback(value, oldValue);
                         oldValue = value
                     }
                 }
@@ -23873,9 +23717,9 @@
             }
         };
         var CollectionItem = Class.inherit({
-            ctor: function($element, collection, rawData) {
+            ctor: function($element, options, rawData) {
                 this._$element = $element;
-                this._collection = collection;
+                this._options = options;
                 this._rawData = rawData;
                 publicComponentUtils.attachInstanceToElement($element, this, this._dispose);
                 this._render()
@@ -23892,13 +23736,12 @@
             },
             _startWatcher: function(field, render) {
                 var rawData = this._rawData,
-                    expr = this._collection.option(field + "Expr"),
-                    exprGetter = dataUtils.compileGetter(expr);
-                var watcher = forcibleWatcher(this._collection.option("integrationOptions.watchMethod"), function() {
+                    exprGetter = this._options.fieldGetter(field);
+                var watcher = forcibleWatcher(this._options.watchMethod(), function() {
                     return exprGetter(rawData)
-                }, function(value) {
+                }, function(value, oldValue) {
                     this._dirty = true;
-                    render(value)
+                    render(value, oldValue)
                 }.bind(this));
                 this._watchers.push(watcher)
             },
@@ -23911,11 +23754,11 @@
                     return true
                 }
             },
-            _renderDisabled: function(disabled) {
-                this._$element.toggleClass(DISABLED_STATE_CLASS, !!disabled)
+            _renderDisabled: function(value, oldValue) {
+                this._$element.toggleClass(DISABLED_STATE_CLASS, !!value)
             },
-            _renderVisible: function(visible) {
-                this._$element.toggleClass(INVISIBLE_STATE_CLASS, void 0 !== visible && !visible)
+            _renderVisible: function(value, oldValue) {
+                this._$element.toggleClass(INVISIBLE_STATE_CLASS, void 0 !== value && !value)
             },
             _dispose: function() {
                 $.each(this._watchers, function(_, watcher) {
@@ -24286,28 +24129,45 @@
             commonUtils = __webpack_require__( /*! ../../core/utils/common */ 12);
         module.exports = Class.inherit({
             ctor: function(options) {
-                options = options || {};
-                this._selectionStrategy = options.deferred ? new deferredStrategy(this) : new standardStrategy(this);
-                this._selectionMode = options.mode;
-                this._filter = options.filter;
-                this._getItemData = options.getItemData;
-                this._isItemSelected = options.isItemSelected;
-                this._totalCount = options.totalCount;
-                this._key = options.key;
-                this._keyOf = options.keyOf;
-                this._isSelectableItem = options.isSelectableItem;
-                this._load = options.load;
-                this._dataFields = options.dataFields;
-                this._plainItems = options.plainItems;
+                this.options = $.extend(this._getDefaultOptions(), options, {
+                    selectedItemKeys: options.selectedKeys || []
+                });
+                this._selectionStrategy = this.options.deferred ? new deferredStrategy(this.options) : new standardStrategy(this.options);
                 this._focusedItemIndex = -1;
-                this._selectedItemKeys = options.selectedKeys || [];
-                this._selectionFilter = void 0 === options.selectionFilter ? [] : options.selectionFilter;
-                this._selectedItems = [];
-                this._selectionChangeHandler = options.onSelectionChanged || $.noop;
-                this._maxFilterLengthInRequest = options.maxFilterLengthInRequest || 0;
-                this._equalByReference = options.equalByReference;
-                if (!this._equalByReference) {
-                    this._selectionStrategy.updateSelectedItemKeyHash(this._selectedItemKeys)
+                if (!this.options.equalByReference) {
+                    this._selectionStrategy.updateSelectedItemKeyHash(this.options.selectedItemKeys)
+                }
+            },
+            _getDefaultOptions: function() {
+                return {
+                    deferred: false,
+                    equalByReference: false,
+                    mode: "multiple",
+                    selectedItems: [],
+                    selectionFilter: [],
+                    maxFilterLengthInRequest: 0,
+                    onSelectionChanged: $.noop,
+                    key: $.noop,
+                    keyOf: function(item) {
+                        return item
+                    },
+                    load: function() {
+                        return $.Deferred().resolve([])
+                    },
+                    totalCount: function() {
+                        return -1
+                    },
+                    isSelectableItem: function() {
+                        return true
+                    },
+                    isItemSelected: function() {
+                        return false
+                    },
+                    getItemData: function(item) {
+                        return item
+                    },
+                    dataFields: $.noop,
+                    filter: $.noop
                 }
             },
             validate: function() {
@@ -24321,10 +24181,10 @@
             },
             selectionFilter: function(value) {
                 if (void 0 === value) {
-                    return this._selectionFilter
+                    return this.options.selectionFilter
                 }
-                var filterIsChanged = this._selectionFilter !== value && JSON.stringify(this._selectionFilter) !== JSON.stringify(value);
-                this._selectionFilter = value;
+                var filterIsChanged = this.options.selectionFilter !== value && JSON.stringify(this.options.selectionFilter) !== JSON.stringify(value);
+                this.options.selectionFilter = value;
                 filterIsChanged && this.onSelectionChanged()
             },
             setSelection: function(keys) {
@@ -24359,21 +24219,21 @@
                 this._selectionStrategy.onSelectionChanged()
             },
             changeItemSelection: function(itemIndex, keys) {
-                var isSelectedItemsChanged, items = this._plainItems(),
+                var isSelectedItemsChanged, items = this.options.plainItems(),
                     item = items[itemIndex];
                 if (!this.isSelectable() || !this.isDataItem(item)) {
                     return false
                 }
-                var itemData = this._getItemData(item),
-                    itemKey = this._keyOf(itemData);
+                var itemData = this.options.getItemData(item),
+                    itemKey = this.options.keyOf(itemData);
                 keys = keys || {};
-                if (keys.shift && "multiple" === this._selectionMode && this._focusedItemIndex >= 0) {
+                if (keys.shift && "multiple" === this.options.mode && this._focusedItemIndex >= 0) {
                     isSelectedItemsChanged = this.changeItemSelectionWhenShiftKeyPressed(itemIndex, items)
                 } else {
                     if (keys.control) {
                         this._resetItemSelectionWhenShiftKeyPressed();
                         var isSelected = this._selectionStrategy.isItemDataSelected(itemData);
-                        if ("single" === this._selectionMode) {
+                        if ("single" === this.options.mode) {
                             this.clearSelectedItems()
                         }
                         if (isSelected) {
@@ -24384,8 +24244,8 @@
                         isSelectedItemsChanged = true
                     } else {
                         this._resetItemSelectionWhenShiftKeyPressed();
-                        var isKeysEqual = this._selectionStrategy.equalKeys(this._selectedItemKeys[0], itemKey);
-                        if (1 !== this._selectedItemKeys.length || !isKeysEqual) {
+                        var isKeysEqual = this._selectionStrategy.equalKeys(this.options.selectedItemKeys[0], itemKey);
+                        if (1 !== this.options.selectedItemKeys.length || !isKeysEqual) {
                             this._setSelectedItems([itemKey], [itemData]);
                             isSelectedItemsChanged = true
                         }
@@ -24398,10 +24258,10 @@
                 }
             },
             isDataItem: function(item) {
-                return this._isSelectableItem(item)
+                return this.options.isSelectableItem(item)
             },
             isSelectable: function() {
-                return "single" === this._selectionMode || "multiple" === this._selectionMode
+                return "single" === this.options.mode || "multiple" === this.options.mode
             },
             isItemSelected: function(arg) {
                 return this._selectionStrategy.isItemKeySelected(arg)
@@ -24411,7 +24271,7 @@
             },
             changeItemSelectionWhenShiftKeyPressed: function(itemIndex, items) {
                 var itemIndexStep, index, isSelectedItemsChanged = false,
-                    keyOf = this._keyOf,
+                    keyOf = this.options.keyOf,
                     key = keyOf(items[this._focusedItemIndex].data),
                     isFocusedItemSelected = items[this._focusedItemIndex] && this.isItemSelected(key);
                 if (!commonUtils.isDefined(this._shiftFocusedItemIndex)) {
@@ -24422,7 +24282,7 @@
                     itemIndexStep = this._focusedItemIndex < this._shiftFocusedItemIndex ? 1 : -1;
                     for (index = this._focusedItemIndex; index !== this._shiftFocusedItemIndex; index += itemIndexStep) {
                         if (this.isDataItem(items[index])) {
-                            itemKey = keyOf(this._getItemData(items[index]));
+                            itemKey = keyOf(this.options.getItemData(items[index]));
                             this._removeSelectedItem(itemKey);
                             isSelectedItemsChanged = true
                         }
@@ -24432,7 +24292,7 @@
                     itemIndexStep = itemIndex < this._shiftFocusedItemIndex ? 1 : -1;
                     for (index = itemIndex; index !== this._shiftFocusedItemIndex; index += itemIndexStep) {
                         if (this.isDataItem(items[index])) {
-                            data = this._getItemData(items[index]);
+                            data = this.options.getItemData(items[index]);
                             itemKey = keyOf(data);
                             this._addSelectedItem(data, itemKey);
                             isSelectedItemsChanged = true
@@ -24440,7 +24300,7 @@
                     }
                 }
                 if (this.isDataItem(items[this._focusedItemIndex]) && !isFocusedItemSelected) {
-                    data = this._getItemData(items[index]);
+                    data = this.options.getItemData(items[index]);
                     itemKey = keyOf(data);
                     this._addSelectedItem(data, itemKey);
                     isSelectedItemsChanged = true
@@ -24465,11 +24325,11 @@
                 }
             },
             _onePageSelectAll: function(isDeselect) {
-                var items = this._plainItems();
+                var items = this.options.plainItems();
                 for (var i = 0; i < items.length; i++) {
                     var item = items[i],
-                        itemData = this._getItemData(item),
-                        itemKey = this._keyOf(itemData),
+                        itemData = this.options.getItemData(item),
+                        itemKey = this.options.keyOf(itemData),
                         isSelected = this.isItemSelected(itemKey);
                     if (!isSelected && !isDeselect) {
                         this._addSelectedItem(itemData, itemKey)
@@ -24497,16 +24357,16 @@
             dataQuery = __webpack_require__( /*! ../../data/query */ 152);
         module.exports = SelectionStrategy.inherit({
             getSelectedItems: function() {
-                return this._loadFilteredData(this._getSelectionOption("_selectionFilter"))
+                return this._loadFilteredData(this.options.selectionFilter)
             },
             getSelectedItemKeys: function() {
                 var d = $.Deferred(),
                     that = this,
-                    key = this._getSelectionOption("_key")(),
+                    key = this.options.key(),
                     select = commonUtils.isString(key) ? [key] : key;
-                this._loadFilteredData(this._getSelectionOption("_selectionFilter"), null, select).done(function(items) {
+                this._loadFilteredData(this.options.selectionFilter, null, select).done(function(items) {
                     var keys = items.map(function(item) {
-                        return that._getSelectionOption("_keyOf")(item)
+                        return that.options.keyOf(item)
                     });
                     d.resolve(keys)
                 }).fail(d.reject);
@@ -24514,15 +24374,15 @@
             },
             selectedItemKeys: function(keys, preserve, isDeselect, isSelectAll) {
                 if (isSelectAll) {
-                    var filter = this._getSelectionOption("_filter")();
+                    var filter = this.options.filter();
                     if (!filter) {
-                        this._setSelectionOption("_selectionFilter", isDeselect ? [] : null)
+                        this._setOption("selectionFilter", isDeselect ? [] : null)
                     } else {
                         this._addSelectionFilter(isDeselect, filter, false)
                     }
                 } else {
                     if (!preserve) {
-                        this._setSelectionOption("_selectionFilter", [])
+                        this._setOption("selectionFilter", [])
                     }
                     for (var i = 0; i < keys.length; i++) {
                         if (isDeselect) {
@@ -24536,7 +24396,7 @@
                 return $.Deferred().resolve()
             },
             setSelectedItems: function(keys) {
-                this._setSelectionOption("_selectionFilter", null);
+                this._setOption("selectionFilter", null);
                 for (var i = 0; i < keys.length; i++) {
                     this.addSelectedItem(keys[i])
                 }
@@ -24545,14 +24405,14 @@
                 return this.isItemKeySelected(itemData)
             },
             isItemKeySelected: function(itemData) {
-                var selectionFilter = this._getSelectionOption("_selectionFilter");
+                var selectionFilter = this.options.selectionFilter;
                 if (!selectionFilter) {
                     return true
                 }
                 return !!dataQuery([itemData]).filter(selectionFilter).toArray().length
             },
             _processSelectedItem: function(key) {
-                var keyField = this._getSelectionOption("_key")(),
+                var keyField = this.options.key(),
                     filter = [keyField, "=", key];
                 if ($.isArray(keyField)) {
                     filter = [];
@@ -24574,7 +24434,7 @@
                 this._addSelectionFilter(true, filter, true)
             },
             validate: function() {
-                var key = this._getSelectionOption("_key");
+                var key = this.options.key;
                 if (key && void 0 === key()) {
                     throw errors.Error("E1042")
                 }
@@ -24620,7 +24480,7 @@
                 var that = this,
                     needAddFilter = true,
                     currentFilter = isDeselect ? ["!", filter] : filter,
-                    selectionFilter = that._getSelectionOption("_selectionFilter") || [];
+                    selectionFilter = that.options.selectionFilter || [];
                 selectionFilter = that._denormalizeFilter(selectionFilter);
                 if (selectionFilter && selectionFilter.length) {
                     if (that._hasSameFilter(selectionFilter, currentFilter)) {
@@ -24637,7 +24497,7 @@
                     selectionFilter.push(currentFilter)
                 }
                 selectionFilter = that._normalizeFilter(selectionFilter);
-                that._setSelectionOption("_selectionFilter", !isDeselect && !selectionFilter.length ? null : selectionFilter)
+                that._setOption("selectionFilter", !isDeselect && !selectionFilter.length ? null : selectionFilter)
             },
             _normalizeFilter: function(filter) {
                 if (filter && 1 === filter.length) {
@@ -24663,8 +24523,8 @@
                 return false
             },
             getSelectAllState: function() {
-                var filter = this._getSelectionOption("_filter")(),
-                    selectionFilter = this._getSelectionOption("_selectionFilter");
+                var filter = this.options.filter(),
+                    selectionFilter = this.options.selectionFilter;
                 if (!selectionFilter) {
                     return true
                 }
@@ -24695,32 +24555,30 @@
             getKeyHash = commonUtils.getKeyHash,
             Class = __webpack_require__( /*! ../../core/class */ 22);
         module.exports = Class.inherit({
-            ctor: function(Selection) {
-                this._selection = Selection;
+            ctor: function(options) {
+                this.options = options;
                 this._clearItemKeys()
             },
             _clearItemKeys: function() {
-                this._setSelectionOption("_addedItemKeys", []);
-                this._setSelectionOption("_removedItemKeys", []);
-                this._setSelectionOption("_removedItems", []);
-                this._setSelectionOption("_addedItems", [])
+                this._setOption("addedItemKeys", []);
+                this._setOption("removedItemKeys", []);
+                this._setOption("removedItems", []);
+                this._setOption("addedItems", [])
             },
             validate: $.noop,
-            _getSelectionOption: function(name) {
-                return this._selection[name]
-            },
-            _setSelectionOption: function(name, value) {
-                this._selection[name] = value
+            _setOption: function(name, value) {
+                this.options[name] = value
             },
             onSelectionChanged: function() {
-                var addedItemKeys = this._getSelectionOption("_addedItemKeys"),
-                    removedItemKeys = this._getSelectionOption("_removedItemKeys"),
-                    addedItems = this._getSelectionOption("_addedItems"),
-                    removedItems = this._getSelectionOption("_removedItems"),
-                    selectedItems = this._getSelectionOption("_selectedItems"),
-                    selectedItemKeys = this._getSelectionOption("_selectedItemKeys");
+                var addedItemKeys = this.options.addedItemKeys,
+                    removedItemKeys = this.options.removedItemKeys,
+                    addedItems = this.options.addedItems,
+                    removedItems = this.options.removedItems,
+                    selectedItems = this.options.selectedItems,
+                    selectedItemKeys = this.options.selectedItemKeys,
+                    onSelectionChanged = this.options.onSelectionChanged || $.noop;
                 this._clearItemKeys();
-                this._getSelectionOption("_selectionChangeHandler")({
+                onSelectionChanged({
                     selectedItems: selectedItems,
                     selectedItemKeys: selectedItemKeys,
                     addedItemKeys: addedItemKeys,
@@ -24730,7 +24588,7 @@
                 })
             },
             equalKeys: function(key1, key2) {
-                if (this._getSelectionOption("_equalByReference")) {
+                if (this.options.equalByReference) {
                     if (commonUtils.isObject(key1) && commonUtils.isObject(key2)) {
                         return key1 === key2
                     }
@@ -24743,24 +24601,24 @@
                 this.validate();
                 return this.selectedItemKeys(keys, preserve, isDeselect, isSelectAll)
             },
-            _loadFilteredData: function(filterExpr, filterFunction, select) {
-                var filterLength = encodeURI(JSON.stringify(filterExpr)).length,
-                    needLoadAllData = this._getSelectionOption("_maxFilterLengthInRequest") && filterLength > this._getSelectionOption("_maxFilterLengthInRequest"),
+            _loadFilteredData: function(remoteFilter, localFilter, select) {
+                var filterLength = encodeURI(JSON.stringify(remoteFilter)).length,
+                    needLoadAllData = this.options.maxFilterLengthInRequest && filterLength > this.options.maxFilterLengthInRequest,
                     deferred = $.Deferred(),
                     loadOptions = {
-                        filter: needLoadAllData ? void 0 : filterExpr,
-                        select: needLoadAllData ? this._getSelectionOption("_dataFields")() : select || this._getSelectionOption("_dataFields")()
+                        filter: needLoadAllData ? void 0 : remoteFilter,
+                        select: needLoadAllData ? this.options.dataFields() : select || this.options.dataFields()
                     };
-                if (filterExpr && 0 === filterExpr.length) {
+                if (remoteFilter && 0 === remoteFilter.length) {
                     deferred.resolve([])
                 } else {
-                    this._getSelectionOption("_load")(loadOptions).done(function(items) {
+                    this.options.load(loadOptions).done(function(items) {
                         var filteredItems = items;
                         if (needLoadAllData) {
-                            filteredItems = dataQuery(filteredItems).filter(filterExpr).toArray()
+                            filteredItems = dataQuery(filteredItems).filter(remoteFilter).toArray()
                         }
-                        if (filterFunction) {
-                            filteredItems = dataQuery(filteredItems).filter(filterFunction).toArray()
+                        if (localFilter) {
+                            filteredItems = dataQuery(filteredItems).filter(localFilter).toArray()
                         }
                         deferred.resolve(filteredItems)
                     }).fail($.proxy(deferred.reject, deferred))
@@ -24771,24 +24629,24 @@
                 for (var i = 0; i < keys.length; i++) {
                     var keyHash = getKeyHash(keys[i]);
                     if (!commonUtils.isObject(keyHash)) {
-                        this._getSelectionOption("_keyHashIndices")[keyHash] = this._getSelectionOption("_keyHashIndices")[keyHash] || [];
-                        var keyIndices = this._getSelectionOption("_keyHashIndices")[keyHash];
+                        this.options.keyHashIndices[keyHash] = this.options.keyHashIndices[keyHash] || [];
+                        var keyIndices = this.options.keyHashIndices[keyHash];
                         keyIndices.push(i)
                     }
                 }
             },
             _isAnyItemSelected: function(items) {
                 for (var i = 0; i < items.length; i++) {
-                    if (this._getSelectionOption("_isItemSelected")(items[i])) {
+                    if (this.options.isItemSelected(items[i])) {
                         return
                     }
                 }
                 return false
             },
             _getFullSelectAllState: function() {
-                var items = this._getSelectionOption("_plainItems")(),
-                    dataFilter = this._getSelectionOption("_filter")(),
-                    selectedItems = this._getSelectionOption("_selectedItems");
+                var items = this.options.plainItems(),
+                    dataFilter = this.options.filter(),
+                    selectedItems = this.options.selectedItems;
                 if (dataFilter) {
                     selectedItems = dataQuery(selectedItems).filter(dataFilter).toArray()
                 }
@@ -24796,20 +24654,20 @@
                 if (!selectedItemsLength) {
                     return this._isAnyItemSelected(items)
                 }
-                if (selectedItemsLength >= this._getSelectionOption("_totalCount")()) {
+                if (selectedItemsLength >= this.options.totalCount()) {
                     return true
                 }
                 return
             },
             _getVisibleSelectAllState: function() {
-                var items = this._getSelectionOption("_plainItems")(),
+                var items = this.options.plainItems(),
                     hasSelectedItems = false,
                     hasUnselectedItems = false;
                 for (var i = 0; i < items.length; i++) {
                     var item = items[i],
-                        itemData = this._getSelectionOption("_getItemData")(item),
-                        key = this._getSelectionOption("_keyOf")(itemData);
-                    if (this._getSelectionOption("_isSelectableItem")(item)) {
+                        itemData = this.options.getItemData(item),
+                        key = this.options.keyOf(itemData);
+                    if (this.options.isSelectableItem(item)) {
                         if (this.isItemKeySelected(key)) {
                             hasSelectedItems = true
                         } else {
@@ -24911,51 +24769,75 @@
             }
         }
         module.exports = SelectionStrategy.inherit({
-            ctor: function(Selection) {
-                this.callBase(Selection);
+            ctor: function(options) {
+                this.callBase(options);
                 this._initSelectedItemKeyHash()
             },
             _initSelectedItemKeyHash: function() {
-                this._setSelectionOption("_keyHashIndices", this._getSelectionOption("_equalByReference") ? null : {})
+                this._setOption("keyHashIndices", this.options.equalByReference ? null : {})
             },
             getSelectedItemKeys: function() {
-                return this._getSelectionOption("_selectedItemKeys").slice(0)
+                return this.options.selectedItemKeys.slice(0)
             },
             getSelectedItems: function() {
-                return this._getSelectionOption("_selectedItems").slice(0)
+                return this.options.selectedItems.slice(0)
             },
             _preserveSelectionUpdate: function(items, isDeselect) {
-                var keyOf = this._getSelectionOption("_keyOf");
+                var keyIndicesToRemoveMap, keyIndex, i, keyOf = this.options.keyOf;
                 if (!keyOf) {
                     return
                 }
-                for (var i = 0; i < items.length; i++) {
+                var isBatchDeselect = isDeselect && items.length > 1 && !this.options.equalByReference;
+                if (isBatchDeselect) {
+                    keyIndicesToRemoveMap = {}
+                }
+                for (i = 0; i < items.length; i++) {
                     var item = items[i],
                         key = keyOf(item);
                     if (isDeselect) {
-                        this.removeSelectedItem(key)
+                        keyIndex = this.removeSelectedItem(key, keyIndicesToRemoveMap);
+                        if (keyIndicesToRemoveMap && keyIndex >= 0) {
+                            keyIndicesToRemoveMap[keyIndex] = true
+                        }
                     } else {
                         this.addSelectedItem(key, item)
                     }
                 }
+                if (isBatchDeselect) {
+                    this._batchRemoveSelectedItems(keyIndicesToRemoveMap)
+                }
+            },
+            _batchRemoveSelectedItems: function(keyIndicesToRemoveMap) {
+                var selectedItemKeys = this.options.selectedItemKeys.slice(0);
+                var selectedItems = this.options.selectedItems.slice(0);
+                this.options.selectedItemKeys.length = 0;
+                this.options.selectedItems.length = 0;
+                for (var i = 0; i < selectedItemKeys.length; i++) {
+                    if (!keyIndicesToRemoveMap[i]) {
+                        this.options.selectedItemKeys.push(selectedItemKeys[i]);
+                        this.options.selectedItems.push(selectedItems[i])
+                    }
+                }
+                this._initSelectedItemKeyHash();
+                this.updateSelectedItemKeyHash(this.options.selectedItemKeys)
             },
             _loadSelectedItemsCore: function(keys, isDeselect, isSelectAll) {
                 var deferred = $.Deferred(),
-                    key = this._getSelectionOption("_key");
+                    key = this.options.key;
                 if (!keys.length && !isSelectAll) {
                     deferred.resolve([]);
                     return deferred
                 }
-                if (isSelectAll && isDeselect && !this._getSelectionOption("_filter")) {
+                if (isSelectAll && isDeselect && !this.options.filter) {
                     return this._clearSelection()
                 }
                 var selectionFilterCreator = new SelectionFilterCreator(key(), keys, isSelectAll, this.equalKeys.bind(this)),
-                    combinedFilter = selectionFilterCreator.getCombinedFilter(this._getSelectionOption("_filter")());
+                    combinedFilter = selectionFilterCreator.getCombinedFilter(this.options.filter());
                 var deselectedItems = [];
                 if (isDeselect) {
-                    deselectedItems = combinedFilter ? dataQuery(this._getSelectionOption("_selectedItems")).filter(combinedFilter).toArray() : this._getSelectionOption("_selectedItems").slice(0)
+                    deselectedItems = combinedFilter ? dataQuery(this.options.selectedItems).filter(combinedFilter).toArray() : this.options.selectedItems.slice(0)
                 }
-                var filteredItems = deselectedItems.length ? deselectedItems : this._getSelectionOption("_plainItems")().filter(this._getSelectionOption("_isSelectableItem")).map(this._getSelectionOption("_getItemData"));
+                var filteredItems = deselectedItems.length ? deselectedItems : this.options.plainItems().filter(this.options.isSelectableItem).map(this.options.getItemData);
                 var filter = selectionFilterCreator.getFilter();
                 if (filter) {
                     filteredItems = dataQuery(filteredItems).filter(filter).toArray()
@@ -24963,13 +24845,13 @@
                 if (!isSelectAll && (deselectedItems.length || filteredItems.length === keys.length)) {
                     deferred.resolve(filteredItems)
                 } else {
-                    deferred = this._loadFilteredData(combinedFilter, selectionFilterCreator.getFunction())
+                    deferred = this._loadFilteredData(combinedFilter, selectionFilterCreator.getFilter())
                 }
                 return deferred
             },
             _replaceSelectionUpdate: function(items) {
                 var internalKeys = [],
-                    keyOf = this._getSelectionOption("_keyOf");
+                    keyOf = this.options.keyOf;
                 if (!keyOf) {
                     return
                 }
@@ -25015,46 +24897,51 @@
             addSelectedItem: function(key, itemData) {
                 var keyHash = this._getKeyHash(key);
                 if (this._indexOfSelectedItemKey(keyHash) === -1) {
-                    if (!commonUtils.isObject(keyHash) && this._getSelectionOption("_keyHashIndices")) {
-                        this._getSelectionOption("_keyHashIndices")[keyHash] = [this._getSelectionOption("_selectedItemKeys").length]
+                    if (!commonUtils.isObject(keyHash) && this.options.keyHashIndices) {
+                        this.options.keyHashIndices[keyHash] = [this.options.selectedItemKeys.length]
                     }
-                    this._getSelectionOption("_selectedItemKeys").push(key);
-                    this._getSelectionOption("_addedItemKeys").push(key);
-                    this._getSelectionOption("_addedItems").push(itemData);
-                    this._getSelectionOption("_selectedItems").push(itemData)
+                    this.options.selectedItemKeys.push(key);
+                    this.options.addedItemKeys.push(key);
+                    this.options.addedItems.push(itemData);
+                    this.options.selectedItems.push(itemData)
                 }
             },
-            _getSelectedIndexByKey: function(key) {
-                var selectedItemKeys = this._getSelectionOption("_selectedItemKeys");
+            _getSelectedIndexByKey: function(key, ignoreIndicesMap) {
+                var selectedItemKeys = this.options.selectedItemKeys;
                 for (var index = 0; index < selectedItemKeys.length; index++) {
-                    if (this.equalKeys(selectedItemKeys[index], key)) {
+                    if ((!ignoreIndicesMap || !ignoreIndicesMap[index]) && this.equalKeys(selectedItemKeys[index], key)) {
                         return index
                     }
                 }
                 return -1
             },
-            _getSelectedIndexByHash: function(key) {
-                var indices = this._getSelectionOption("_keyHashIndices")[key];
+            _getSelectedIndexByHash: function(key, ignoreIndicesMap) {
+                var indices = this.options.keyHashIndices[key];
+                if (indices && indices.length > 1 && ignoreIndicesMap) {
+                    indices = indices.filter(function(index) {
+                        return !ignoreIndicesMap[index]
+                    })
+                }
                 return indices && indices[0] >= 0 ? indices[0] : -1
             },
-            _indexOfSelectedItemKey: function(key) {
+            _indexOfSelectedItemKey: function(key, ignoreIndicesMap) {
                 var selectedIndex;
-                if (this._getSelectionOption("_equalByReference")) {
-                    selectedIndex = this._getSelectionOption("_selectedItemKeys").indexOf(key)
+                if (this.options.equalByReference) {
+                    selectedIndex = this.options.selectedItemKeys.indexOf(key)
                 } else {
                     if (commonUtils.isObject(key)) {
-                        selectedIndex = this._getSelectedIndexByKey(key)
+                        selectedIndex = this._getSelectedIndexByKey(key, ignoreIndicesMap)
                     } else {
-                        selectedIndex = this._getSelectedIndexByHash(key)
+                        selectedIndex = this._getSelectedIndexByHash(key, ignoreIndicesMap)
                     }
                 }
                 return selectedIndex
             },
             _shiftSelectedKeyIndices: function(keyIndex) {
-                for (var currentKeyIndex = keyIndex; currentKeyIndex < this._getSelectionOption("_selectedItemKeys").length; currentKeyIndex++) {
-                    var currentKey = this._getSelectionOption("_selectedItemKeys")[currentKeyIndex],
+                for (var currentKeyIndex = keyIndex; currentKeyIndex < this.options.selectedItemKeys.length; currentKeyIndex++) {
+                    var currentKey = this.options.selectedItemKeys[currentKeyIndex],
                         currentKeyHash = getKeyHash(currentKey),
-                        currentKeyIndices = this._getSelectionOption("_keyHashIndices")[currentKeyHash];
+                        currentKeyIndices = this.options.keyHashIndices[currentKeyHash];
                     if (!currentKeyIndices) {
                         continue
                     }
@@ -25065,31 +24952,36 @@
                     }
                 }
             },
-            removeSelectedItem: function(key) {
+            removeSelectedItem: function(key, keyIndicesToRemoveMap) {
                 var keyHash = this._getKeyHash(key),
-                    keyIndex = this._indexOfSelectedItemKey(keyHash);
+                    isBatchDeselect = !!keyIndicesToRemoveMap,
+                    keyIndex = this._indexOfSelectedItemKey(keyHash, keyIndicesToRemoveMap);
                 if (keyIndex < 0) {
-                    return
+                    return keyIndex
                 }
-                this._getSelectionOption("_selectedItemKeys").splice(keyIndex, 1);
-                this._getSelectionOption("_removedItemKeys").push(key);
-                this._getSelectionOption("_removedItems").push(this._getSelectionOption("_selectedItems")[keyIndex]);
-                this._getSelectionOption("_selectedItems").splice(keyIndex, 1);
-                if (commonUtils.isObject(keyHash) || !this._getSelectionOption("_keyHashIndices")) {
-                    return
+                this.options.removedItemKeys.push(key);
+                this.options.removedItems.push(this.options.selectedItems[keyIndex]);
+                if (isBatchDeselect) {
+                    return keyIndex
                 }
-                var keyIndices = this._getSelectionOption("_keyHashIndices")[keyHash];
+                this.options.selectedItemKeys.splice(keyIndex, 1);
+                this.options.selectedItems.splice(keyIndex, 1);
+                if (commonUtils.isObject(keyHash) || !this.options.keyHashIndices) {
+                    return keyIndex
+                }
+                var keyIndices = this.options.keyHashIndices[keyHash];
                 if (!keyIndices) {
-                    return
+                    return keyIndex
                 }
                 keyIndices.shift();
                 if (!keyIndices.length) {
-                    delete this._getSelectionOption("_keyHashIndices")[keyHash]
+                    delete this.options.keyHashIndices[keyHash]
                 }
-                this._shiftSelectedKeyIndices(keyIndex)
+                this._shiftSelectedKeyIndices(keyIndex);
+                return keyIndex
             },
             _needRemoveItemKey: function(keys, key) {
-                var hashIndices = this._getSelectionOption("_keyHashIndices");
+                var hashIndices = this.options.keyHashIndices;
                 if (!hashIndices) {
                     return keys.indexOf(key) < 0
                 }
@@ -25105,36 +24997,36 @@
             _updateAddedItemKeys: function(keys, items) {
                 for (var i = 0; i < keys.length; i++) {
                     if (this._indexOfSelectedItemKey(keys[i]) < 0) {
-                        this._getSelectionOption("_addedItemKeys").push(keys[i]);
-                        this._getSelectionOption("_addedItems").push(items[i])
+                        this.options.addedItemKeys.push(keys[i]);
+                        this.options.addedItems.push(items[i])
                     }
                 }
             },
             _updateRemovedItemKeys: function(keys) {
-                var oldSelectedKeys = this._getSelectionOption("_selectedItemKeys"),
-                    oldSelectedItems = this._getSelectionOption("_selectedItems");
+                var oldSelectedKeys = this.options.selectedItemKeys,
+                    oldSelectedItems = this.options.selectedItems;
                 for (var i = 0; i < oldSelectedKeys.length; i++) {
                     if (this._needRemoveItemKey(keys, oldSelectedKeys[i])) {
-                        this._getSelectionOption("_removedItemKeys").push(oldSelectedKeys[i]);
-                        this._getSelectionOption("_removedItems").push(oldSelectedItems[i])
+                        this.options.removedItemKeys.push(oldSelectedKeys[i]);
+                        this.options.removedItems.push(oldSelectedItems[i])
                     }
                 }
             },
             _getKeyHash: function(key) {
-                return this._getSelectionOption("_equalByReference") ? key : getKeyHash(key)
+                return this.options.equalByReference ? key : getKeyHash(key)
             },
             setSelectedItems: function(keys, items) {
                 this._updateRemovedItemKeys(keys, items);
                 this._updateAddedItemKeys(keys, items);
-                if (!this._getSelectionOption("_equalByReference")) {
+                if (!this.options.equalByReference) {
                     this._initSelectedItemKeyHash();
                     this.updateSelectedItemKeyHash(keys)
                 }
-                this._setSelectionOption("_selectedItemKeys", keys);
-                this._setSelectionOption("_selectedItems", items)
+                this._setOption("selectedItemKeys", keys);
+                this._setOption("selectedItems", items)
             },
             isItemDataSelected: function(itemData) {
-                var key = this._getSelectionOption("_keyOf")(itemData);
+                var key = this.options.keyOf(itemData);
                 return this.isItemKeySelected(key)
             },
             isItemKeySelected: function(key) {
@@ -26135,9 +26027,11 @@
                 }
             }
         };
+        var ACCEPTABLE_JSON_FORMAT_PROPERTIES = ["skeleton", "date", "time", "datetime", "raw"];
         var $ = __webpack_require__( /*! jquery */ 9),
             Globalize = __webpack_require__( /*! globalize */ 172),
             dateLocalization = __webpack_require__( /*! ../date */ 27),
+            isObject = __webpack_require__( /*! ../../core/utils/common */ 12).isObject,
             errors = __webpack_require__( /*! ../../core/errors */ 7);
         if (Globalize && Globalize.formatDate) {
             if ("en" === Globalize.locale().locale) {
@@ -26280,7 +26174,7 @@
                     if (!text) {
                         return
                     }
-                    if (!format || "function" === typeof format || format.formatter && !format.parser) {
+                    if (!format || "function" === typeof format || isObject(format) && !this._isAcceptableFormat(format)) {
                         if (format) {
                             errors.log("W0012")
                         }
@@ -26295,6 +26189,16 @@
                         }
                     }
                     return Globalize.parseDate(text, format)
+                },
+                _isAcceptableFormat: function(format) {
+                    if (format.parser) {
+                        return true
+                    }
+                    for (var i = 0; i < ACCEPTABLE_JSON_FORMAT_PROPERTIES.length; i++) {
+                        if (format.hasOwnProperty(ACCEPTABLE_JSON_FORMAT_PROPERTIES[i])) {
+                            return true
+                        }
+                    }
                 },
                 firstDayOfWeekIndex: function() {
                     var firstDay = Globalize.locale().supplemental.weekData.firstDay();
@@ -26863,7 +26767,8 @@
         var LocalStoreBackend = Class.inherit({
             ctor: function(store, storeOptions) {
                 this._store = store;
-                this._dirty = false;
+                this._dirty = !!storeOptions.data;
+                this.save();
                 var immediate = this._immediate = storeOptions.immediate;
                 var flushInterval = Math.max(100, storeOptions.flushInterval || 1e4);
                 if (!immediate) {
@@ -26897,12 +26802,12 @@
         });
         var DomLocalStoreBackend = LocalStoreBackend.inherit({
             ctor: function(store, storeOptions) {
-                this.callBase(store, storeOptions);
                 var name = storeOptions.name;
                 if (!name) {
                     throw errors.Error("E4013")
                 }
-                this._key = "dx-data-localStore-" + name
+                this._key = "dx-data-localStore-" + name;
+                this.callBase(store, storeOptions)
             },
             _loadImpl: function() {
                 var raw = localStorage.getItem(this._key);
@@ -27135,7 +27040,7 @@
                 } else {
                     url = this._url
                 }
-                if ("customQueryParams" in loadOptions) {
+                if (loadOptions.customQueryParams) {
                     var params = mixins.escapeServiceOperationParams(loadOptions.customQueryParams, this.version());
                     if (4 === this.version()) {
                         url = mixins.formatFunctionInvocationUrl(url, params)
@@ -28168,7 +28073,9 @@
                 }])
             }
         });
-        var dialog = function(options) {
+        exports.FakeDialogComponent = FakeDialogComponent;
+        exports.title = "";
+        exports.custom = function(options) {
             var deferred = $.Deferred();
             var defaultOptions = (new FakeDialogComponent).option();
             options = $.extend(defaultOptions, options);
@@ -28198,7 +28105,7 @@
                 })
             });
             var popupInstance = new Popup($element, {
-                title: options.title || this.title,
+                title: options.title || exports.title,
                 showTitle: function() {
                     var isTitle = void 0 === options.showTitle ? true : options.showTitle;
                     return isTitle
@@ -28272,17 +28179,16 @@
                 hide: hide
             }
         };
-        var alert = function(message, title, showTitle) {
-            var dialogInstance, options = $.isPlainObject(message) ? message : {
+        exports.alert = function(message, title, showTitle) {
+            var options = $.isPlainObject(message) ? message : {
                 title: title,
                 message: message,
                 showTitle: showTitle
             };
-            dialogInstance = this.custom(options);
-            return dialogInstance.show()
+            return exports.custom(options).show()
         };
-        var confirm = function(message, title, showTitle) {
-            var dialogInstance, options = $.isPlainObject(message) ? message : {
+        exports.confirm = function(message, title, showTitle) {
+            var options = $.isPlainObject(message) ? message : {
                 title: title,
                 message: message,
                 showTitle: showTitle,
@@ -28298,13 +28204,8 @@
                     }
                 }]
             };
-            dialogInstance = this.custom(options);
-            return dialogInstance.show()
-        };
-        exports.custom = dialog;
-        exports.alert = alert;
-        exports.confirm = confirm;
-        exports.FakeDialogComponent = FakeDialogComponent
+            return exports.custom(options).show()
+        }
     },
     /*!************************!*\
       !*** ./js/ui/popup.js ***!
@@ -29004,8 +28905,18 @@
                 }
             },
             _renderSubmitInput: function() {
-                this._$submitInput = $("<input>").attr("type", "submit").addClass("dx-button-submit-input").appendTo(this._$content).on("click", function(e) {
+                var submitAction = this._createAction(function(args) {
+                    var e = args.jQueryEvent,
+                        validationGroup = ValidationEngine.getGroupConfig(args.component._findGroup());
+                    if (validationGroup && !validationGroup.validate().isValid) {
+                        e.preventDefault()
+                    }
                     e.stopPropagation()
+                });
+                this._$submitInput = $("<input>").attr("type", "submit").addClass("dx-button-submit-input").appendTo(this._$content).on("click", function(e) {
+                    submitAction({
+                        jQueryEvent: e
+                    })
                 })
             },
             _getContentData: function() {
@@ -29026,12 +28937,9 @@
                     actionConfig = {};
                 if (this.option("useSubmitBehavior")) {
                     actionConfig.afterExecute = function(e) {
-                        var validationResults = e.args[0].validationGroup.validate();
-                        if (validationResults.isValid) {
-                            setTimeout(function() {
-                                e.component._$submitInput.get(0).click()
-                            })
-                        }
+                        setTimeout(function() {
+                            e.component._$submitInput.get(0).click()
+                        })
                     }
                 }
                 this._clickAction = this._createActionByOption("onClick", actionConfig);
@@ -30577,9 +30485,7 @@
                 })
             },
             _setSelectedElement: function($element) {
-                this._list.selectItem($element);
-                var selectedItems = this._list.option("selectedItems");
-                var value = this._valueGetter(selectedItems[selectedItems.length - 1]);
+                var value = this._valueGetter(this._list._getItemData($element));
                 this._setValue(value)
             },
             _setValue: function(value) {
@@ -31808,6 +31714,7 @@
             caret = __webpack_require__( /*! ./utils.caret */ 210),
             domUtils = __webpack_require__( /*! ../../core/utils/dom */ 51),
             commonUtils = __webpack_require__( /*! ../../core/utils/common */ 12),
+            stringUtils = __webpack_require__( /*! ../../core/utils/string */ 11),
             messageLocalization = __webpack_require__( /*! ../../localization/message */ 85),
             TextEditorBase = __webpack_require__( /*! ./ui.text_editor.base */ 211),
             MaskRules = __webpack_require__( /*! ./ui.text_editor.mask.rule */ 212),
@@ -31879,9 +31786,21 @@
                 });
                 return result
             },
+            _getSubmitElement: function() {
+                return !this.option("mask") ? this.callBase() : this._$hiddenElement
+            },
             _render: function() {
+                this._renderHiddenElement();
                 this.callBase();
                 this._renderMask()
+            },
+            _renderHiddenElement: function() {
+                if (this.option("mask")) {
+                    this._$hiddenElement = $("<input>").attr("type", "hidden").appendTo(this._inputWrapper())
+                }
+            },
+            _removeHiddenElement: function() {
+                this._$hiddenElement && this._$hiddenElement.remove()
             },
             _renderMask: function() {
                 this.element().removeClass(TEXTEDITOR_MASKED_CLASS);
@@ -31990,7 +31909,13 @@
             },
             _renderValue: function() {
                 if (this._maskRulesChain) {
-                    this.option("text", this._maskRulesChain.text())
+                    var text = this._maskRulesChain.text();
+                    this.option("text", text);
+                    if (this._$hiddenElement) {
+                        var value = this._maskRulesChain.value(),
+                            hiddenElementValue = this._isMaskedValueMode() ? text : value;
+                        this._$hiddenElement.val(!stringUtils.isEmpty(value) ? hiddenElementValue : "")
+                    }
                 }
                 this.callBase()
             },
@@ -32250,14 +32175,45 @@
                 clearTimeout(this._backspaceHandlerTimeout);
                 this.callBase()
             },
+            _updateHiddenElement: function() {
+                if (this.option("mask")) {
+                    this._input().attr("name", null);
+                    this._renderHiddenElement()
+                } else {
+                    this._removeHiddenElement()
+                }
+                this._setSubmitElementName(this.option("name"))
+            },
+            _updateMaskOption: function() {
+                this._updateHiddenElement();
+                this._renderMask();
+                this._validateMask()
+            },
+            _processEmptyMask: function(mask) {
+                if (mask) {
+                    return
+                }
+                var value = this.option("value");
+                this.option({
+                    text: value,
+                    isValid: true
+                });
+                this.validationRequest.fire({
+                    value: value,
+                    editor: this
+                });
+                this._renderValue()
+            },
             _optionChanged: function(args) {
                 switch (args.name) {
                     case "mask":
+                        this._updateMaskOption();
+                        this._processEmptyMask(args.value);
+                        break;
                     case "maskChar":
                     case "maskRules":
                     case "useMaskedValue":
-                        this._renderMask();
-                        this._validateMask();
+                        this._updateMaskOption();
                         break;
                     case "value":
                         this._renderMaskedValue();
@@ -32280,7 +32236,7 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             commonUtils = __webpack_require__( /*! ../../core/utils/common */ 12),
             browser = __webpack_require__( /*! ../../core/utils/browser */ 20);
-        var isFocusingOnCaretChange = browser.msie && parseInt(browser.version) <= 12;
+        var isFocusingOnCaretChange = browser.msie || browser.safari;
         var getCaret = function(input) {
             if (isObsoleteBrowser(input)) {
                 return getCaretForObsoleteBrowser(input)
@@ -32467,7 +32423,12 @@
                 $("<div>").addClass(TEXTEDITOR_CONTAINER_CLASS).append(this._createInput()).append($("<div>").addClass(TEXTEDITOR_BUTTONS_CONTAINER_CLASS)).appendTo(this.element())
             },
             _createInput: function() {
-                return $("<input>").addClass(TEXTEDITOR_INPUT_CLASS).css("min-height", this.option("height") ? "0" : "").attr("autocomplete", "off").attr(this.option("inputAttr"))
+                var $input = $("<input>");
+                this._applyInputAttributes($input, this.option("inputAttr"));
+                return $input
+            },
+            _applyInputAttributes: function($input, customAttributes) {
+                $input.attr("autocomplete", "off").attr(customAttributes).addClass(TEXTEDITOR_INPUT_CLASS).css("min-height", this.option("height") ? "0" : "")
             },
             _renderValue: function() {
                 this._renderInputValue();
@@ -32732,7 +32693,7 @@
                         this.callBase(args);
                         break;
                     case "inputAttr":
-                        this._input().attr(args.value);
+                        this._applyInputAttributes(this._input(), args.value);
                         break;
                     case "valueFormat":
                         this._invalidate();
@@ -32765,16 +32726,16 @@
             },
             reset: function() {
                 this.option("value", "")
+            },
+            on: function(eventName, eventHandler) {
+                var result = this.callBase(eventName, eventHandler),
+                    event = eventName.charAt(0).toUpperCase() + eventName.substr(1);
+                if (EVENTS_LIST.indexOf(event) >= 0) {
+                    this._refreshEvents()
+                }
+                return result
             }
         });
-        var originalOnMethod = TextEditorBase.prototype.on;
-        TextEditorBase.prototype.on = function(eventName, eventHandler) {
-            originalOnMethod.call(this, eventName, eventHandler);
-            var event = eventName.charAt(0).toUpperCase() + eventName.substr(1);
-            if (EVENTS_LIST.indexOf(event) >= 0) {
-                this._refreshEvents()
-            }
-        };
         module.exports = TextEditorBase
     },
     /*!****************************************************!*\
@@ -33101,6 +33062,12 @@
                 this.callBase();
                 this._initEditProvider()
             },
+            _initDataSource: function() {
+                this.callBase();
+                if ("allPages" === this.option("selectAllMode")) {
+                    this._dataSource && this._dataSource.requireTotalCount(true)
+                }
+            },
             _initEditProvider: function() {
                 this._editProvider = new EditProvider(this)
             },
@@ -33187,6 +33154,11 @@
             },
             _optionChanged: function(args) {
                 switch (args.name) {
+                    case "selectAllMode":
+                        this._initDataSource();
+                        this._dataSource.pageIndex(0);
+                        this._dataSource.load();
+                        break;
                     case "grouped":
                         this._clearSelectedItems();
                         delete this._renderingGroupIndex;
@@ -33318,8 +33290,8 @@
                 }
                 return result
             },
-            getIndexByKey: function(key) {
-                var groups = this._collectionWidget.option("items"),
+            getIndexByKey: function(key, items) {
+                var groups = items || this._collectionWidget.option("items"),
                     index = -1,
                     that = this;
                 $.each(groups, function(groupIndex, group) {
@@ -33343,18 +33315,24 @@
                 return index
             },
             getItemsByKeys: function(keys) {
-                var that = this,
-                    groups = that._collectionWidget.option("items"),
-                    items = [];
+                var result = [];
                 $.each(keys, function(_, key) {
-                    var index = that.getIndexByKey(key);
-                    if (!index) {
-                        return
-                    }
-                    var selectedGroup, group = groups[index.group],
-                        groupKey = group.key,
-                        item = group.items[index.item];
-                    $.each(items, function(_, item) {
+                    var getItemMeta = function(groups) {
+                        var index = this.getIndexByKey(key, groups);
+                        var group = index && groups[index.group];
+                        if (!group) {
+                            return
+                        }
+                        return {
+                            groupKey: group.key,
+                            item: group.items[index.item]
+                        }
+                    }.bind(this);
+                    var itemMeta = getItemMeta(this._collectionWidget.option("items")) || getItemMeta(this._collectionWidget.option("selectedItems"));
+                    var groupKey = itemMeta.groupKey;
+                    var item = itemMeta.item;
+                    var selectedGroup;
+                    $.each(result, function(_, item) {
                         if (item.key === groupKey) {
                             selectedGroup = item;
                             return false
@@ -33365,11 +33343,11 @@
                             key: groupKey,
                             items: []
                         };
-                        items.push(selectedGroup)
+                        result.push(selectedGroup)
                     }
                     selectedGroup.items.push(item)
-                });
-                return items
+                }.bind(this));
+                return result
             },
             moveItemAtIndexToIndex: function(movingIndex, destinationIndex) {
                 var items = this._collectionWidget.option("items"),
@@ -35243,10 +35221,11 @@
                 this._reachBottomEnable(this.hasActionSubscription("onReachBottom") && !config().designMode)
             },
             on: function(eventName) {
-                this.callBase.apply(this, arguments);
+                var result = this.callBase.apply(this, arguments);
                 if ("pullDown" === eventName || "reachBottom" === eventName) {
                     this._refreshPocketState()
                 }
+                return result
             },
             _pullDownEnable: function(enabled) {
                 if (0 === arguments.length) {
@@ -35921,7 +35900,7 @@
                 return -location * this._thumbRatio
             },
             _update: function() {
-                var containerSize = this.option("containerSize"),
+                var containerSize = Math.round(this.option("containerSize")),
                     contentSize = this.option("contentSize");
                 this._containerToContentRatio = contentSize ? containerSize / contentSize : containerSize;
                 var thumbSize = Math.round(Math.max(Math.round(containerSize * this._containerToContentRatio), THUMB_MIN_SIZE));
@@ -39318,6 +39297,7 @@
             commonUtils = __webpack_require__( /*! ../core/utils/common */ 12),
             support = __webpack_require__( /*! ../core/utils/support */ 56),
             browser = __webpack_require__( /*! ../core/utils/browser */ 20),
+            CollectionWidgetItem = __webpack_require__( /*! ./collection/item */ 158),
             devices = __webpack_require__( /*! ../core/devices */ 48),
             CollectionWidget = __webpack_require__( /*! ./collection/ui.collection_widget.edit */ 145);
         var BOX_CLASS = "dx-box",
@@ -39353,6 +39333,18 @@
             row: "row",
             col: "column"
         };
+        var BoxItem = CollectionWidgetItem.inherit({
+            _renderVisible: function(value, oldValue) {
+                this.callBase(value);
+                if (commonUtils.isDefined(oldValue)) {
+                    this._options.fireItemStateChangedAction({
+                        name: "visible",
+                        state: value,
+                        oldState: oldValue
+                    })
+                }
+            }
+        });
         var FlexLayoutStrategy = Class.inherit({
             ctor: function($element, option) {
                 this._$element = $element;
@@ -39627,6 +39619,7 @@
                     crossAlign: "stretch",
                     activeStateEnabled: false,
                     focusStateEnabled: false,
+                    onItemStateChanged: void 0,
                     _layoutStrategy: "flex",
                     _queue: void 0
                 })
@@ -39678,9 +39671,13 @@
                 return this._queue.shift()
             },
             _render: function() {
+                this._renderActions();
                 this.callBase();
                 this.element().addClass(BOX_CLASS);
                 this._renderBox()
+            },
+            _renderActions: function() {
+                this._onItemStateChanged = this._createActionByOption("onItemStateChanged")
             },
             _renderBox: function() {
                 this._layout.renderBox();
@@ -39749,6 +39746,16 @@
                 clearTimeout(this._updateTimer);
                 this.callBase.apply(this, arguments)
             },
+            _itemOptionChanged: function(item, property, value, oldValue) {
+                if ("visible" === property) {
+                    this._onItemStateChanged({
+                        name: property,
+                        state: value,
+                        oldState: false !== oldValue
+                    })
+                }
+                this.callBase(item, property, value)
+            },
             _optionChanged: function(args) {
                 switch (args.name) {
                     case "_layoutStrategy":
@@ -39766,10 +39773,19 @@
                         this.callBase(args)
                 }
             },
+            _itemOptions: function() {
+                var that = this,
+                    options = this.callBase();
+                options.fireItemStateChangedAction = function(e) {
+                    that._onItemStateChanged(e)
+                };
+                return options
+            },
             repaint: function() {
                 this._dimensionChanged()
             }
         });
+        Box.ItemClass = BoxItem;
         registerComponent("dxBox", Box);
         module.exports = Box
     },
@@ -39795,9 +39811,9 @@
             translator = __webpack_require__( /*! ../../animation/translator */ 65),
             browser = __webpack_require__( /*! ../../core/utils/browser */ 20),
             dateUtils = __webpack_require__( /*! ../../core/utils/date */ 59),
+            dateSerialization = __webpack_require__( /*! ../../core/utils/date_serialization */ 254),
             devices = __webpack_require__( /*! ../../core/devices */ 48),
             fx = __webpack_require__( /*! ../../animation/fx */ 64),
-            dateLocalization = __webpack_require__( /*! ../../localization/date */ 27),
             config = __webpack_require__( /*! ../../core/config */ 13),
             messageLocalization = __webpack_require__( /*! ../../localization/message */ 85),
             FunctionTemplate = __webpack_require__( /*! ../widget/function_template */ 94);
@@ -39937,11 +39953,11 @@
                 if (!commonUtils.isString(value)) {
                     return
                 }
-                return dateUtils.getDateSerializationFormat(value)
+                return dateSerialization.getDateSerializationFormat(value)
             },
             _convertToDate: function(value, optionName) {
                 var serializationFormat = this._getSerializationFormat(optionName);
-                var date = dateUtils.deserializeDate(value, serializationFormat, $.proxy(dateLocalization.parse, dateLocalization));
+                var date = dateSerialization.deserializeDate(value, serializationFormat);
                 return date
             },
             _dateOption: function(optionName, optionValue) {
@@ -39949,7 +39965,7 @@
                     return this._convertToDate(this.option(optionName), optionName)
                 }
                 var serializationFormat = this._getSerializationFormat(optionName);
-                this.option(optionName, dateUtils.serializeDate(optionValue, serializationFormat, $.proxy(dateLocalization.format, dateLocalization)))
+                this.option(optionName, dateSerialization.serializeDate(optionValue, serializationFormat))
             },
             _moveCurrentDate: function(offset) {
                 var currentDate = new Date(this.option("currentDate"));
@@ -40391,7 +40407,7 @@
             },
             _setSubmitValue: function(value) {
                 var dateValue = this._convertToDate(value);
-                this._$submitElement.val(dateLocalization.format(dateValue, CALENDAR_INPUT_STANDARD_PATTERN))
+                this._$submitElement.val(dateSerialization.serializeDate(dateValue, CALENDAR_INPUT_STANDARD_PATTERN))
             },
             _getSubmitElement: function() {
                 return this._$submitElement
@@ -40834,7 +40850,8 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             BaseView = __webpack_require__( /*! ./ui.calendar.base_view */ 253),
             dateUtils = __webpack_require__( /*! ../../core/utils/date */ 59),
-            dateLocalization = __webpack_require__( /*! ../../localization/date */ 27);
+            dateLocalization = __webpack_require__( /*! ../../localization/date */ 27),
+            dateSerialization = __webpack_require__( /*! ../../core/utils/date_serialization */ 254);
         var CALENDAR_OTHER_MONTH_CLASS = "dx-calendar-other-month",
             CALENDAR_OTHER_VIEW_CLASS = "dx-calendar-other-view";
         var Views = {
@@ -40918,7 +40935,7 @@
                     return this.option("firstDayOfWeek") || dateLocalization.firstDayOfWeekIndex()
                 },
                 _getCellByDate: function(date) {
-                    return this._$table.find("td[data-value='" + dateLocalization.format(date, dateUtils.getShortDateFormat()) + "']")
+                    return this._$table.find("td[data-value='" + dateSerialization.serializeDate(date, dateUtils.getShortDateFormat()) + "']")
                 },
                 isBoundary: function(date) {
                     return dateUtils.sameMonthAndYear(date, this.option("min")) || dateUtils.sameMonthAndYear(date, this.option("max"))
@@ -40954,7 +40971,7 @@
                 _getCellByDate: function(date) {
                     var foundDate = new Date(date);
                     foundDate.setDate(1);
-                    return this._$table.find("td[data-value='" + dateLocalization.format(foundDate, dateUtils.getShortDateFormat()) + "']")
+                    return this._$table.find("td[data-value='" + dateSerialization.serializeDate(foundDate, dateUtils.getShortDateFormat()) + "']")
                 },
                 getCellAriaLabel: function(date) {
                     return dateLocalization.format(date, "monthandyear")
@@ -41006,7 +41023,7 @@
                     var foundDate = new Date(date);
                     foundDate.setDate(1);
                     foundDate.setMonth(0);
-                    return this._$table.find("td[data-value='" + dateLocalization.format(foundDate, dateUtils.getShortDateFormat()) + "']")
+                    return this._$table.find("td[data-value='" + dateSerialization.serializeDate(foundDate, dateUtils.getShortDateFormat()) + "']")
                 },
                 isBoundary: function(date) {
                     return dateUtils.sameDecade(date, this.option("min")) || dateUtils.sameDecade(date, this.option("max"))
@@ -41048,7 +41065,7 @@
                     foundDate.setDate(1);
                     foundDate.setMonth(0);
                     foundDate.setFullYear(dateUtils.getFirstYearInDecade(foundDate));
-                    return this._$table.find("td[data-value='" + dateLocalization.format(foundDate, dateUtils.getShortDateFormat()) + "']")
+                    return this._$table.find("td[data-value='" + dateSerialization.serializeDate(foundDate, dateUtils.getShortDateFormat()) + "']")
                 },
                 getNavigatorCaption: function() {
                     var decade = dateUtils.getFirstDecadeInCentury(this.option("date"));
@@ -41068,7 +41085,7 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             Widget = __webpack_require__( /*! ../widget/ui.widget */ 91),
             dateUtils = __webpack_require__( /*! ../../core/utils/date */ 59),
-            dateLocalization = __webpack_require__( /*! ../../localization/date */ 27),
+            dateSerialization = __webpack_require__( /*! ../../core/utils/date_serialization */ 254),
             eventUtils = __webpack_require__( /*! ../../events/utils */ 67),
             clickEvent = __webpack_require__( /*! ../../events/click */ 71);
         var abstract = Widget.abstract,
@@ -41142,7 +41159,7 @@
                         className = className + " " + CALENDAR_OTHER_VIEW_CLASS
                     }
                     cell.className = className;
-                    cell.setAttribute("data-value", dateLocalization.format(cellDate, dateUtils.getShortDateFormat()));
+                    cell.setAttribute("data-value", dateSerialization.serializeDate(cellDate, dateUtils.getShortDateFormat()));
                     $.data(cell, CALENDAR_DATE_VALUE_KEY, cellDate);
                     that.setAria({
                         role: "option",
@@ -41271,11 +41288,207 @@
         });
         module.exports = BaseView
     },
+    /*!*********************************************!*\
+      !*** ./js/core/utils/date_serialization.js ***!
+      \*********************************************/
+    function(module, exports, __webpack_require__) {
+        var commonUtils = __webpack_require__( /*! ./common */ 12),
+            isString = commonUtils.isString,
+            isDate = commonUtils.isDate,
+            isNumber = commonUtils.isNumber;
+        var NUMBER_SERIALIZATION_FORMAT = "number",
+            DATE_SERIALIZATION_FORMAT = "yyyy/MM/dd",
+            DATETIME_SERIALIZATION_FORMAT = "yyyy/MM/dd HH:mm:ss";
+        var SerializationHelper = function() {
+            var that = this;
+            var ensureTwoDigits = function(value) {
+                return value < 10 ? "0" + value : value
+            };
+            that.formatDate = function(date, separator) {
+                return that._joinDateParts(date.getFullYear(), date.getMonth(), date.getDate(), separator)
+            };
+            that._joinDateParts = function(year, month, day, separator) {
+                return [year, ensureTwoDigits(month + 1), ensureTwoDigits(day)].join(separator)
+            };
+            that.formatTime = function(date, useSeconds, separator) {
+                return that._joinTimeParts(date.getHours(), date.getMinutes(), date.getSeconds(), useSeconds, separator)
+            };
+            that._joinTimeParts = function(hours, minutes, seconds, useSeconds, separator) {
+                var parts = [hours, minutes];
+                if (useSeconds) {
+                    parts.push(seconds)
+                }
+                return parts.map(ensureTwoDigits).join(separator)
+            };
+            that.parseIsoDate = function(text) {
+                var parts = text.split(/[^0-9]+/).map(Number);
+                return that._createDate(parts[0], parts[1] - 1, parts[2], ~~parts[3], ~~parts[4], ~~parts[5])
+            };
+            that._createDate = function(year, month, day, hour, minute, second) {
+                return new Date(year, month, day, hour, minute, second)
+            }
+        };
+        var UtcSerializationHelper = function() {
+            var that = this;
+            SerializationHelper.call(that);
+            that.formatDate = function(date, separator) {
+                return that._joinDateParts(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), separator)
+            };
+            that.formatTime = function(date, useSeconds, separator) {
+                return that._joinTimeParts(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), useSeconds, separator)
+            };
+            that._createDate = function(year, month, day, hour, minute, second) {
+                return new Date(Date.UTC(year, month, day, hour, minute, second))
+            }
+        };
+        var serializationHelper = new SerializationHelper,
+            utcSerializationHelper = new UtcSerializationHelper;
+        var defaultParser = function(text) {
+            var parsedValue = !isDate(text) && Date.parse(text);
+            return isNumber(parsedValue) ? new Date(parsedValue) : text
+        };
+        var BASE_FORMATS = {};
+        BASE_FORMATS[NUMBER_SERIALIZATION_FORMAT] = {
+            formatter: function(value) {
+                return value && value.valueOf && value.valueOf()
+            },
+            parser: function(text) {
+                return new Date(text)
+            }
+        };
+        BASE_FORMATS[DATE_SERIALIZATION_FORMAT] = {
+            formatter: function(date) {
+                return serializationHelper.formatDate(date, "/")
+            },
+            parser: defaultParser
+        };
+        BASE_FORMATS[DATETIME_SERIALIZATION_FORMAT] = {
+            formatter: function(date) {
+                return serializationHelper.formatDate(date, "/") + " " + serializationHelper.formatTime(date, true, ":")
+            },
+            parser: defaultParser
+        };
+        var ISO8601_FORMATS = {
+            "yyyy-MM-ddTHH:mm:ss": {
+                formatter: function(date) {
+                    return serializationHelper.formatDate(date, "-") + "T" + serializationHelper.formatTime(date, true, ":")
+                },
+                parser: function(text) {
+                    if (!/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d/.test(text)) {
+                        return
+                    }
+                    return serializationHelper.parseIsoDate(text)
+                }
+            },
+            "yyyy-MM-ddTHH:mm:ssZ": {
+                formatter: function(date) {
+                    return utcSerializationHelper.formatDate(date, "-") + "T" + utcSerializationHelper.formatTime(date, true, ":") + "Z"
+                },
+                parser: function(text) {
+                    if (!/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\dZ/.test(text)) {
+                        return
+                    }
+                    return utcSerializationHelper.parseIsoDate(text)
+                }
+            },
+            "yyyy-MM-ddTHH:mmZ": {
+                formatter: function(date) {
+                    return utcSerializationHelper.formatDate(date, "-") + "T" + utcSerializationHelper.formatTime(date, false, ":") + "Z"
+                },
+                parser: function(text) {
+                    if (!/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\dZ/.test(text)) {
+                        return
+                    }
+                    return utcSerializationHelper.parseIsoDate(text)
+                }
+            },
+            yyyyMMddTHHmmss: {
+                formatter: function(date) {
+                    return serializationHelper.formatDate(date, "") + "T" + serializationHelper.formatTime(date, true, "")
+                },
+                parser: function(text) {
+                    var parts = text.match(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/).slice(1).map(Number);
+                    return new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5])
+                }
+            },
+            "yyyy-MM-dd": {
+                formatter: function(date) {
+                    return serializationHelper.formatDate(date, "-")
+                },
+                parser: function(text) {
+                    if (!/\d{4}-[01]\d-[0-3]\d/.test(text)) {
+                        return
+                    }
+                    return serializationHelper.parseIsoDate(text)
+                }
+            },
+            "HH:mm": {
+                formatter: function(date) {
+                    return serializationHelper.formatTime(date, false, ":")
+                },
+                parser: function(text) {
+                    if (!/[0-2]\d:[0-5]\d/.test(text)) {
+                        return
+                    }
+                    return new Date(0, 0, 0, Number(text.substr(0, 2)), Number(text.substr(3, 2)), 0, 0)
+                }
+            }
+        };
+        var getFormatInfo = function(serializationFormat) {
+            if (!serializationFormat) {
+                return
+            }
+            serializationFormat = serializationFormat.replace(/'/g, "");
+            return BASE_FORMATS[serializationFormat] || ISO8601_FORMATS[serializationFormat]
+        };
+        var deserializeDate = function(value, serializationFormat) {
+            if (!serializationFormat) {
+                return defaultParser(value)
+            }
+            var formatInfo = getFormatInfo(serializationFormat);
+            if (!formatInfo) {
+                return
+            }
+            return formatInfo.parser(value)
+        };
+        var serializeDate = function(value, serializationFormat) {
+            var formatInfo = getFormatInfo(serializationFormat);
+            if (!formatInfo) {
+                return value
+            }
+            if (serializationFormat !== NUMBER_SERIALIZATION_FORMAT && !isDate(value)) {
+                return null
+            }
+            return formatInfo.formatter(value)
+        };
+        var getDateSerializationFormat = function(value) {
+            if (isNumber(value)) {
+                return NUMBER_SERIALIZATION_FORMAT
+            } else {
+                if (isString(value)) {
+                    if (value.indexOf(":") >= 0) {
+                        return DATETIME_SERIALIZATION_FORMAT
+                    } else {
+                        return DATE_SERIALIZATION_FORMAT
+                    }
+                } else {
+                    if (value) {
+                        return null
+                    }
+                }
+            }
+        };
+        module.exports = {
+            deserializeDate: deserializeDate,
+            serializeDate: serializeDate,
+            getDateSerializationFormat: getDateSerializationFormat
+        }
+    },
     /*!****************************!*\
       !*** ./js/ui/color_box.js ***!
       \****************************/
     function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__( /*! ./color_box/color_box */ 255)
+        module.exports = __webpack_require__( /*! ./color_box/color_box */ 256)
     },
     /*!**************************************!*\
       !*** ./js/ui/color_box/color_box.js ***!
@@ -41283,7 +41496,7 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             Color = __webpack_require__( /*! ../../color */ 32),
-            ColorView = __webpack_require__( /*! ./color_view */ 256),
+            ColorView = __webpack_require__( /*! ./color_view */ 257),
             registerComponent = __webpack_require__( /*! ../../core/component_registrator */ 52),
             DropDownEditor = __webpack_require__( /*! ../drop_down_editor/ui.drop_down_editor */ 205);
         var COLOR_BOX_CLASS = "dx-colorbox",
@@ -41352,6 +41565,7 @@
                     editAlphaChannel: false,
                     applyValueMode: "useButtons",
                     keyStep: 1,
+                    fieldTemplate: null,
                     onApplyButtonClick: null,
                     onCancelButtonClick: null,
                     buttonsLocation: "bottom after"
@@ -41554,9 +41768,9 @@
             devices = __webpack_require__( /*! ../../core/devices */ 48),
             registerComponent = __webpack_require__( /*! ../../core/component_registrator */ 52),
             Editor = __webpack_require__( /*! ../editor/editor */ 102),
-            NumberBox = __webpack_require__( /*! ../number_box */ 257),
+            NumberBox = __webpack_require__( /*! ../number_box */ 258),
             TextBox = __webpack_require__( /*! ../text_box */ 206),
-            Draggable = __webpack_require__( /*! ../draggable */ 260),
+            Draggable = __webpack_require__( /*! ../draggable */ 261),
             clickEvent = __webpack_require__( /*! ../../events/click */ 71);
         var COLOR_VIEW_CLASS = "dx-colorview",
             COLOR_VIEW_CONTAINER_CLASS = "dx-colorview-container",
@@ -42308,7 +42522,7 @@
       !*** ./js/ui/number_box.js ***!
       \*****************************/
     function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__( /*! ./number_box/number_box */ 258)
+        module.exports = __webpack_require__( /*! ./number_box/number_box */ 259)
     },
     /*!****************************************!*\
       !*** ./js/ui/number_box/number_box.js ***!
@@ -42322,7 +42536,7 @@
             eventUtils = __webpack_require__( /*! ../../events/utils */ 67),
             pointerEvents = __webpack_require__( /*! ../../events/pointer */ 72),
             wheelEvent = __webpack_require__( /*! ../../events/core/wheel */ 81),
-            SpinButton = __webpack_require__( /*! ./number_box.spin */ 259),
+            SpinButton = __webpack_require__( /*! ./number_box.spin */ 260),
             messageLocalization = __webpack_require__( /*! ../../localization/message */ 85);
         var math = Math;
         var WIDGET_CLASS = "dx-numberbox",
@@ -42743,7 +42957,7 @@
             _spinDownHandler: function(e) {
                 e.preventDefault();
                 this._clearTimer();
-                $(document).on(holdEvent.name, $.proxy(function() {
+                this.element().on(holdEvent.name, $.proxy(function() {
                     this._feedBackDeferred = $.Deferred();
                     feedbackEvents.lock(this._feedBackDeferred);
                     this._spinChangeHandler({
@@ -42752,7 +42966,8 @@
                     this._holdTimer = setInterval(this._spinChangeHandler, SPIN_HOLD_DELAY, {
                         jQueryEvent: e
                     })
-                }, this)).on(POINTERUP_EVENT_NAME, $.proxy(this._clearTimer, this)).on(POINTERCANCEL_EVENT_NAME, $.proxy(this._clearTimer, this));
+                }, this));
+                $(document).on(POINTERUP_EVENT_NAME, $.proxy(this._clearTimer, this)).on(POINTERCANCEL_EVENT_NAME, $.proxy(this._clearTimer, this));
                 this._spinChangeHandler({
                     jQueryEvent: e
                 })
@@ -42762,7 +42977,8 @@
                 this.callBase()
             },
             _clearTimer: function() {
-                $(document).off(POINTERUP_EVENT_NAME).off(POINTERCANCEL_EVENT_NAME).off(holdEvent.name);
+                this.element().off(holdEvent.name);
+                $(document).off(POINTERUP_EVENT_NAME).off(POINTERCANCEL_EVENT_NAME);
                 if (this._feedBackDeferred) {
                     this._feedBackDeferred.resolve()
                 }
@@ -42973,7 +43189,7 @@
       !*** ./js/ui/date_box.js ***!
       \***************************/
     function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__( /*! ./date_box/ui.date_box */ 262)
+        module.exports = __webpack_require__( /*! ./date_box/ui.date_box */ 263)
     },
     /*!***************************************!*\
       !*** ./js/ui/date_box/ui.date_box.js ***!
@@ -42986,7 +43202,8 @@
             support = __webpack_require__( /*! ../../core/utils/support */ 56),
             devices = __webpack_require__( /*! ../../core/devices */ 48),
             dateUtils = __webpack_require__( /*! ../../core/utils/date */ 59),
-            uiDateUtils = __webpack_require__( /*! ./ui.date_utils */ 263),
+            uiDateUtils = __webpack_require__( /*! ./ui.date_utils */ 264),
+            dateSerialization = __webpack_require__( /*! ../../core/utils/date_serialization */ 254),
             DropDownEditor = __webpack_require__( /*! ../drop_down_editor/ui.drop_down_editor */ 205),
             dateLocalization = __webpack_require__( /*! ../../localization/date */ 27),
             messageLocalization = __webpack_require__( /*! ../../localization/message */ 85),
@@ -43011,11 +43228,11 @@
             list: "List"
         };
         var STRATEGY_CLASSES = {
-            Calendar: __webpack_require__( /*! ./ui.date_box.strategy.calendar */ 264),
-            DateView: __webpack_require__( /*! ./ui.date_box.strategy.date_view */ 266),
-            Native: __webpack_require__( /*! ./ui.date_box.strategy.native */ 269),
-            CalendarWithTime: __webpack_require__( /*! ./ui.date_box.strategy.calendar_with_time */ 270),
-            List: __webpack_require__( /*! ./ui.date_box.strategy.list */ 272)
+            Calendar: __webpack_require__( /*! ./ui.date_box.strategy.calendar */ 265),
+            DateView: __webpack_require__( /*! ./ui.date_box.strategy.date_view */ 267),
+            Native: __webpack_require__( /*! ./ui.date_box.strategy.native */ 270),
+            CalendarWithTime: __webpack_require__( /*! ./ui.date_box.strategy.calendar_with_time */ 271),
+            List: __webpack_require__( /*! ./ui.date_box.strategy.list */ 273)
         };
         var isRealWidthSet = function($element) {
             var explicitWidth = $element[0].style.width;
@@ -43088,7 +43305,8 @@
                     invalidDateMessage: messageLocalization.format("dxDateBox-validation-datetime"),
                     dateOutOfRangeMessage: messageLocalization.format("validation-range"),
                     applyButtonText: messageLocalization.format("Done"),
-                    adaptivityEnabled: false
+                    adaptivityEnabled: false,
+                    onContentReady: null
                 })
             },
             _defaultOptionsRules: function() {
@@ -43335,17 +43553,21 @@
             },
             _getDisplayedText: function(value) {
                 var displayedText, mode = this.option("mode");
-                if ("text" !== mode) {
-                    var format = this._getFormatByMode(mode);
-                    displayedText = uiDateUtils.toStandardDateFormat(value, mode, format)
-                } else {
+                if ("text" === mode) {
                     var displayFormat = this._strategy.getDisplayFormat(this.option("displayFormat"));
                     displayedText = dateLocalization.format(value, displayFormat)
+                } else {
+                    var format = this._getFormatByMode(mode);
+                    if (format) {
+                        displayedText = dateLocalization.format(value, format)
+                    } else {
+                        displayedText = uiDateUtils.toStandardDateFormat(value, mode)
+                    }
                 }
                 return displayedText
             },
             _getFormatByMode: function(mode) {
-                return !support.inputType(mode) ? uiDateUtils.FORMATS_MAP[mode] : null
+                return support.inputType(mode) ? null : uiDateUtils.FORMATS_MAP[mode]
             },
             _valueChangeEventHandler: function() {
                 var text = this.option("text");
@@ -43512,7 +43734,7 @@
                         this._updateSize();
                         break;
                     case "value":
-                        this._validateValue(dateUtils.deserializeDate(this.option("value"), this._getSerializationFormat()));
+                        this._validateValue(dateSerialization.deserializeDate(this.option("value"), this._getSerializationFormat()));
                         this.callBase.apply(this, arguments);
                         break;
                     case "showDropButton":
@@ -43537,9 +43759,9 @@
             dateOption: function(optionName, value) {
                 var serializationFormat = this._getSerializationFormat();
                 if (1 === arguments.length) {
-                    return dateUtils.deserializeDate(this.option(optionName), serializationFormat, $.proxy(dateLocalization.parse, dateLocalization))
+                    return dateSerialization.deserializeDate(this.option(optionName), serializationFormat)
                 }
-                this.option(optionName, dateUtils.serializeDate(value, serializationFormat, $.proxy(dateLocalization.format, dateLocalization)))
+                this.option(optionName, dateSerialization.serializeDate(value, serializationFormat))
             },
             reset: function() {
                 this.callBase();
@@ -43554,6 +43776,7 @@
       \*****************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
+            dateSerialization = __webpack_require__( /*! ../../core/utils/date_serialization */ 254),
             dateLocalization = __webpack_require__( /*! ../../localization/date */ 27);
         var dateComponents = function() {
             return ["year", "day", "month", "day"]
@@ -43599,7 +43822,7 @@
                 },
                 time: {
                     getStandardPattern: function() {
-                        return "HH':'mm"
+                        return "HH:mm"
                     },
                     components: ["hours", "minutes"]
                 },
@@ -43607,15 +43830,16 @@
                     getStandardPattern: function() {
                         var standardPattern;
                         ! function() {
-                            var androidFormatPattern = "yyyy-MM-ddTHH':'mm'Z'";
+                            var androidFormatPattern = "yyyy-MM-ddTHH:mmZ",
+                                testDateString = "2000-01-01T01:01Z";
                             var $input = $("<input>").attr("type", "datetime");
-                            $input.val(dateUtils.toStandardDateFormat(new Date, "datetime", androidFormatPattern));
+                            $input.val(testDateString);
                             if ($input.val()) {
                                 standardPattern = androidFormatPattern
                             }
                         }();
                         if (!standardPattern) {
-                            standardPattern = "yyyy-MM-ddTHH':'mm':'ss'Z'"
+                            standardPattern = "yyyy-MM-ddTHH:mm:ssZ"
                         }
                         dateUtils.FORMATS_INFO.datetime.getStandardPattern = function() {
                             return standardPattern
@@ -43626,7 +43850,7 @@
                 },
                 "datetime-local": {
                     getStandardPattern: function() {
-                        return "yyyy-MM-ddTHH':'mm':'ss"
+                        return "yyyy-MM-ddTHH:mm:ss"
                     },
                     components: dateComponents().concat(["hours", "minutes", "seconds"])
                 }
@@ -43634,20 +43858,19 @@
             FORMATS_MAP: {
                 date: "shortdate",
                 time: "shorttime",
-                datetime: "shortdateshorttime",
-                "datetime-local": "datetime-local"
+                datetime: "shortdateshorttime"
             },
             SUBMIT_FORMATS_MAP: {
                 date: "date",
                 time: "time",
                 datetime: "datetime-local"
             },
-            toStandardDateFormat: function(date, mode, pattern) {
-                pattern = pattern || dateUtils.FORMATS_INFO[mode].getStandardPattern();
-                return dateLocalization.format(date, pattern)
+            toStandardDateFormat: function(date, type) {
+                var pattern = dateUtils.FORMATS_INFO[type].getStandardPattern();
+                return dateSerialization.serializeDate(date, pattern)
             },
             fromStandardDateFormat: function(date) {
-                return dateLocalization.parse(date, dateUtils.FORMATS_INFO.datetime.getStandardPattern()) || dateLocalization.parse(date, dateUtils.FORMATS_INFO["datetime-local"].getStandardPattern()) || dateLocalization.parse(date, dateUtils.FORMATS_INFO.time.getStandardPattern()) || dateLocalization.parse(date, dateUtils.FORMATS_INFO.date.getStandardPattern()) || Date.parse && Date.parse(date) && new Date(Date.parse(date))
+                return dateSerialization.deserializeDate(date, dateUtils.FORMATS_INFO.datetime.getStandardPattern()) || dateSerialization.deserializeDate(date, dateUtils.FORMATS_INFO["datetime-local"].getStandardPattern()) || dateSerialization.deserializeDate(date, dateUtils.FORMATS_INFO.time.getStandardPattern()) || dateSerialization.deserializeDate(date, dateUtils.FORMATS_INFO.date.getStandardPattern()) || Date.parse && Date.parse(date) && new Date(Date.parse(date))
             },
             getMaxMonthDay: function(year, month) {
                 return new Date(year, month + 1, 0).getDate()
@@ -43776,7 +43999,7 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             Calendar = __webpack_require__( /*! ../calendar */ 248),
-            DateBoxStrategy = __webpack_require__( /*! ./ui.date_box.strategy */ 265),
+            DateBoxStrategy = __webpack_require__( /*! ./ui.date_box.strategy */ 266),
             dateUtils = __webpack_require__( /*! ../../core/utils/date */ 59),
             commonUtils = __webpack_require__( /*! ../../core/utils/common */ 12),
             messageLocalization = __webpack_require__( /*! ../../localization/message */ 85);
@@ -44005,11 +44228,11 @@
       \**********************************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            DateView = __webpack_require__( /*! ./ui.date_view */ 267),
-            DateBoxStrategy = __webpack_require__( /*! ./ui.date_box.strategy */ 265),
+            DateView = __webpack_require__( /*! ./ui.date_view */ 268),
+            DateBoxStrategy = __webpack_require__( /*! ./ui.date_box.strategy */ 266),
             support = __webpack_require__( /*! ../../core/utils/support */ 56),
             themes = __webpack_require__( /*! ../themes */ 139),
-            dateUtils = __webpack_require__( /*! ./ui.date_utils */ 263),
+            dateUtils = __webpack_require__( /*! ./ui.date_utils */ 264),
             messageLocalization = __webpack_require__( /*! ../../localization/message */ 85);
         var DateViewStrategy = DateBoxStrategy.inherit({
             NAME: "DateView",
@@ -44147,9 +44370,9 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             Editor = __webpack_require__( /*! ../editor/editor */ 102),
-            DateViewRoller = __webpack_require__( /*! ./ui.date_view_roller */ 268),
+            DateViewRoller = __webpack_require__( /*! ./ui.date_view_roller */ 269),
             dateUtils = __webpack_require__( /*! ../../core/utils/date */ 59),
-            uiDateUtils = __webpack_require__( /*! ./ui.date_utils */ 263),
+            uiDateUtils = __webpack_require__( /*! ./ui.date_utils */ 264),
             registerComponent = __webpack_require__( /*! ../../core/component_registrator */ 52),
             dateLocalization = __webpack_require__( /*! ../../localization/date */ 27);
         var DATEVIEW_CLASS = "dx-dateview",
@@ -44313,6 +44536,7 @@
                     }
                     currentValue.setDate(currentDate);
                     currentValue[setValue](rollerValue);
+                    currentValue = dateUtils.normalizeDate(currentValue, this.option("minDate"), this.option("maxDate"));
                     this.option("value", currentValue);
                     roller.selectedIndex = selectedIndex
                 }
@@ -44695,10 +44919,10 @@
       \*******************************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            DateBoxStrategy = __webpack_require__( /*! ./ui.date_box.strategy */ 265),
+            DateBoxStrategy = __webpack_require__( /*! ./ui.date_box.strategy */ 266),
             support = __webpack_require__( /*! ../../core/utils/support */ 56),
-            dateUtils = __webpack_require__( /*! ./ui.date_utils */ 263),
-            dateLocalization = __webpack_require__( /*! ../../localization/date */ 27);
+            dateUtils = __webpack_require__( /*! ./ui.date_utils */ 264),
+            dateSerialization = __webpack_require__( /*! ../../core/utils/date_serialization */ 254);
         var NativeStrategy = DateBoxStrategy.inherit({
             NAME: "Native",
             popupConfig: $.noop,
@@ -44736,8 +44960,8 @@
             },
             renderInputMinMax: function($input) {
                 $input.attr({
-                    min: dateLocalization.format(this.dateBox.dateOption("min"), "yyyy-MM-dd"),
-                    max: dateLocalization.format(this.dateBox.dateOption("max"), "yyyy-MM-dd")
+                    min: dateSerialization.serializeDate(this.dateBox.dateOption("min"), "yyyy-MM-dd"),
+                    max: dateSerialization.serializeDate(this.dateBox.dateOption("max"), "yyyy-MM-dd")
                 })
             }
         });
@@ -44748,8 +44972,8 @@
       \*******************************************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            CalendarStrategy = __webpack_require__( /*! ./ui.date_box.strategy.calendar */ 264),
-            TimeView = __webpack_require__( /*! ./ui.time_view */ 271),
+            CalendarStrategy = __webpack_require__( /*! ./ui.date_box.strategy.calendar */ 265),
+            TimeView = __webpack_require__( /*! ./ui.time_view */ 272),
             Box = __webpack_require__( /*! ../box */ 247);
         var SHRINK_VIEW_SCREEN_WIDTH = 573,
             DATEBOX_ADAPTIVITY_MODE_CLASS = "dx-datebox-adaptivity-mode";
@@ -44904,7 +45128,7 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             Editor = __webpack_require__( /*! ../editor/editor */ 102),
-            NumberBox = __webpack_require__( /*! ../number_box */ 257),
+            NumberBox = __webpack_require__( /*! ../number_box */ 258),
             Box = __webpack_require__( /*! ../box */ 247),
             support = __webpack_require__( /*! ../../core/utils/support */ 56),
             registerComponent = __webpack_require__( /*! ../../core/component_registrator */ 52),
@@ -45128,10 +45352,10 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             List = __webpack_require__( /*! ../list */ 213),
-            DateBoxStrategy = __webpack_require__( /*! ./ui.date_box.strategy */ 265),
+            DateBoxStrategy = __webpack_require__( /*! ./ui.date_box.strategy */ 266),
             devices = __webpack_require__( /*! ../../core/devices */ 48),
             commonUtils = __webpack_require__( /*! ../../core/utils/common */ 12),
-            dateUtils = __webpack_require__( /*! ./ui.date_utils */ 263),
+            dateUtils = __webpack_require__( /*! ./ui.date_utils */ 264),
             dateLocalization = __webpack_require__( /*! ../../localization/date */ 27);
         var BOUNDARY_VALUES = {
             min: new Date(0, 0, 0, 0, 0),
@@ -45348,6 +45572,7 @@
             VISIBLE_WHILE_PENDING_RENDERING_CLASS = "dx-visible-while-pending-rendering",
             INVISIBLE_WHILE_PENDING_RENDERING_CLASS = "dx-invisible-while-pending-rendering",
             LOADINDICATOR_CONTAINER_CLASS = "dx-loadindicator-container",
+            DEFER_RENDERING_LOADINDICATOR_CONTAINER_CLASS = "dx-deferrendering-loadindicator-container",
             DEFER_DEFER_RENDERING_LOAD_INDICATOR = "dx-deferrendering-load-indicator",
             ANONYMOUS_TEMPLATE_NAME = "content",
             ACTIONS = ["onRendered", "onShown"];
@@ -45374,7 +45599,7 @@
                 this.callBase()
             },
             _initElement: function() {
-                this.element().addClass(DEFER_RENDERING_CLASS).addClass(LOADINDICATOR_CONTAINER_CLASS)
+                this.element().addClass(DEFER_RENDERING_CLASS)
             },
             _initRender: function() {
                 var that = this,
@@ -45481,7 +45706,7 @@
                 this._$loadIndicator = new LoadIndicator($("<div/>"), {
                     visible: true
                 }).element().addClass(DEFER_DEFER_RENDERING_LOAD_INDICATOR);
-                $container.append(this._$loadIndicator)
+                $("<div/>").addClass(LOADINDICATOR_CONTAINER_CLASS).addClass(DEFER_RENDERING_LOADINDICATOR_CONTAINER_CLASS).append(this._$loadIndicator).appendTo($container)
             },
             _setRenderedState: function() {
                 var $element = this.element();
@@ -45936,7 +46161,7 @@
             commonUtils = __webpack_require__( /*! ../core/utils/common */ 12),
             Editor = __webpack_require__( /*! ./editor/editor */ 102),
             Button = __webpack_require__( /*! ./button */ 196),
-            ProgressBar = __webpack_require__( /*! ./progress_bar */ 276),
+            ProgressBar = __webpack_require__( /*! ./progress_bar */ 277),
             browser = __webpack_require__( /*! ../core/utils/browser */ 20),
             devices = __webpack_require__( /*! ../core/devices */ 48),
             eventUtils = __webpack_require__( /*! ../events/utils */ 67),
@@ -46059,6 +46284,7 @@
                         return browser.msie && browser.version <= 10
                     },
                     options: {
+                        uploadMode: "useForm",
                         useNativeInputClick: true
                     }
                 }, {
@@ -46100,7 +46326,8 @@
                 this._isCustomClickEvent = false;
                 if (!this._$fileInput) {
                     this._$fileInput = $(FILEUPLOADER_FILEINPUT_TAG);
-                    this._$fileInput.on("change", $.proxy(this._inputChangeHandler, this)).on("click", $.proxy(function() {
+                    this._$fileInput.on("change", $.proxy(this._inputChangeHandler, this)).on("click", $.proxy(function(e) {
+                        e.stopPropagation();
                         return this.option("useNativeInputClick") || this._isCustomClickEvent
                     }, this))
                 }
@@ -46222,7 +46449,7 @@
                 this.element().toggleClass(FILEUPLOADER_SHOW_FILE_LIST_CLASS, showFileList);
                 this.element().toggleClass(FILEUPLOADER_EMPTY_CLASS, !this._files.length);
                 this._updateFileNameMaxWidth();
-                this._$validationMessage && this._$validationMessage.dxOverlay("repaint")
+                this._$validationMessage && this._$validationMessage.dxOverlay("instance").repaint()
             },
             _renderFile: function(file) {
                 var value = file.value;
@@ -46328,11 +46555,9 @@
                 if (that.option("disabled")) {
                     return false
                 }
-                setTimeout(function() {
-                    that._isCustomClickEvent = true;
-                    that._$fileInput.click();
-                    that._isCustomClickEvent = false
-                }, 0)
+                that._isCustomClickEvent = true;
+                that._$fileInput.trigger("click");
+                that._isCustomClickEvent = false
             },
             _renderUploadButton: function() {
                 if ("useButtons" !== this.option("uploadMode")) {
@@ -46361,7 +46586,7 @@
                 this._$inputLabel.addClass(FILEUPLOADER_INPUT_LABEL_CLASS).appendTo(this._$inputContainer)
             },
             _renderInput: function() {
-                if (this.option("useNativeInputClick") && "useForm" === this.option("uploadMode")) {
+                if (this.option("useNativeInputClick")) {
                     this._selectButton.option("template", $.proxy(this._selectButtonInputTemplate, this))
                 } else {
                     this._$fileInput.appendTo(this._$inputContainer);
@@ -46570,6 +46795,7 @@
                         file: file.value,
                         segmentSize: segmentSize,
                         bytesLoaded: e.loaded,
+                        bytesTotal: e.total,
                         jQueryEvent: e,
                         request: file.request
                     });
@@ -46812,7 +47038,7 @@
       \*******************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            TrackBar = __webpack_require__( /*! ./track_bar */ 277),
+            TrackBar = __webpack_require__( /*! ./track_bar */ 278),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52);
         var PROGRESSBAR_CLASS = "dx-progressbar",
             PROGRESSBAR_CONTAINER_CLASS = "dx-progressbar-container",
@@ -47072,7 +47298,7 @@
       !*** ./js/ui/form.js ***!
       \***********************/
     function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__( /*! ./form/ui.form */ 279)
+        module.exports = __webpack_require__( /*! ./form/ui.form */ 280)
     },
     /*!*******************************!*\
       !*** ./js/ui/form/ui.form.js ***!
@@ -47089,11 +47315,11 @@
             Widget = __webpack_require__( /*! ../widget/ui.widget */ 91),
             windowUtils = __webpack_require__( /*! ../../core/utils/window */ 37),
             ValidationEngine = __webpack_require__( /*! ../validation_engine */ 113),
-            LayoutManager = __webpack_require__( /*! ./ui.form.layout_manager */ 280),
-            TabPanel = __webpack_require__( /*! ../tab_panel */ 284),
+            LayoutManager = __webpack_require__( /*! ./ui.form.layout_manager */ 281),
+            TabPanel = __webpack_require__( /*! ../tab_panel */ 285),
             Scrollable = __webpack_require__( /*! ../scroll_view/ui.scrollable */ 239);
-        __webpack_require__( /*! ../validation_summary */ 288);
-        __webpack_require__( /*! ../validation_group */ 289);
+        __webpack_require__( /*! ../validation_summary */ 289);
+        __webpack_require__( /*! ../validation_group */ 290);
         var FORM_CLASS = "dx-form",
             FIELD_ITEM_CLASS = "dx-field-item",
             FIELD_ITEM_LABEL_TEXT_CLASS = "dx-field-item-label-text",
@@ -47152,7 +47378,8 @@
             _setOptionsByReference: function() {
                 this.callBase();
                 $.extend(this._optionsByReference, {
-                    formData: true
+                    formData: true,
+                    validationGroup: true
                 })
             },
             _getColCount: function($element) {
@@ -47264,13 +47491,15 @@
                 this._removeHiddenElement()
             },
             _render: function() {
-                this._clearEditorInstances();
+                this._clearCachedInstances();
                 this.callBase();
                 this.element().addClass(FORM_CLASS);
+                this._attachSyncSubscriptions();
                 this._cachedScreenFactor = windowUtils.getCurrentScreenFactor(this.option("screenByWidth"))
             },
-            _clearEditorInstances: function() {
-                this._editorInstancesByField = {}
+            _clearCachedInstances: function() {
+                this._editorInstancesByField = {};
+                this._cachedLayoutManagers = []
             },
             _alignLabels: function(layoutManager, inOneColumn) {
                 this._alignLabelsInColumn({
@@ -47479,7 +47708,7 @@
                 });
                 $element.appendTo($rootElement);
                 instance = that._createComponent($element, "dxLayoutManager", config);
-                that._attachSyncSubscriptions(instance);
+                that._cachedLayoutManagers.push(instance);
                 return instance
             },
             _getValidationGroup: function() {
@@ -47503,7 +47732,9 @@
                     showColonAfterLabel: that.option("showColonAfterLabel"),
                     onEditorEnterKey: that.option("onEditorEnterKey"),
                     onFieldDataChanged: function(args) {
-                        that._triggerOnFieldDataChanged(args)
+                        if (!that._isDataUpdating) {
+                            that._triggerOnFieldDataChanged(args)
+                        }
                     },
                     validationBoundary: that.option("scrollingEnabled") ? that.element() : void 0
                 }
@@ -47519,14 +47750,27 @@
                 });
                 return that.callBase($element, type, config)
             },
-            _attachSyncSubscriptions: function(instance) {
+            _attachSyncSubscriptions: function() {
                 var that = this;
                 that.off("optionChanged").on("optionChanged", function(args) {
-                    if (utils.isDefined(that.option("items")) && "formData" === args.fullName) {
-                        instance.updateData(args.value)
+                    var optionFullName = args.fullName;
+                    if ("formData" === optionFullName) {
+                        if (!utils.isDefined(args.value)) {
+                            this._options.formData = args.value = {}
+                        }
+                        this._triggerOnFieldDataChangedByDataSet(args.value)
                     }
-                    if ("readOnly" === args.name) {
-                        instance.option(args.fullName, args.value)
+                    if (that._cachedLayoutManagers.length) {
+                        $.each(that._cachedLayoutManagers, function(index, layoutManager) {
+                            if ("formData" === optionFullName) {
+                                that._isDataUpdating = true;
+                                layoutManager.option("layoutData", args.value);
+                                that._isDataUpdating = false
+                            }
+                            if ("readOnly" === args.name) {
+                                layoutManager.option(optionFullName, args.value)
+                            }
+                        })
                     }
                 })
             },
@@ -47538,9 +47782,8 @@
                 }
                 switch (args.name) {
                     case "formData":
-                        if (!utils.isDefined(this._options.items)) {
-                            this._invalidate();
-                            this._triggerOnFieldDataChangedByDataSet(args.value)
+                        if (!this.option("items")) {
+                            this._invalidate()
                         } else {
                             if ($.isEmptyObject(args.value)) {
                                 this._resetValues()
@@ -47923,6 +48166,7 @@
             isWritableWrapped = __webpack_require__( /*! ../../core/utils/variable_wrapper */ 45).isWritableWrapped,
             windowUtils = __webpack_require__( /*! ../../core/utils/window */ 37),
             stringUtils = __webpack_require__( /*! ../../core/utils/string */ 11),
+            browser = __webpack_require__( /*! ../../core/utils/browser */ 20),
             removeEvent = __webpack_require__( /*! ../../core/remove_event */ 40),
             clickEvent = __webpack_require__( /*! ../../events/click */ 71),
             normalizeIndexes = __webpack_require__( /*! ../../core/utils/array */ 106).normalizeIndexes,
@@ -47931,12 +48175,12 @@
             support = __webpack_require__( /*! ../../core/utils/support */ 56),
             inflector = __webpack_require__( /*! ../../core/utils/inflector */ 57),
             Widget = __webpack_require__( /*! ../widget/ui.widget */ 91),
-            Validator = __webpack_require__( /*! ../validator */ 281),
-            ResponsiveBox = __webpack_require__( /*! ../responsive_box */ 283);
+            Validator = __webpack_require__( /*! ../validator */ 282),
+            ResponsiveBox = __webpack_require__( /*! ../responsive_box */ 284);
         __webpack_require__( /*! ../text_box */ 206);
-        __webpack_require__( /*! ../number_box */ 257);
+        __webpack_require__( /*! ../number_box */ 258);
         __webpack_require__( /*! ../check_box */ 243);
-        __webpack_require__( /*! ../date_box */ 261);
+        __webpack_require__( /*! ../date_box */ 262);
         var FORM_EDITOR_BY_DEFAULT = "dxTextBox",
             FIELD_ITEM_CLASS = "dx-field-item",
             FIELD_EMPTY_ITEM_CLASS = "dx-field-empty-item",
@@ -47988,13 +48232,17 @@
             _setOptionsByReference: function() {
                 this.callBase();
                 $.extend(this._optionsByReference, {
-                    layoutData: true
+                    layoutData: true,
+                    validationGroup: true
                 })
             },
             _init: function() {
                 this.callBase();
+                this._initDataAndItems(this.option("layoutData"))
+            },
+            _initDataAndItems: function(initialData) {
                 this._syncDataWithItems();
-                this._updateItems(this.option("layoutData"))
+                this._updateItems(initialData)
             },
             _syncDataWithItems: function() {
                 var that = this,
@@ -48044,7 +48292,7 @@
                         if (that._isAcceptableItem(item)) {
                             item = that._processItem(item);
                             customizeItem && customizeItem(item);
-                            if (utils.isObject(item)) {
+                            if (utils.isObject(item) && false !== item.visible) {
                                 processedItems.push(item)
                             }
                         }
@@ -48066,8 +48314,9 @@
             },
             _isAcceptableItem: function(item) {
                 var itemField = item.dataField || item,
-                    itemData = this.option("layoutData." + itemField);
-                return !(utils.isFunction(itemData) && !isWrapped(itemData))
+                    itemData = this._getDataByField(itemField),
+                    isVisibleItem = false !== item.visible;
+                return !(utils.isFunction(itemData) && !isWrapped(itemData)) && isVisibleItem
             },
             _processItem: function(item) {
                 if ("string" === typeof item) {
@@ -48154,11 +48403,15 @@
                     }
                 })
             },
+            _itemStateChangedHandler: function(e) {
+                this._refresh()
+            },
             _getResponsiveBoxConfig: function(layoutItems, colCount) {
                 var that = this,
                     colCountByScreen = that.option("colCountByScreen"),
                     xsColCount = colCountByScreen && colCountByScreen.xs;
                 return {
+                    onItemStateChanged: $.proxy(this._itemStateChangedHandler, this),
                     _layoutStrategy: that._hasBrowserFlex() ? LAYOUT_STRATEGY_FLEX : LAYOUT_STRATEGY_FALLBACK,
                     onLayoutChanged: function() {
                         var onLayoutChanged = that.option("onLayoutChanged"),
@@ -48611,9 +48864,24 @@
                         this._invalidate();
                         break;
                     case "layoutData":
+                        if (this.option("items")) {
+                            if (!$.isEmptyObject(args.value)) {
+                                $.each(this._editorInstancesByField, function(name, editor) {
+                                    if (utils.isDefined(args.value[name])) {
+                                        editor.option("value", args.value[name])
+                                    } else {
+                                        editor.reset();
+                                        editor.option("isValid", true)
+                                    }
+                                })
+                            }
+                        } else {
+                            this._initDataAndItems(args.value);
+                            this._invalidate()
+                        }
+                        break;
                     case "items":
-                        this._syncDataWithItems();
-                        this._updateItems(args.value);
+                        this._initDataAndItems(args.value);
                         this._invalidate();
                         break;
                     case "alignItemLabels":
@@ -48713,6 +48981,11 @@
                 if (responsiveBox) {
                     return responsiveBox.option("currentScreenFactor") === responsiveBox.option("singleColumnScreen")
                 }
+            },
+            _visibilityChanged: function(visible) {
+                if (visible && browser.msie) {
+                    this._refresh()
+                }
             }
         });
         registerComponent("dxLayoutManager", LayoutManager);
@@ -48749,7 +49022,7 @@
             DOMComponent = __webpack_require__( /*! ../core/dom_component */ 36),
             ValidationMixin = __webpack_require__( /*! ./validation/validation_mixin */ 103),
             ValidationEngine = __webpack_require__( /*! ./validation_engine */ 113),
-            DefaultAdapter = __webpack_require__( /*! ./validation/default_adapter */ 282),
+            DefaultAdapter = __webpack_require__( /*! ./validation/default_adapter */ 283),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52);
         var VALIDATOR_CLASS = "dx-validator";
         var Validator = DOMComponent.inherit({
@@ -48955,6 +49228,7 @@
                     width: "100%",
                     activeStateEnabled: false,
                     focusStateEnabled: false,
+                    onItemStateChanged: void 0,
                     onLayoutChanged: null,
                     currentScreenFactor: void 0,
                     _layoutStrategy: void 0
@@ -49210,7 +49484,8 @@
             },
             _prepareBoxConfig: function(config) {
                 return $.extend(config || {}, {
-                    crossAlign: "stretch"
+                    crossAlign: "stretch",
+                    onItemStateChanged: this.option("onItemStateChanged")
                 })
             },
             _layoutBlock: function(options) {
@@ -49404,8 +49679,8 @@
             support = __webpack_require__( /*! ../core/utils/support */ 56),
             devices = __webpack_require__( /*! ../core/devices */ 48),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
-            MultiView = __webpack_require__( /*! ./multi_view */ 285),
-            Tabs = __webpack_require__( /*! ./tabs */ 286),
+            MultiView = __webpack_require__( /*! ./multi_view */ 286),
+            Tabs = __webpack_require__( /*! ./tabs */ 287),
             iconUtils = __webpack_require__( /*! ../core/utils/icon */ 111),
             BindableTemplate = __webpack_require__( /*! ./widget/bindable_template */ 161);
         var TABPANEL_CLASS = "dx-tabpanel",
@@ -49930,7 +50205,7 @@
             eventUtils = __webpack_require__( /*! ../events/utils */ 67),
             domUtils = __webpack_require__( /*! ../core/utils/dom */ 51),
             pointerEvents = __webpack_require__( /*! ../events/pointer */ 72),
-            TabsItem = __webpack_require__( /*! ./tabs/item */ 287),
+            TabsItem = __webpack_require__( /*! ./tabs/item */ 288),
             themes = __webpack_require__( /*! ./themes */ 139),
             holdEvent = __webpack_require__( /*! ../events/hold */ 159),
             Scrollable = __webpack_require__( /*! ./scroll_view/ui.scrollable */ 239),
@@ -50426,9 +50701,9 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
             DOMComponent = __webpack_require__( /*! ../core/dom_component */ 36),
-            ValidationSummary = __webpack_require__( /*! ./validation_summary */ 288),
+            ValidationSummary = __webpack_require__( /*! ./validation_summary */ 289),
             ValidationEngine = __webpack_require__( /*! ./validation_engine */ 113),
-            Validator = __webpack_require__( /*! ./validator */ 281);
+            Validator = __webpack_require__( /*! ./validator */ 282);
         var VALIDATION_ENGINE_CLASS = "dx-validationgroup";
         var ValidationGroup = DOMComponent.inherit({
             _getDefaultOptions: function() {
@@ -51929,7 +52204,7 @@
       \**********************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            Promise = __webpack_require__( /*! ../core/polyfills/promise */ 293),
+            Promise = __webpack_require__( /*! ../core/polyfills/promise */ 294),
             deferredUtils = __webpack_require__( /*! ../integration/jquery/deferred */ 14),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
             errors = __webpack_require__( /*! ./widget/ui.errors */ 19),
@@ -51941,9 +52216,9 @@
             config = __webpack_require__( /*! ../core/config */ 13),
             wrapToArray = __webpack_require__( /*! ../core/utils/array */ 106).wrapToArray;
         var PROVIDERS = {
-            googleStatic: __webpack_require__( /*! ./map/provider.google_static */ 294),
-            google: __webpack_require__( /*! ./map/provider.dynamic.google */ 296),
-            bing: __webpack_require__( /*! ./map/provider.dynamic.bing */ 298)
+            googleStatic: __webpack_require__( /*! ./map/provider.google_static */ 295),
+            google: __webpack_require__( /*! ./map/provider.dynamic.google */ 297),
+            bing: __webpack_require__( /*! ./map/provider.dynamic.bing */ 299)
         };
         var MAP_CLASS = "dx-map",
             MAP_CONTAINER_CLASS = "dx-map-container",
@@ -52148,10 +52423,9 @@
                         var mapRefreshed = result[0];
                         if (mapRefreshed) {
                             this._triggerReadyAction()
-                        } else {
-                            if ("clean" !== name) {
-                                this._triggerUpdateAction()
-                            }
+                        }
+                        if (!mapRefreshed && "clean" !== name) {
+                            this._triggerUpdateAction()
                         }
                         return result[1]
                     }.bind(this))
@@ -52250,8 +52524,8 @@
       \*********************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 293),
-            Provider = __webpack_require__( /*! ./provider */ 295),
+            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 294),
+            Provider = __webpack_require__( /*! ./provider */ 296),
             Color = __webpack_require__( /*! ../../color */ 32),
             clickEvent = __webpack_require__( /*! ../../events/click */ 71);
         var GOOGLE_STATIC_URL = "https://maps.google.com/maps/api/staticmap?";
@@ -52396,7 +52670,7 @@
       \*******************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 293),
+            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 294),
             Class = __webpack_require__( /*! ../../core/class */ 22),
             eventUtils = __webpack_require__( /*! ../../events/utils */ 67);
         var abstract = Class.abstract;
@@ -52534,8 +52808,9 @@
       \**********************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 293),
-            DynamicProvider = __webpack_require__( /*! ./provider.dynamic */ 297),
+            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 294),
+            DynamicProvider = __webpack_require__( /*! ./provider.dynamic */ 298),
+            errors = __webpack_require__( /*! ../widget/ui.errors */ 19),
             Color = __webpack_require__( /*! ../../color */ 32);
         var GOOGLE_MAP_READY = "_googleScriptReady",
             GOOGLE_URL = "https://maps.google.com/maps/api/js?sensor=false&callback=" + GOOGLE_MAP_READY;
@@ -52616,6 +52891,7 @@
                         if (status === google.maps.GeocoderStatus.OK) {
                             resolve(results[0].geometry.location)
                         } else {
+                            errors.log("W1006", status);
                             resolve(new google.maps.LatLng(0, 0))
                         }
                     })
@@ -52840,6 +53116,11 @@
                                     northEast: bounds.getNorthEast(),
                                     southWest: bounds.getSouthWest()
                                 })
+                            } else {
+                                errors.log("W1006", status);
+                                resolve({
+                                    instance: new google.maps.DirectionsRenderer({})
+                                })
                             }
                         }.bind(this))
                     }.bind(this))
@@ -52895,8 +53176,8 @@
       \***************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 293),
-            Provider = __webpack_require__( /*! ./provider */ 295),
+            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 294),
+            Provider = __webpack_require__( /*! ./provider */ 296),
             abstract = Provider.abstract;
         var DynamicProvider = Provider.inherit({
             cancelEvents: true,
@@ -53054,8 +53335,8 @@
                     that._extendBounds(markerObject.location)
                 });
                 $.each(this._routes, function(_, routeObject) {
-                    that._extendBounds(routeObject.northEast);
-                    that._extendBounds(routeObject.southWest)
+                    routeObject.northEast && that._extendBounds(routeObject.northEast);
+                    routeObject.southWest && that._extendBounds(routeObject.southWest)
                 })
             },
             _clearBounds: function() {
@@ -53070,8 +53351,8 @@
       \********************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 293),
-            DynamicProvider = __webpack_require__( /*! ./provider.dynamic */ 297),
+            Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 294),
+            DynamicProvider = __webpack_require__( /*! ./provider.dynamic */ 298),
             Color = __webpack_require__( /*! ../../color */ 32);
         var BING_MAP_READY = "_bingScriptReady",
             BING_URL = "https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1&onScriptLoad=" + BING_MAP_READY,
@@ -53443,8 +53724,8 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
-            NavBarItem = __webpack_require__( /*! ./nav_bar/item */ 300),
-            Tabs = __webpack_require__( /*! ./tabs */ 286);
+            NavBarItem = __webpack_require__( /*! ./nav_bar/item */ 301),
+            Tabs = __webpack_require__( /*! ./tabs */ 287);
         var NAVBAR_CLASS = "dx-navbar",
             ITEM_CLASS = "dx-item-content",
             NAVBAR_ITEM_CLASS = "dx-nav-item",
@@ -53478,7 +53759,7 @@
       !*** ./js/ui/nav_bar/item.js ***!
       \*******************************/
     function(module, exports, __webpack_require__) {
-        var TabsItem = __webpack_require__( /*! ../tabs/item */ 287);
+        var TabsItem = __webpack_require__( /*! ../tabs/item */ 288);
         var TABS_ITEM_BADGE_CLASS = "dx-tabs-item-badge",
             NAVBAR_ITEM_BADGE_CLASS = "dx-navbar-item-badge";
         var NavBarItem = TabsItem.inherit({
@@ -53493,7 +53774,7 @@
       !*** ./js/ui/radio_group.js ***!
       \******************************/
     function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__( /*! ./radio_group/radio_group */ 302)
+        module.exports = __webpack_require__( /*! ./radio_group/radio_group */ 303)
     },
     /*!******************************************!*\
       !*** ./js/ui/radio_group/radio_group.js ***!
@@ -53769,8 +54050,8 @@
       \*******************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            Slider = __webpack_require__( /*! ./slider */ 304),
-            SliderHandle = __webpack_require__( /*! ./slider/ui.slider_handle */ 306),
+            Slider = __webpack_require__( /*! ./slider */ 305),
+            SliderHandle = __webpack_require__( /*! ./slider/ui.slider_handle */ 307),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
             applyServerDecimalSeparator = __webpack_require__( /*! ../core/utils/common */ 12).applyServerDecimalSeparator,
             eventUtils = __webpack_require__( /*! ../events/utils */ 67),
@@ -54033,7 +54314,7 @@
       !*** ./js/ui/slider.js ***!
       \*************************/
     function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__( /*! ./slider/ui.slider */ 305)
+        module.exports = __webpack_require__( /*! ./slider/ui.slider */ 306)
     },
     /*!***********************************!*\
       !*** ./js/ui/slider/ui.slider.js ***!
@@ -54045,11 +54326,11 @@
             devices = __webpack_require__( /*! ../../core/devices */ 48),
             applyServerDecimalSeparator = __webpack_require__( /*! ../../core/utils/common */ 12).applyServerDecimalSeparator,
             registerComponent = __webpack_require__( /*! ../../core/component_registrator */ 52),
-            TrackBar = __webpack_require__( /*! ../track_bar */ 277),
+            TrackBar = __webpack_require__( /*! ../track_bar */ 278),
             eventUtils = __webpack_require__( /*! ../../events/utils */ 67),
             pointerEvents = __webpack_require__( /*! ../../events/pointer */ 72),
             feedbackEvents = __webpack_require__( /*! ../../events/core/emitter.feedback */ 100),
-            SliderHandle = __webpack_require__( /*! ./ui.slider_handle */ 306),
+            SliderHandle = __webpack_require__( /*! ./ui.slider_handle */ 307),
             inkRipple = __webpack_require__( /*! ../widget/utils.ink_ripple */ 197),
             clickEvent = __webpack_require__( /*! ../../events/click */ 71),
             Swipeable = __webpack_require__( /*! ../../events/gesture/swipeable */ 250),
@@ -54497,7 +54778,7 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             Widget = __webpack_require__( /*! ../widget/ui.widget */ 91),
-            Tooltip = __webpack_require__( /*! ../tooltip */ 307),
+            Tooltip = __webpack_require__( /*! ../tooltip */ 308),
             translator = __webpack_require__( /*! ../../animation/translator */ 65),
             positionUtils = __webpack_require__( /*! ../../animation/position */ 66),
             mathUtils = __webpack_require__( /*! ../../core/utils/math */ 83),
@@ -54747,9 +55028,9 @@
       !*** ./js/ui/tooltip.js ***!
       \**************************/
     function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__( /*! ./tooltip/tooltip */ 308);
-        module.exports.show = __webpack_require__( /*! ./tooltip/ui.tooltip */ 309).show;
-        module.exports.hide = __webpack_require__( /*! ./tooltip/ui.tooltip */ 309).hide
+        module.exports = __webpack_require__( /*! ./tooltip/tooltip */ 309);
+        module.exports.show = __webpack_require__( /*! ./tooltip/ui.tooltip */ 310).show;
+        module.exports.hide = __webpack_require__( /*! ./tooltip/ui.tooltip */ 310).hide
     },
     /*!**********************************!*\
       !*** ./js/ui/tooltip/tooltip.js ***!
@@ -54802,7 +55083,7 @@
       \*************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            Tooltip = __webpack_require__( /*! ./tooltip */ 308),
+            Tooltip = __webpack_require__( /*! ./tooltip */ 309),
             viewPortUtils = __webpack_require__( /*! ../../core/utils/view_port */ 50);
         var tooltip = null;
         var removeTooltipElement = null;
@@ -54848,6 +55129,7 @@
             messageLocalization = __webpack_require__( /*! ../localization/message */ 85),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
             eventUtils = __webpack_require__( /*! ../events/utils */ 67),
+            dataQuery = __webpack_require__( /*! ../data/query */ 152),
             DropDownList = __webpack_require__( /*! ./drop_down_editor/ui.drop_down_list */ 204),
             themes = __webpack_require__( /*! ./themes */ 139),
             clickEvent = __webpack_require__( /*! ../events/click */ 71);
@@ -55074,11 +55356,7 @@
                 delete this._preventInputValueRender
             },
             _scrollToSelectedItem: function() {
-                if (this._dataSource.paginate() && this._isEditable()) {
-                    this._list.scrollTo(0)
-                } else {
-                    this._list.scrollToItem(this._list.option("selectedItem"))
-                }
+                this._list.scrollToItem(this._list.option("selectedItem"))
             },
             _listContentReadyHandler: function() {
                 this.callBase();
@@ -55086,9 +55364,7 @@
                 if (isPaginate && this._needPopupRepaint()) {
                     return
                 }
-                if (!isPaginate || !this._isEditable()) {
-                    this._list.scrollToItem(this._list.option("selectedItem"))
-                }
+                this._list.scrollToItem(this._list.option("selectedItem"))
             },
             _renderValue: function() {
                 this._renderInputValue();
@@ -55135,7 +55411,9 @@
                 return items[nextIndex]
             },
             _items: function() {
-                return this._list ? this.option("items") : this._dataSource.items()
+                var items = this._list ? this.option("items") : this._dataSource.items();
+                var availableItems = new dataQuery(items).filter("disabled", "<>", true).toArray();
+                return availableItems
             },
             _getSelectedIndex: function() {
                 var items = this._items();
@@ -55208,7 +55486,9 @@
                 if (this._wasSearch() && isVisible) {
                     this._wasSearch(false);
                     if (this.option("showDataBeforeSearch") || 0 === this.option("minSearchLength")) {
-                        this._filterDataSource(this._searchValue() || null)
+                        var searchValue = this._dataSource.searchValue();
+                        searchValue && this._wasSearch(true);
+                        this._filterDataSource(searchValue || null)
                     } else {
                         this._setListOption("items", []);
                         this._list && this._setListOption("noDataText", this._list.initialOption("noDataText"))
@@ -55234,12 +55514,12 @@
                     this._clearTextValue();
                     return
                 }
-                var selectedItem = this.option("selectedItem");
-                this._renderInputValue().always($.proxy(function() {
-                    this._setSelectedItem(selectedItem);
-                    this._updateField(this.option("selectedItem"));
-                    this._wasSearch(false);
-                    this._filterDataSource(null)
+                var oldSelectedItem = this.option("selectedItem");
+                this._renderInputValue().always($.proxy(function(selectedItem) {
+                    var newSelectedItem = commonUtils.ensureDefined(selectedItem, oldSelectedItem);
+                    this._setSelectedItem(newSelectedItem);
+                    this._updateField(newSelectedItem);
+                    this._clearFilter()
                 }, this))
             },
             _clearTextValue: function() {
@@ -55273,8 +55553,7 @@
                     this.option("opened", false)
                 }
                 if (this.option("searchEnabled") && previousValue === this._valueGetter(e.itemData)) {
-                    this._updateField(e.itemData);
-                    this._filterDataSource(null)
+                    this._updateField(e.itemData)
                 }
             },
             _completeSelection: function(value) {
@@ -55292,8 +55571,9 @@
                 this.callBase(value).done(function(item) {
                     deferred.resolve(item)
                 }).fail(function() {
-                    if (that.option("acceptCustomValue")) {
-                        deferred.resolve(that.option("selectedItem"))
+                    var selectedItem = that.option("selectedItem");
+                    if (that.option("acceptCustomValue") && value === that._valueGetter(selectedItem)) {
+                        deferred.resolve(selectedItem)
                     } else {
                         deferred.reject()
                     }
@@ -55731,7 +56011,7 @@
             messageLocalization = __webpack_require__( /*! ../localization/message */ 85),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
             eventUtils = __webpack_require__( /*! ../events/utils */ 67),
-            SelectBox = __webpack_require__( /*! ./select_box */ 310),
+            SelectBox = __webpack_require__( /*! ./select_box */ 311),
             clickEvent = __webpack_require__( /*! ../events/click */ 71),
             caret = __webpack_require__( /*! ./text_box/utils.caret */ 210),
             browser = __webpack_require__( /*! ../core/utils/browser */ 20),
@@ -55922,6 +56202,7 @@
                     selectAllText: messageLocalization.format("dxList-selectAll"),
                     hideSelectedItems: false,
                     selectedItems: [],
+                    selectAllMode: "page",
                     onSelectAllValueChanged: null,
                     multiline: true
                 })
@@ -56071,6 +56352,7 @@
                             value: e.value
                         })
                     },
+                    selectAllMode: this.option("selectAllMode"),
                     selectedItems: this._selectedItems,
                     onFocusedItemChanged: null
                 })
@@ -56130,7 +56412,7 @@
                 $.each($tags, function(_, tag) {
                     var $tag = $(tag),
                         index = $.inArray($tag.data(TAGBOX_TAG_DATA_KEY), values);
-                    if (index < 0 || $tag.hasClass(TAGBOX_CUSTOM_TAG_CLASS)) {
+                    if (index < 0) {
                         $tag.remove()
                     }
                 });
@@ -56160,10 +56442,12 @@
                 return this._defaultTemplates.tag
             },
             _renderTag: function(value, $input) {
-                if (this._isTagRendered(value)) {
+                var $tag = this._getTag(value);
+                if ($tag && !$tag.hasClass(TAGBOX_CUSTOM_TAG_CLASS)) {
                     return $.Deferred().resolve()
                 }
-                var $tag = $("<div>").addClass(TAGBOX_TAG_CLASS).data(TAGBOX_TAG_DATA_KEY, value).insertBefore($input);
+                $tag && $tag.removeClass(TAGBOX_CUSTOM_TAG_CLASS);
+                $tag = $tag || this._createTag(value, $input);
                 return this._loadItem(value).always($.proxy(function(item) {
                     if (!commonUtils.isDefined(item)) {
                         $tag.addClass(TAGBOX_CUSTOM_TAG_CLASS);
@@ -56180,17 +56464,20 @@
                     })
                 }, this))
             },
-            _isTagRendered: function(value) {
+            _getTag: function(value) {
                 var $tags = this._tagElements();
                 var result = false;
                 $.each($tags, function(_, tag) {
                     var $tag = $(tag);
                     if (value === $tag.data(TAGBOX_TAG_DATA_KEY)) {
-                        result = true;
+                        result = $tag;
                         return false
                     }
                 });
                 return result
+            },
+            _createTag: function(value, $input) {
+                return $("<div>").addClass(TAGBOX_TAG_CLASS).data(TAGBOX_TAG_DATA_KEY, value).insertBefore($input)
             },
             _toggleEmptinessEventHandler: function() {
                 this._toggleEmptiness(!this._getValue().length && !this._searchValue().length)
@@ -56393,6 +56680,9 @@
                         this.callBase(args);
                         this._setListDataSourceFilter();
                         break;
+                    case "selectAllMode":
+                        this._setListOption(args.name, args.value);
+                        break;
                     case "selectedItem":
                         break;
                     case "selectedItems":
@@ -56451,7 +56741,12 @@
                 this._renderScrollHandler()
             },
             _createInput: function() {
-                return $("<textarea>").addClass(TEXTEDITOR_INPUT_CLASS).attr(this.option("inputAttr"))
+                var $input = $("<textarea>");
+                this._applyInputAttributes($input, this.option("inputAttr"));
+                return $input
+            },
+            _applyInputAttributes: function($input, customAttributes) {
+                $input.attr(customAttributes).addClass(TEXTEDITOR_INPUT_CLASS)
             },
             _renderScrollHandler: function() {
                 var $input = this._input(),
@@ -56939,10 +57234,10 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             themes = __webpack_require__( /*! ./themes */ 139),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
-            ActionSheetStrategy = __webpack_require__( /*! ./toolbar/ui.toolbar.strategy.action_sheet */ 316),
-            DropDownMenuStrategy = __webpack_require__( /*! ./toolbar/ui.toolbar.strategy.drop_down_menu */ 318),
-            ListBottomStrategy = __webpack_require__( /*! ./toolbar/ui.toolbar.strategy.list_bottom */ 320),
-            ListTopStrategy = __webpack_require__( /*! ./toolbar/ui.toolbar.strategy.list_top */ 322),
+            ActionSheetStrategy = __webpack_require__( /*! ./toolbar/ui.toolbar.strategy.action_sheet */ 317),
+            DropDownMenuStrategy = __webpack_require__( /*! ./toolbar/ui.toolbar.strategy.drop_down_menu */ 319),
+            ListBottomStrategy = __webpack_require__( /*! ./toolbar/ui.toolbar.strategy.list_bottom */ 321),
+            ListTopStrategy = __webpack_require__( /*! ./toolbar/ui.toolbar.strategy.list_top */ 323),
             ToolbarBase = __webpack_require__( /*! ./toolbar/ui.toolbar.base */ 198),
             ChildDefaultTemplate = __webpack_require__( /*! ./widget/child_default_template */ 96);
         var STRATEGIES = {
@@ -57171,7 +57466,7 @@
       \***********************************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            ToolbarStrategy = __webpack_require__( /*! ./ui.toolbar.strategy */ 317),
+            ToolbarStrategy = __webpack_require__( /*! ./ui.toolbar.strategy */ 318),
             ActionSheet = __webpack_require__( /*! ../action_sheet */ 201);
         var ActionSheetStrategy = ToolbarStrategy.inherit({
             NAME: "actionSheet",
@@ -57319,9 +57614,9 @@
       \*************************************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            ToolbarStrategy = __webpack_require__( /*! ./ui.toolbar.strategy */ 317),
-            ToolbarMenu = __webpack_require__( /*! ./ui.toolbar.menu */ 319),
-            DropDownMenu = __webpack_require__( /*! ../drop_down_menu */ 274);
+            ToolbarStrategy = __webpack_require__( /*! ./ui.toolbar.strategy */ 318),
+            ToolbarMenu = __webpack_require__( /*! ./ui.toolbar.menu */ 320),
+            DropDownMenu = __webpack_require__( /*! ../drop_down_menu */ 275);
         var DropDownMenuStrategy = ToolbarStrategy.inherit({
             NAME: "dropDownMenu",
             render: function() {
@@ -57455,7 +57750,7 @@
       \**********************************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            ListStrategy = __webpack_require__( /*! ./ui.toolbar.strategy.list_base */ 321),
+            ListStrategy = __webpack_require__( /*! ./ui.toolbar.strategy.list_base */ 322),
             Swipeable = __webpack_require__( /*! ../../events/gesture/swipeable */ 250);
         var ListBottomStrategy = ListStrategy.inherit({
             NAME: "listBottom",
@@ -57495,7 +57790,7 @@
       \********************************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            ToolbarStrategy = __webpack_require__( /*! ./ui.toolbar.strategy */ 317),
+            ToolbarStrategy = __webpack_require__( /*! ./ui.toolbar.strategy */ 318),
             translator = __webpack_require__( /*! ../../animation/translator */ 65),
             hideTopOverlayCallback = __webpack_require__( /*! ../../mobile/hide_top_overlay */ 61).hideCallback,
             fx = __webpack_require__( /*! ../../animation/fx */ 64),
@@ -57626,7 +57921,7 @@
       \*******************************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            ListStrategy = __webpack_require__( /*! ./ui.toolbar.strategy.list_base */ 321),
+            ListStrategy = __webpack_require__( /*! ./ui.toolbar.strategy.list_base */ 322),
             translator = __webpack_require__( /*! ../../animation/translator */ 65);
         var ListTopStrategy = ListStrategy.inherit({
             NAME: "listTop",
@@ -57683,7 +57978,7 @@
             Class = __webpack_require__( /*! ../core/class */ 22),
             abstract = abstract,
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
-            PanoramaItem = __webpack_require__( /*! ./panorama/item */ 324),
+            PanoramaItem = __webpack_require__( /*! ./panorama/item */ 325),
             swipeEvents = __webpack_require__( /*! ../events/swipe */ 178),
             eventUtils = __webpack_require__( /*! ../events/utils */ 67),
             config = __webpack_require__( /*! ../core/config */ 13),
@@ -58401,7 +58696,7 @@
             eventUtils = __webpack_require__( /*! ../events/utils */ 67),
             config = __webpack_require__( /*! ../core/config */ 13),
             CollectionWidget = __webpack_require__( /*! ./collection/ui.collection_widget.edit */ 145),
-            PivotTabs = __webpack_require__( /*! ./pivot/ui.pivot_tabs */ 326),
+            PivotTabs = __webpack_require__( /*! ./pivot/ui.pivot_tabs */ 327),
             EmptyTemplate = __webpack_require__( /*! ./widget/empty_template */ 95),
             ChildDefaultTemplate = __webpack_require__( /*! ./widget/child_default_template */ 96);
         var PIVOT_CLASS = "dx-pivot",
@@ -59182,7 +59477,7 @@
             commonUtils = __webpack_require__( /*! ../core/utils/common */ 12),
             registerComponent = __webpack_require__( /*! ../core/component_registrator */ 52),
             PlainEditStrategy = __webpack_require__( /*! ./collection/ui.collection_widget.edit.strategy.plain */ 162),
-            SlideOutView = __webpack_require__( /*! ./slide_out_view */ 328),
+            SlideOutView = __webpack_require__( /*! ./slide_out_view */ 329),
             CollectionWidget = __webpack_require__( /*! ./collection/ui.collection_widget.edit */ 145),
             List = __webpack_require__( /*! ./list */ 213),
             ChildDefaultTemplate = __webpack_require__( /*! ./widget/child_default_template */ 96),
@@ -59368,6 +59663,8 @@
                         this._changeMenuOption("items", this.option("items"));
                         break;
                     case "dataSource":
+                    case "selectedIndex":
+                    case "selectedItem":
                         this._changeMenuOption(name, value);
                         this.callBase(args);
                         break;
@@ -59684,7 +59981,7 @@
         registerComponent("dxSlideOutView", SlideOutView);
         module.exports = SlideOutView;
         module.exports.animation = animation
-    }, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , ,
+    }, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , ,
     /*!*********************************!*\
       !*** ./js/bundles/dx.mobile.js ***!
       \*********************************/

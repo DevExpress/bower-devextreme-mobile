@@ -1,7 +1,7 @@
 /*!
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.2.6
- * Build date: Tue Mar 28 2017
+ * Version: 16.2.6 (build 17100)
+ * Build date: Mon Apr 10 2017
  *
  * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
  * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
@@ -32,7 +32,7 @@
       !*** multi dx.mobile.debug ***!
       \*****************************/
     function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__( /*! c:\Projects\DevExtreme\16.2\BuildLabel\Temp\DevExtreme.v16.2\repo\GitHub\js\bundles\dx.mobile.js */ 598)
+        module.exports = __webpack_require__( /*! c:\Projects\DevExtreme\16.2\Build\Temp\DevExtreme.v16.2\repo\GitHub\js\bundles\dx.mobile.js */ 598)
     }, , ,
     /*!****************************************************!*\
       !*** ./js/bundles/modules/parts/widgets-mobile.js ***!
@@ -1058,42 +1058,42 @@
             errors = __webpack_require__( /*! ../../core/errors */ 7);
         module.exports = errorUtils(errors.ERROR_MESSAGES, {
             E1001: "Module '{0}'. Controller '{1}' is already registered",
-            E1002: "Module '{0}'. Controller '{1}' must be inheritor of DevExpress.ui.dxDataGrid.Controller",
+            E1002: "Module '{0}'. Controller '{1}' does not inherit from DevExpress.ui.dxDataGrid.Controller",
             E1003: "Module '{0}'. View '{1}' is already registered",
-            E1004: "Module '{0}'. View '{1}' must be inheritor of DevExpress.ui.dxDataGrid.View",
+            E1004: "Module '{0}'. View '{1}' does not inherit from DevExpress.ui.dxDataGrid.View",
             E1005: "Public method '{0}' is already registered",
-            E1006: "Public method '{0}.{1}' is not exists",
-            E1007: "State storing can not be provided due to the restrictions of your browser",
-            E1010: "A template should contain dxTextBox widget",
-            E1011: "You have to implement 'remove' method in dataStore used by dxList to be able to delete items",
-            E1012: "Editing type '{0}' with name '{1}' not supported",
+            E1006: "Public method '{0}.{1}' does not exist",
+            E1007: "State storing cannot be provided due to the restrictions of the browser",
+            E1010: "The template does not contain the TextBox widget",
+            E1011: 'Items cannot be deleted from the List. Implement the "remove" function in the data store',
+            E1012: "Editing type '{0}' with the name '{1}' is unsupported",
             E1016: "Unexpected type of data source is provided for a lookup column",
-            E1018: "The 'collapseAll' method cannot be called when using a remote data source",
+            E1018: "The 'collapseAll' method cannot be called if you use a remote data source",
             E1019: "Search mode '{0}' is unavailable",
-            E1020: "Type can not be changed after initialization",
+            E1020: "The type cannot be changed after initialization",
             E1021: "{0} '{1}' you are trying to remove does not exist",
-            E1022: "Markers option should be an array",
-            E1023: "Routes option should be an array",
+            E1022: 'The "markers" option is given an invalid value. Assign an array instead',
+            E1023: 'The "routes" option is given an invalid value. Assign an array instead',
             E1025: "This layout is too complex to render",
-            E1026: "The 'custom' value is set to a summary item's summaryType option, but a function for calculating the custom summary is not assigned to the grid's calculateCustomSummary option",
-            E1030: "Unknown dxScrollView refresh strategy: '{0}'",
-            E1031: "Unknown subscription is detected in the dxScheduler widget: '{0}'",
-            E1032: "Unknown start date is detected in an appointment of the dxScheduler widget: '{0}'",
-            E1033: "Unknown step is specified for the scheduler's navigator: '{0}'",
-            E1034: "The current browser does not implement an API required for saving files",
-            E1035: "The editor could not be created because of the internal error: {0}",
+            E1026: 'The "calculateCustomSummary" function is missing from a field whose "summaryType" option is set to "custom"',
+            E1030: "Unknown ScrollView refresh strategy: '{0}'",
+            E1031: "Unknown subscription in the Scheduler widget: '{0}'",
+            E1032: "Unknown start date in an appointment: '{0}'",
+            E1033: "Unknown step in the date navigator: '{0}'",
+            E1034: "The browser does not implement an API for saving files",
+            E1035: "The editor cannot be created because of an internal error: {0}",
             E1036: "Validation rules are not defined for any form item",
             E1037: "Invalid structure of grouped data",
-            E1038: "Your browser does not support local storage for local web pages",
-            E1039: "The cell position can not be calculated",
-            E1040: "The '{0}' key value should be unique within the data array",
-            E1041: "The jszip script should be included before DevExtreme scripts",
-            E1042: 'Deferred selection cannot be performed if the "key" field is not set for the Store.',
-            E1043: "Changes cannot be processed due to the incorrectly set key.",
-            W1001: "Key option can not be modified after initialization",
-            W1002: "The item with the key '{0}' does not exist",
-            W1003: "Group with key '{0}' in which you are trying to select items does not exist",
-            W1004: "Item '{0}' you are trying to select in group '{1}' does not exist",
+            E1038: "The browser does not support local storages for local web pages",
+            E1039: "A cell's position cannot be calculated",
+            E1040: "The '{0}' key value is not unique within the data array",
+            E1041: "The JSZip script is referenced after DevExtreme scripts",
+            E1042: 'Deferred selection cannot be performed. Set the "key" field for the data store',
+            E1043: "Changes cannot be processed due to the incorrectly set key",
+            W1001: 'The "key" option cannot be modified after initialization',
+            W1002: "An item with the key '{0}' does not exist",
+            W1003: "A group with the key '{0}' in which you are trying to select items does not exist",
+            W1004: "The item '{0}' you are trying to select in the group '{1}' does not exist",
             W1005: "Due to column data types being unspecified, data has been loaded twice in order to apply initial filter settings. To resolve this issue, specify data types for all grid columns.",
             W1006: "The map service returned the '{0}' error"
         })
@@ -1913,10 +1913,10 @@
             _format: function(value, format) {
                 if (Array.isArray(value)) {
                     return value.map(function(value) {
-                        return dateLocalization.format(value, format).toString()
+                        return (dateLocalization.format(value, format) || "").toString()
                     })
                 }
-                return dateLocalization.format(value, format).toString()
+                return (dateLocalization.format(value, format) || "").toString()
             },
             _escapeChars: function(pattern, defaultPattern, processedIndexes, patternPositions) {
                 var escapeIndexes = defaultPattern.split("").map(function(char, index) {
@@ -1978,6 +1978,9 @@
                         date: new Date(1998, 8, 8, 6, 5, 4),
                         pattern: "y"
                     }];
+                if (!result) {
+                    return
+                }
                 datePatterns.forEach(function(test) {
                     var diff = that._getDifference(defaultPattern, that._format(test.date, format), processedIndexes);
                     result = that._replaceChars(result, diff, test.pattern, patternPositions)
@@ -30526,8 +30529,9 @@
             AUTOCOMPLETE_POPUP_WRAPPER_CLASS = "dx-autocomplete-popup-wrapper";
         var Autocomplete = DropDownList.inherit({
             _supportedKeys: function() {
-                var item = this._list ? this._list.option("focusedElement") : null;
-                return $.extend(this.callBase(), {
+                var item = this._list ? this._list.option("focusedElement") : null,
+                    parent = this.callBase();
+                return $.extend({}, parent, {
                     upArrow: function(e) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -30550,7 +30554,8 @@
                         if (!item) {
                             this.close()
                         }
-                        return true
+                        parent.enter.apply(this, arguments);
+                        return this.option("opened")
                     }
                 })
             },
@@ -32206,7 +32211,7 @@
                 }, this))
             },
             _isControlKeyFired: function(e) {
-                return this._isControlKey(e.keyCode) && !e.which || e.metaKey
+                return this._isControlKey(e.keyCode) && !e.which || e.ctrlKey || e.metaKey
             },
             _maskBackspaceHandler: function(e) {
                 var that = this;
@@ -35252,6 +35257,7 @@
                     deferred = $.Deferred();
                 if (that._scrollView) {
                     that._scrollView.update().done(function() {
+                        !that._scrollViewIsFull() && that._updateLoadingState(true);
                         deferred.resolveWith(that)
                     })
                 } else {
@@ -36149,7 +36155,7 @@
             },
             _update: function() {
                 var containerSize = Math.round(this.option("containerSize")),
-                    contentSize = this.option("contentSize");
+                    contentSize = Math.round(this.option("contentSize"));
                 this._containerToContentRatio = contentSize ? containerSize / contentSize : containerSize;
                 var thumbSize = Math.round(Math.max(Math.round(containerSize * this._containerToContentRatio), THUMB_MIN_SIZE));
                 this._thumbRatio = (containerSize - thumbSize) / (contentSize - containerSize);
@@ -40197,12 +40203,12 @@
                         this._waitRenderView(1)
                     },
                     tab: $.noop,
-                    enter: function() {
+                    enter: function(e) {
                         if (!this._isMaxZoomLevel()) {
                             this._navigateDown()
                         } else {
                             var value = this._updateTimeComponent(this.option("currentDate"));
-                            this._dateOption("value", value)
+                            this._dateValue(value, e)
                         }
                     }
                 })
@@ -40222,6 +40228,12 @@
             },
             _convertToDate: function(value, optionName) {
                 return dateSerialization.deserializeDate(value)
+            },
+            _dateValue: function(value, jQueryEvent) {
+                if (jQueryEvent) {
+                    this._saveValueChangeEvent(jQueryEvent)
+                }
+                this._dateOption("value", value)
             },
             _dateOption: function(optionName, optionValue) {
                 if (1 === arguments.length) {
@@ -40487,7 +40499,7 @@
                     this._navigateDown(e.jQueryEvent.currentTarget)
                 } else {
                     var newValue = this._updateTimeComponent(e.value);
-                    this._dateOption("value", newValue);
+                    this._dateValue(newValue, e.jQueryEvent);
                     this._cellClickAction(e)
                 }
             },
@@ -43832,7 +43844,7 @@
             _getFormatByMode: function(mode) {
                 return support.inputType(mode) ? null : uiDateUtils.FORMATS_MAP[mode]
             },
-            _valueChangeEventHandler: function() {
+            _valueChangeEventHandler: function(e) {
                 var text = this.option("text");
                 var date = this._getParsedDate(text),
                     value = this.dateOption("value"),
@@ -43843,7 +43855,7 @@
                     if (value && newValue && value.getTime() === newValue.getTime() && displayedText !== text) {
                         this._renderValue()
                     } else {
-                        this.dateOption("value", newValue)
+                        this.dateValue(newValue, e)
                     }
                 }
                 this.validationRequest.fire({
@@ -43917,7 +43929,7 @@
                 this._refresh()
             },
             _applyButtonHandler: function() {
-                this.dateOption("value", this._strategy.getValue());
+                this.dateValue(this._strategy.getValue());
                 this.callBase()
             },
             _dispose: function() {
@@ -44022,6 +44034,14 @@
                     return
                 }
                 return dateSerialization.getDateSerializationFormat(value)
+            },
+            dateValue: function() {
+                var jQueryEvent = arguments[1],
+                    value = arguments[0];
+                if (jQueryEvent) {
+                    this._saveValueChangeEvent(jQueryEvent)
+                }
+                return this.dateOption("value", value)
             },
             dateOption: function(optionName, value) {
                 if (1 === arguments.length) {
@@ -44367,7 +44387,7 @@
                     return
                 }
                 if ("instantly" === dateBox.option("applyValueMode")) {
-                    this.dateBoxValue(this.getValue())
+                    this.dateBoxValue(this.getValue(), e.jQueryEvent)
                 }
             },
             _updateValue: function() {
@@ -44381,11 +44401,11 @@
                     this._updateValue(true)
                 }
             },
-            _cellClickHandler: function() {
+            _cellClickHandler: function(e) {
                 var dateBox = this.dateBox;
                 if ("instantly" === dateBox.option("applyValueMode")) {
                     dateBox.option("opened", false);
-                    this.dateBoxValue(this.getValue())
+                    this.dateBoxValue(this.getValue(), e.jQueryEvent)
                 }
             },
             dispose: function() {
@@ -44487,9 +44507,11 @@
                 }
             },
             dateBoxValue: function() {
-                var args = ["value"];
-                arguments.length && args.push(arguments[0]);
-                return this.dateBox.dateOption.apply(this.dateBox, args)
+                if (arguments.length) {
+                    return this.dateBox.dateValue.apply(this.dateBox, arguments)
+                } else {
+                    return this.dateBox.dateOption.apply(this.dateBox, ["value"])
+                }
             }
         });
         module.exports = DateBoxStrategy
@@ -46072,7 +46094,7 @@
                 }
                 return $.extend(this.callBase(), extension, {
                     tab: function() {
-                        this._popup.hide()
+                        this._popup && this._popup.hide()
                     }
                 })
             },
@@ -49210,8 +49232,10 @@
                     }
                 });
                 editorInstance.on("valueChanged", function(args) {
-                    if (!isDataUpdating) {
-                        if ("object" === typeof args.value) {
+                    var isObjectValue = "object" === typeof args.value,
+                        isSameObjectValue = isObjectValue && args.value === args.previousValue;
+                    if (!isDataUpdating && !isSameObjectValue) {
+                        if (isObjectValue) {
                             that._managedUpdateFieldValue(dataField, args.value)
                         } else {
                             that._updateFieldValue(dataField, args.value)
@@ -55475,6 +55499,10 @@
                         searchIfNeeded();
                         parent.end.apply(this, arguments)
                     },
+                    escape: function() {
+                        parent.escape.apply(this, arguments);
+                        !this._isEditable() && this._updateField(this.option("selectedItem"))
+                    },
                     enter: function(e) {
                         if ("" === this._input().val() && this.option("value")) {
                             this.option({
@@ -55606,10 +55634,8 @@
                     return
                 }
                 var $listItems = this._list._itemElements(),
-                    selectedItem = this.option("selectedItem"),
-                    index = $.inArray(selectedItem, this.option("items")),
-                    isSelectedItemDisplayed = selectedItem && searchValue === this._displayGetter(selectedItem).toString(),
-                    focusedElement = index >= 0 && isSelectedItemDisplayed ? $listItems.eq(index) : null;
+                    index = $.inArray(this.option("selectedItem"), this.option("items")),
+                    focusedElement = index >= 0 && !this._isCustomItemSelected() ? $listItems.eq(index) : null;
                 this._focusListElement(focusedElement)
             },
             _renderFocusedElement: function() {
@@ -55854,11 +55880,16 @@
                 });
                 return deferred.promise()
             },
+            _isCustomItemSelected: function() {
+                var selectedItem = this.option("selectedItem"),
+                    searchValue = this._searchValue(),
+                    selectedItemText = this._displayGetter(selectedItem);
+                return !selectedItemText || searchValue !== selectedItemText.toString()
+            },
             _valueChangeEventHandler: function() {
-                if (!this.option("acceptCustomValue")) {
-                    return
+                if (this.option("acceptCustomValue") && this._isCustomItemSelected()) {
+                    this._customItemAddedHandler()
                 }
-                this._customItemAddedHandler()
             },
             _initCustomItemCreatingAction: function() {
                 this._customItemCreatingAction = this._createActionByOption("onCustomItemCreating")

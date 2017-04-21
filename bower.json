@@ -1,6 +1,6 @@
 {
   "name": "devextreme-mobile",
-  "version": "16.2.7-pre-17104",
+  "version": "16.2.7-pre-17111",
   "description": "A blazing-fast rich libraries of high-performance touch-enabled UI widgets",
   "moduleType": [
     "globals"
@@ -9,7 +9,7 @@
   "authors": [
     { "name": "Developer Express Inc.", "email": "support@devexpress.com", "homepage": "https://js.devexpress.com" }
   ],
-  "license": "https://www.devexpress.com/Support/EULAs/DevExtreme.xml",
+  "license": "https://js.devexpress.com/Licensing/",
   "homepage": "https://js.devexpress.com",
   "keywords": [ "SPA", "widgets" ],
   "dependencies": {

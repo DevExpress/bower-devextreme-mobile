@@ -1,10 +1,10 @@
 /*!
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.2.6 (build 17104)
- * Build date: Fri Apr 14 2017
+ * Version: 16.2.6 (build 17111)
+ * Build date: Fri Apr 21 2017
  *
  * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
- * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
+ * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
  */
 "use strict";
 ! function(modules) {
@@ -5509,7 +5509,8 @@
                         if (!prevTargetValue) {
                             assignPropValue(target, targetPropName, {}, options)
                         }
-                        objectUtils.deepExtendArraySafe(unwrap(readPropValue(target, targetPropName), options), value)
+                        target = unwrap(readPropValue(target, targetPropName), options);
+                        objectUtils.deepExtendArraySafe(target, value, false, true)
                     } else {
                         assignPropValue(target, targetPropName, value, options)
                     }
@@ -5590,14 +5591,14 @@
                 func(key, map[key])
             }
         };
-        var assignValueToProperty = function(target, property, value) {
-            if (variableWrapper.isWrapped(target[property])) {
+        var assignValueToProperty = function(target, property, value, assignByReference) {
+            if (!assignByReference && variableWrapper.isWrapped(target[property])) {
                 variableWrapper.assign(target[property], value)
             } else {
                 target[property] = value
             }
         };
-        var deepExtendArraySafe = function(target, changes, extendComplexObject) {
+        var deepExtendArraySafe = function(target, changes, extendComplexObject, assignByReference) {
             var prevValue, newValue;
             for (var name in changes) {
                 prevValue = target[name];
@@ -5607,10 +5608,10 @@
                 }
                 if ($.isPlainObject(newValue) && !(newValue instanceof $.Event)) {
                     var goDeeper = extendComplexObject ? commonUtils.isObject(prevValue) : $.isPlainObject(prevValue);
-                    newValue = deepExtendArraySafe(goDeeper ? prevValue : {}, newValue, extendComplexObject)
+                    newValue = deepExtendArraySafe(goDeeper ? prevValue : {}, newValue, extendComplexObject, assignByReference)
                 }
                 if (void 0 !== newValue) {
-                    assignValueToProperty(target, name, newValue)
+                    assignValueToProperty(target, name, newValue, assignByReference)
                 }
             }
             return target
@@ -10481,12 +10482,10 @@
             return value / Math.abs(value)
         };
         var fitIntoRange = function(value, minValue, maxValue) {
-            if (!minValue && 0 !== minValue) {
-                minValue = value
-            }
-            if (!maxValue && 0 !== maxValue) {
-                maxValue = value
-            }
+            var isMinValueUndefined = !minValue && 0 !== minValue,
+                isMaxValueUndefined = !maxValue && 0 !== maxValue;
+            isMinValueUndefined && (minValue = !isMaxValueUndefined ? Math.min(value, maxValue) : value);
+            isMaxValueUndefined && (maxValue = !isMinValueUndefined ? Math.max(value, minValue) : value);
             return Math.min(Math.max(value, minValue), maxValue)
         };
         var inRange = function(value, minValue, maxValue) {
@@ -12576,7 +12575,6 @@
             translator = __webpack_require__( /*! ../animation/translator */ 65),
             compareVersions = __webpack_require__( /*! ../core/utils/version */ 15).compare,
             viewPortUtils = __webpack_require__( /*! ../core/utils/view_port */ 50),
-            viewPort = viewPortUtils.value,
             viewPortChanged = viewPortUtils.changeCallback,
             hideTopOverlayCallback = __webpack_require__( /*! ../mobile/hide_top_overlay */ 61).hideCallback,
             positionUtils = __webpack_require__( /*! ../animation/position */ 66),
@@ -12819,7 +12817,7 @@
                 })
             },
             _initContainer: function(container) {
-                container = void 0 === container ? viewPort() : container;
+                container = void 0 === container ? viewPortUtils.value() : container;
                 var $element = this.element(),
                     $container = $element.closest(container);
                 if (!$container.length) {
@@ -13214,7 +13212,7 @@
                     onResizeStart: $.proxy(this._actions.onResizeStart, this),
                     minHeight: 100,
                     minWidth: 100,
-                    area: this._$container
+                    area: this._getDragResizeContainer()
                 })
             },
             _resizeEndHandler: function() {
@@ -13261,9 +13259,14 @@
                 e.maxLeftOffset = allowedOffsets.left;
                 e.maxRightOffset = allowedOffsets.right
             },
+            _getDragResizeContainer: function() {
+                var isContainerDefined = viewPortUtils.originalViewPort().get(0) || this.option("container"),
+                    $container = !isContainerDefined ? $(window) : this._$container;
+                return $container
+            },
             _deltaSize: function() {
                 var $content = this._$content,
-                    $container = this._$container;
+                    $container = this._getDragResizeContainer();
                 var contentWidth = $content.outerWidth(),
                     contentHeight = $content.outerHeight(),
                     containerWidth = $container.outerWidth(),
@@ -14000,6 +14003,9 @@
                 e.maxBottomOffset = areaOffset.top + area.height - handleOffset.top - handleHeight
             },
             _getBorderWidth: function($element, direction) {
+                if ($.isWindow($element.get(0))) {
+                    return 0
+                }
                 var borderWidth = $element.css("border-" + direction + "-width");
                 return parseInt(borderWidth) || 0
             },
@@ -14025,8 +14031,8 @@
                 });
                 this._resizeAction({
                     jQueryEvent: e,
-                    width: width,
-                    height: height,
+                    width: this.option("width") || width,
+                    height: this.option("height") || height,
                     handles: this._movingSides
                 })
             },
@@ -14120,10 +14126,14 @@
             _getAreaFromElement: function(area) {
                 var result, $area = $(area);
                 if ($area.length) {
-                    result = {};
-                    result.width = $area.innerWidth();
-                    result.height = $area.innerHeight();
-                    result.offset = $area.offset();
+                    result = {
+                        width: $area.innerWidth(),
+                        height: $area.innerHeight(),
+                        offset: $.extend({
+                            top: 0,
+                            left: 0
+                        }, $.isWindow($area[0]) ? {} : $area.offset())
+                    };
                     this._correctAreaGeometry(result, $area)
                 }
                 return result
@@ -32478,7 +32488,7 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             commonUtils = __webpack_require__( /*! ../../core/utils/common */ 12),
             browser = __webpack_require__( /*! ../../core/utils/browser */ 20);
-        var isFocusingOnCaretChange = browser.msie || browser.safari;
+        var isFocusingOnCaretChange = browser.msie && browser.version < 15 || browser.safari;
         var getCaret = function(input) {
             if (isObsoleteBrowser(input)) {
                 return getCaretForObsoleteBrowser(input)
@@ -55506,7 +55516,7 @@
                         !this._isEditable() && this._updateField(this.option("selectedItem"))
                     },
                     enter: function(e) {
-                        if ("" === this._input().val() && this.option("value")) {
+                        if ("" === this._input().val() && this.option("value") && this.option("allowClearing")) {
                             this.option({
                                 selectedItem: null,
                                 value: null

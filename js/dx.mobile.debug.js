@@ -1,7 +1,7 @@
 /*!
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.2.6 (build 17111)
- * Build date: Fri Apr 21 2017
+ * Version: 16.2.6 (build 17116)
+ * Build date: Wed Apr 26 2017
  *
  * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -31006,6 +31006,11 @@
             _isDesktopDevice: function() {
                 return "desktop" === devices.real().deviceType
             },
+            _getListKeyExpr: function() {
+                var valueExpr = this.option("valueExpr"),
+                    isValueExprField = commonUtils.isString(valueExpr) && "this" !== valueExpr;
+                return isValueExprField ? valueExpr : null
+            },
             _listConfig: function() {
                 return {
                     selectionMode: "single",
@@ -31018,6 +31023,7 @@
                     tabIndex: -1,
                     onItemClick: $.proxy(this._listItemClickAction, this),
                     dataSource: this._getDataSource(),
+                    keyExpr: this._getListKeyExpr(),
                     _keyboardProcessor: this._childKeyboardProcessor,
                     hoverStateEnabled: this._isDesktopDevice() ? this.option("hoverStateEnabled") : false,
                     focusStateEnabled: this._isDesktopDevice() ? this.option("focusStateEnabled") : false
@@ -31208,6 +31214,9 @@
                         this._processDataSourceChanging();
                         break;
                     case "valueExpr":
+                        this._renderValue();
+                        this._setListOption("keyExpr", this._getListKeyExpr());
+                        break;
                     case "displayExpr":
                         this._renderValue();
                         break;
@@ -41588,7 +41597,7 @@
         var NUMBER_SERIALIZATION_FORMAT = "number",
             DATE_SERIALIZATION_FORMAT = "yyyy/MM/dd",
             DATETIME_SERIALIZATION_FORMAT = "yyyy/MM/dd HH:mm:ss";
-        var ISO8601_PATTERN = /^(\d{4})(-)?(\d{2})(-)?(\d{2})(?:T(\d{2})(:)?(\d{2})?(:)?(\d{2}(?:\.(\d+))?)?)?(Z|([\+\-])(\d{2})(:)?(\d{2})?)?$/;
+        var ISO8601_PATTERN = /^(\d{4,})(-)?(\d{2})(-)?(\d{2})(?:T(\d{2})(:)?(\d{2})?(:)?(\d{2}(?:\.(\d+))?)?)?(Z|([\+\-])(\d{2})(:)?(\d{2})?)?$/;
         var ISO8601_TIME_PATTERN = /^(\d{2}):(\d{2})(:(\d{2}))?$/;
         var ISO8601_PATTERN_PARTS = ["", "yyyy", "", "MM", "", "dd", "THH", "", "mm", "", "ss", ".SSS"];
 
@@ -43487,6 +43496,7 @@
             compareVersions = __webpack_require__( /*! ../../core/utils/version */ 15).compare,
             support = __webpack_require__( /*! ../../core/utils/support */ 56),
             devices = __webpack_require__( /*! ../../core/devices */ 48),
+            config = __webpack_require__( /*! ../../core/config */ 13),
             dateUtils = __webpack_require__( /*! ../../core/utils/date */ 59),
             uiDateUtils = __webpack_require__( /*! ./ui.date_utils */ 265),
             dateSerialization = __webpack_require__( /*! ../../core/utils/date_serialization */ 255),
@@ -43883,7 +43893,7 @@
             _validateValue: function(value) {
                 var text = this.option("text"),
                     hasText = !!text && null !== value,
-                    isDate = !!value && !isNaN(value.getTime()),
+                    isDate = !!value && commonUtils.isDate(value) && !isNaN(value.getTime()),
                     isDateInRange = isDate && dateUtils.dateInRange(value, this.dateOption("min"), this.dateOption("max"), this.option("type")),
                     isValid = !hasText || !hasText && !value || isDateInRange,
                     validationMessage = "";
@@ -44036,7 +44046,7 @@
             },
             _getSerializationFormat: function() {
                 var value = this.option("value");
-                if (this.option("dateSerializationFormat")) {
+                if (this.option("dateSerializationFormat") && config().forceIsoDateParsing) {
                     return this.option("dateSerializationFormat")
                 }
                 if (commonUtils.isNumber(value)) {
@@ -55513,7 +55523,10 @@
                     },
                     escape: function() {
                         parent.escape.apply(this, arguments);
-                        !this._isEditable() && this._updateField(this.option("selectedItem"))
+                        if (!this._isEditable()) {
+                            this._focusListElement(null);
+                            this._updateField(this.option("selectedItem"))
+                        }
                     },
                     enter: function(e) {
                         if ("" === this._input().val() && this.option("value") && this.option("allowClearing")) {
@@ -55781,7 +55794,7 @@
                     this._renderDisplayText(this._displayGetter(item));
                     return
                 }
-                this._renderTemplatedField(fieldTemplate, item)
+                this._renderInputAddons()
             },
             _getSelectionChangeHandler: function() {
                 return this.option("showSelectionControls") ? $.proxy(this._selectionChangeHandler, this) : $.noop
@@ -55846,6 +55859,10 @@
                 return this.option("acceptCustomValue") || this.option("searchEnabled")
             },
             _fieldRenderData: function() {
+                var $listFocused = this._list && this._list.option("focusedElement");
+                if ($listFocused) {
+                    return this._list._getItemData($listFocused)
+                }
                 return this.option("selectedItem")
             },
             _readOnlyPropValue: function() {

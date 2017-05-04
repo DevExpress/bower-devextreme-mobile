@@ -1,7 +1,7 @@
 /*!
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.2.6 (build 17116)
- * Build date: Wed Apr 26 2017
+ * Version: 16.2.6 (build 17123)
+ * Build date: Wed May 03 2017
  *
  * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -10751,6 +10751,7 @@
                 "dxPivotGrid-sortColumnBySummary": 'Sort "{0}" by This Column',
                 "dxPivotGrid-sortRowBySummary": 'Sort "{0}" by This Row',
                 "dxPivotGrid-removeAllSorting": "Remove All Sorting",
+                "dxPivotGrid-dataNotAvailable": "N/A",
                 "dxPivotGrid-rowFields": "Row Fields",
                 "dxPivotGrid-columnFields": "Column Fields",
                 "dxPivotGrid-dataFields": "Data Fields",
@@ -10905,6 +10906,8 @@
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
             ko = __webpack_require__( /*! knockout */ 89),
+            errors = __webpack_require__( /*! ../../core/errors */ 7),
+            inflector = __webpack_require__( /*! ../../core/utils/inflector */ 57),
             registerComponent = __webpack_require__( /*! ../../core/component_registrator */ 52),
             Widget = __webpack_require__( /*! ../../ui/widget/ui.widget */ 91),
             KoTemplate = __webpack_require__( /*! ./template */ 101),
@@ -10912,8 +10915,7 @@
             Locker = __webpack_require__( /*! ../../core/utils/locker */ 108),
             config = __webpack_require__( /*! ../../core/config */ 13);
         var LOCKS_DATA_KEY = "dxKoLocks",
-            CREATED_WITH_KO_DATA_KEY = "dxKoCreation",
-            DX_POLYMORPH_WIDGET_TEMPLATE = "<!-- ko dxPolymorphWidget: { name: $data.widget, options: $data.options } --><!-- /ko -->";
+            CREATED_WITH_KO_DATA_KEY = "dxKoCreation";
         var editorsBindingHandlers = [];
         var registerComponentKoBinding = function(componentName, componentClass) {
             if (componentClass.subclassOf(Editor)) {
@@ -10972,7 +10974,22 @@
                                     }
                                 },
                                 templates: {
-                                    "dx-polymorph-widget": new KoTemplate(DX_POLYMORPH_WIDGET_TEMPLATE, this)
+                                    "dx-polymorph-widget": {
+                                        render: function(options) {
+                                            var widgetName = ko.utils.unwrapObservable(options.model.widget);
+                                            if (!widgetName) {
+                                                return
+                                            }
+                                            if ("button" === widgetName || "tabs" === widgetName || "dropDownMenu" === widgetName) {
+                                                var deprecatedName = widgetName;
+                                                widgetName = inflector.camelize("dx-" + widgetName);
+                                                errors.log("W0001", "dxToolbar - 'widget' item field", deprecatedName, "16.1", "Use: '" + widgetName + "' instead")
+                                            }
+                                            var markup = $('<div data-bind="' + widgetName + ': options">').get(0);
+                                            options.container.append(markup);
+                                            ko.applyBindings(options.model, markup)
+                                        }
+                                    }
                                 },
                                 createTemplate: function(element) {
                                     return new KoTemplate(element)
@@ -14255,12 +14272,10 @@
       \***********************************************/
     function(module, exports, __webpack_require__) {
         var $ = __webpack_require__( /*! jquery */ 9),
-            errors = __webpack_require__( /*! ../../core/errors */ 7),
             Action = __webpack_require__( /*! ../../core/action */ 42),
             compileGetter = __webpack_require__( /*! ../../core/utils/data */ 43).compileGetter,
             ko = __webpack_require__( /*! knockout */ 89),
             iconUtils = __webpack_require__( /*! ../../core/utils/icon */ 111),
-            inflector = __webpack_require__( /*! ../../core/utils/inflector */ 57),
             clickEvent = __webpack_require__( /*! ../../events/click */ 71);
         ko.bindingHandlers.dxAction = {
             update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -14302,28 +14317,6 @@
                 }
             }
         };
-        ko.bindingHandlers.dxPolymorphWidget = {
-            init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-                var widgetName = ko.utils.unwrapObservable(valueAccessor()).name;
-                if (!widgetName) {
-                    return
-                }
-                ko.virtualElements.emptyNode(element);
-                if ("button" === widgetName || "tabs" === widgetName || "dropDownMenu" === widgetName) {
-                    var deprecatedName = widgetName;
-                    widgetName = inflector.camelize("dx-" + widgetName);
-                    errors.log("W0001", "dxToolbar - 'widget' item field", deprecatedName, "16.1", "Use: '" + widgetName + "' instead")
-                }
-                var markup = $('<div data-bind="' + widgetName + ': options">').get(0);
-                ko.virtualElements.prepend(element, markup);
-                var innerBindingContext = bindingContext.extend(valueAccessor);
-                ko.applyBindingsToDescendants(innerBindingContext, element);
-                return {
-                    controlsDescendantBindings: true
-                }
-            }
-        };
-        ko.virtualElements.allowedBindings.dxPolymorphWidget = true;
         ko.bindingHandlers.dxIcon = {
             init: function(element, valueAccessor) {
                 var options = ko.utils.unwrapObservable(valueAccessor()) || {},
@@ -22767,7 +22760,8 @@
             E4020: "Unknown store type is detected: {0}",
             E4021: "The server response does not provide the totalCount value",
             E4022: "The server response does not provide the groupCount value",
-            W4000: "Data returned from the server has an incorrect structure"
+            W4000: "Data returned from the server has an incorrect structure",
+            W4002: "Data loading has failed for some cells due to the following error: {0}"
         });
 
         function handleError(error) {
@@ -29486,7 +29480,7 @@
             _renderItem: function(index, item, itemContainer, $after) {
                 var location = item.location || "center",
                     container = itemContainer || this._$toolbarItemsContainer.find(".dx-toolbar-" + location),
-                    itemHasText = Boolean(item.text),
+                    itemHasText = Boolean(item.text) || Boolean(item.html),
                     itemElement = this.callBase(index, item, container, $after);
                 itemElement.toggleClass(this._buttonClass(), !itemHasText).toggleClass(TOOLBAR_LABEL_CLASS, itemHasText);
                 return itemElement
@@ -33464,7 +33458,7 @@
                 return $itemElements.eq(flatIndex)
             },
             getItemByIndex: function(index) {
-                return this._getItemData(this._itemElements().eq(index))
+                return this._editStrategy.getItemDataByIndex(index)
             }
         });
         module.exports = ListEdit
@@ -33526,6 +33520,9 @@
             },
             getItemDataByIndex: function(index) {
                 var items = this._collectionWidget.option("items");
+                if ($.isNumeric(index)) {
+                    return this.itemsGetter()[index]
+                }
                 return index && items[index.group] && items[index.group].items[index.item] || null
             },
             itemsGetter: function() {
@@ -56096,7 +56093,8 @@
                     onText: messageLocalization.format("dxSwitch-onText"),
                     offText: messageLocalization.format("dxSwitch-offText"),
                     value: false,
-                    useInkRipple: false
+                    useInkRipple: false,
+                    useOldRendering: false
                 })
             },
             _defaultOptionsRules: function() {
@@ -56114,6 +56112,14 @@
                     options: {
                         useInkRipple: true
                     }
+                }, {
+                    device: function() {
+                        var device = devices.real();
+                        return "android" === device.platform && (device.version[0] < 4 || 4 === device.version[0] && device.version[1] < 4)
+                    },
+                    options: {
+                        useOldRendering: true
+                    }
                 }])
             },
             _feedbackHideTimeout: 0,
@@ -56128,9 +56134,17 @@
                 this._renderSubmitElement();
                 this._renderSwipeable();
                 this.callBase();
-                this._updateMarginBound();
+                this._handleWidth = this._$handle.outerWidth();
+                this._getHandleOffset = this.option("useOldRendering") ? this._getPixelOffset : this._getCalcOffset;
                 this._renderValue();
                 this._renderClick()
+            },
+            _getCalcOffset: function(value, offset) {
+                var ratio = offset - Number(!value);
+                return "calc(" + 100 * ratio + "% + " + -this._handleWidth * ratio + "px)"
+            },
+            _getPixelOffset: function(value, offset) {
+                return this._getMarginBound() * (offset - Number(!value))
             },
             _renderSwitchInner: function() {
                 this._$switchInner = $("<div>").addClass(SWITCH_INNER_CLASS);
@@ -56192,10 +56206,10 @@
                 this.callBase.apply(this, arguments);
                 this._renderInkWave(this._$handle, e, value, 1)
             },
-            _updateMarginBound: function() {
-                this._marginBound = this._$switchContainer.outerWidth(true) - this._$handle.outerWidth()
-            },
             _getMarginBound: function() {
+                if (!this._marginBound) {
+                    this._marginBound = this._$switchContainer.outerWidth(true) - this._handleWidth
+                }
                 return this._marginBound
             },
             _marginDirection: function() {
@@ -56205,10 +56219,9 @@
                 return this.option("rtlEnabled") ? -1 : 1
             },
             _renderPosition: function(state, swipeOffset) {
-                var stateInt = state ? 1 : 0,
-                    marginDirection = this._marginDirection(),
+                var marginDirection = this._marginDirection(),
                     resetMarginDirection = "Left" === marginDirection ? "Right" : "Left";
-                this._$switchInner.css("margin" + marginDirection, this._getMarginBound() * (stateInt + swipeOffset - 1));
+                this._$switchInner.css("margin" + marginDirection, this._getHandleOffset(state, swipeOffset));
                 this._$switchInner.css("margin" + resetMarginDirection, 0)
             },
             _validateValue: function() {
@@ -56227,7 +56240,6 @@
                 }, this))
             },
             _clickHandler: function(args) {
-                this.time = new Date;
                 var e = args.jQueryEvent;
                 this._saveValueChangeEvent(e);
                 if (this._animating || this._swiping) {
@@ -56248,8 +56260,8 @@
                     fromConfig = {},
                     toConfig = {};
                 this._$switchInner.css("margin" + resetMarginDirection, 0);
-                fromConfig["margin" + marginDirection] = (Number(startValue) - 1) * this._getMarginBound();
-                toConfig["margin" + marginDirection] = (Number(endValue) - 1) * this._getMarginBound();
+                fromConfig["margin" + marginDirection] = this._getHandleOffset(startValue, 0);
+                toConfig["margin" + marginDirection] = this._getHandleOffset(endValue, 0);
                 fx.animate(this._$switchInner, {
                     from: fromConfig,
                     to: toConfig,
@@ -56279,7 +56291,7 @@
                 var that = this,
                     offsetDirection = this._offsetDirection(),
                     toConfig = {};
-                toConfig["margin" + this._marginDirection()] = this._getMarginBound() * (that.option("value") + offsetDirection * e.jQueryEvent.targetOffset - 1);
+                toConfig["margin" + this._marginDirection()] = this._getHandleOffset(that.option("value"), offsetDirection * e.jQueryEvent.targetOffset);
                 fx.animate(this._$switchInner, {
                     to: toConfig,
                     duration: SWITCH_ANIMATION_DURATION,
@@ -56307,18 +56319,14 @@
                 this._$labelOn.text(this.option("onText"));
                 this._$labelOff.text(this.option("offText"))
             },
-            _visibilityChanged: function(visible) {
-                if (visible) {
-                    this.repaint()
-                }
-            },
             _optionChanged: function(args) {
                 switch (args.name) {
+                    case "useOldRendering":
                     case "useInkRipple":
                         this._invalidate();
                         break;
-                    case "visible":
                     case "width":
+                        delete this._marginBound;
                         this._refresh();
                         break;
                     case "onText":
@@ -59839,6 +59847,7 @@
                     onMenuGroupRendered: null,
                     contentTemplate: "content",
                     selectionMode: "single",
+                    selectedIndex: 0,
                     selectionRequired: true
                 })
             },
@@ -59852,6 +59861,7 @@
                 return this._slideOutView.content()
             },
             _init: function() {
+                this._selectedItemContentRendered = false;
                 this.callBase();
                 this.element().addClass(SLIDEOUT_CLASS);
                 this._initSlideOutView()
@@ -59903,6 +59913,7 @@
                 this._list = this._createComponent($list, List, {
                     itemTemplateProperty: "menuTemplate",
                     selectionMode: this.option("selectionMode"),
+                    selectedIndex: this.option("selectedIndex"),
                     selectionRequired: this.option("selectionRequired"),
                     indicateLoading: false,
                     onItemClick: $.proxy(this._listItemClickHandler, this),
@@ -59945,6 +59956,7 @@
                 var items = this.option("items"),
                     selectedIndex = this.option("selectedIndex");
                 if (items.length && selectedIndex > -1) {
+                    this._selectedItemContentRendered = true;
                     var selectedItem = this._list.getItemByIndex(selectedIndex);
                     this._renderItems([selectedItem])
                 }
@@ -59999,6 +60011,9 @@
                         break;
                     case "items":
                         this._changeMenuOption("items", this.option("items"));
+                        if (!this._selectedItemContentRendered) {
+                            this._renderSelection()
+                        }
                         break;
                     case "dataSource":
                     case "selectedIndex":

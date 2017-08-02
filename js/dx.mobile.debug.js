@@ -1,7 +1,7 @@
 /*! 
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.1.11
- * Build date: Mon Feb 27 2017
+ * Version: 16.1.13
+ * Build date: Fri Jul 28 2017
  *
  * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
  * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
@@ -903,7 +903,7 @@
       !*** ./Scripts/core/version.js ***!
       \*********************************/
     function(module, exports) {
-        module.exports = "16.1.11"
+        module.exports = "16.1.13"
     },
     /*!********************************!*\
       !*** ./Scripts/core/errors.js ***!
@@ -5735,7 +5735,8 @@
                         if (!prevTargetValue) {
                             assignPropValue(target, targetPropName, {}, options)
                         }
-                        objectUtils.deepExtendArraySafe(unwrap(readPropValue(target, targetPropName), options), value)
+                        target = unwrap(readPropValue(target, targetPropName), options);
+                        objectUtils.deepExtendArraySafe(target, value, true)
                     } else {
                         assignPropValue(target, targetPropName, value, options)
                     }
@@ -5816,14 +5817,14 @@
                 func(key, map[key])
             }
         };
-        var assignValueToProperty = function(target, property, value) {
-            if (variableWrapper.isWrapped(target[property])) {
+        var assignValueToProperty = function(target, property, value, assignByReference) {
+            if (!assignByReference && variableWrapper.isWrapped(target[property])) {
                 variableWrapper.assign(target[property], value)
             } else {
                 target[property] = value
             }
         };
-        var deepExtendArraySafe = function(target, changes) {
+        var deepExtendArraySafe = function(target, changes, assignByReference) {
             var prevValue, newValue;
             for (var name in changes) {
                 prevValue = target[name];
@@ -5832,10 +5833,10 @@
                     continue
                 }
                 if ($.isPlainObject(newValue) && !(newValue instanceof $.Event)) {
-                    assignValueToProperty(target, name, deepExtendArraySafe($.isPlainObject(prevValue) ? prevValue : {}, newValue))
+                    assignValueToProperty(target, name, deepExtendArraySafe($.isPlainObject(prevValue) ? prevValue : {}, newValue, assignByReference), assignByReference)
                 } else {
                     if (void 0 !== newValue) {
-                        assignValueToProperty(target, name, newValue)
+                        assignValueToProperty(target, name, newValue, assignByReference)
                     }
                 }
             }
@@ -5950,7 +5951,7 @@
             androidTablet: "Android",
             win8: "MSAppHost",
             win8Phone: "Windows Phone 8.0",
-            msSurface: "Windows Tablet PC",
+            msSurface: "Windows ARM Tablet PC",
             desktop: "desktop",
             win10Phone: "Windows Phone 10.0",
             win10: "MSAppHost/3.0"
@@ -5971,7 +5972,7 @@
         var uaParsers = {
             win: function(userAgent) {
                 var isPhone = /windows phone/i.test(userAgent) || userAgent.match(/WPDesktop/),
-                    isTablet = !isPhone && /Windows(.*)Tablet PC/i.test(userAgent),
+                    isTablet = !isPhone && /Windows(.*)arm(.*)Tablet PC/i.test(userAgent),
                     isDesktop = !isPhone && !isTablet && /msapphost/i.test(userAgent);
                 if (!(isPhone || isTablet || isDesktop)) {
                     return
@@ -7223,9 +7224,9 @@
         };
         var dateInRange = function(date, min, max, format) {
             if ("date" === format) {
-                min = min && new Date(min.getFullYear(), min.getMonth(), min.getDate());
-                max = max && new Date(max.getFullYear(), max.getMonth(), max.getDate());
-                date = date && new Date(date.getFullYear(), date.getMonth(), date.getDate())
+                min = min && dateUtils.correctDateWithUnitBeginning(min, "day");
+                max = max && dateUtils.correctDateWithUnitBeginning(max, "day");
+                date = date && dateUtils.correctDateWithUnitBeginning(date, "day")
             }
             return normalizeDate(date, min, max) === date
         };
@@ -7284,7 +7285,7 @@
         var deserializeDate = function(value, serializationFormat, localizationParseFunc) {
             var parsedValue;
             if (!serializationFormat || serializationFormat === NUMBER_SERIALIZATION_FORMAT || serializationFormat === DATE_SERIALIZATION_FORMAT || serializationFormat === DATETIME_SERIALIZATION_FORMAT) {
-                parsedValue = serializationFormat === NUMBER_SERIALIZATION_FORMAT ? value : !isDate(value) && Date.parse(value);
+                parsedValue = serializationFormat === NUMBER_SERIALIZATION_FORMAT || "number" === typeof value ? value : !isDate(value) && Date.parse(value);
                 return isNumber(parsedValue) ? new Date(parsedValue) : value
             }
             if (void 0 !== value) {
@@ -20327,7 +20328,8 @@
             devices = __webpack_require__( /*! ../core/devices */ 51),
             viewPortUtils = __webpack_require__( /*! ../core/utils/view_port */ 53),
             viewPort = viewPortUtils.value,
-            viewPortChanged = viewPortUtils.changeCallback;
+            viewPortChanged = viewPortUtils.changeCallback,
+            holdReady = $.holdReady || $.fn.holdReady;
         var DX_LINK_SELECTOR = "link[rel=dx-theme]",
             THEME_ATTR = "data-theme",
             ACTIVE_ATTR = "data-active",
@@ -20544,11 +20546,11 @@
         function detachCssClasses(element, themeName) {
             $(element).removeClass(themeClasses)
         }
-        $.holdReady(true);
+        holdReady(true);
         init({
             _autoInit: true,
             loadCallback: function() {
-                $.holdReady(false)
+                holdReady(false)
             }
         });
         $(function() {
@@ -34608,7 +34610,8 @@
             STATE_RELEASED = 0,
             STATE_READY = 1,
             STATE_REFRESHING = 2,
-            STATE_LOADING = 3;
+            STATE_LOADING = 3,
+            PULLDOWN_RELEASE_TIME = 400;
         var PullDownNativeScrollViewStrategy = NativeStrategy.inherit({
             _init: function(scrollView) {
                 this.callBase(scrollView);
@@ -34768,13 +34771,16 @@
                 var deferred = $.Deferred();
                 this._updateDimensions();
                 clearTimeout(this._releaseTimeout);
+                if (this._state === STATE_LOADING) {
+                    this._state = STATE_RELEASED
+                }
                 this._releaseTimeout = setTimeout($.proxy(function() {
                     this._setPullDownOffset(0);
                     this._stateReleased();
                     this.releaseCallbacks.fire();
                     this._updateAction();
                     deferred.resolve()
-                }, this), 400);
+                }, this), PULLDOWN_RELEASE_TIME);
                 return deferred.promise()
             },
             dispose: function() {
@@ -38634,7 +38640,8 @@
                             width: "auto",
                             height: "auto",
                             display: support.stylePropPrefix("flexDirection") + "flex",
-                            flexDirection: $item.children().css("flexDirection") || "column"
+                            flexDirection: $item.children().css("flexDirection") || "column",
+                            flexBasis: 0
                         });
                         itemContent.style[flexGrowProp] = 1
                     })
@@ -42560,7 +42567,7 @@
             _getParsedDate: function(text) {
                 var displayFormat = this._strategy.getDisplayFormat(this.option("displayFormat"));
                 var parsedText = this._strategy.getParsedText(text, displayFormat);
-                return parsedText
+                return commonUtils.isDefined(parsedText) ? parsedText : void 0
             },
             _validateValue: function(value) {
                 var text = this.option("text"),
@@ -43000,6 +43007,8 @@
                             } else {
                                 return true
                             }
+                        } else {
+                            this.dateBox._valueChangeEventHandler(e)
                         }
                     }, this)
                 }
@@ -46667,10 +46676,15 @@
                         colCountByScreen: options.colCountByScreen,
                         onLayoutChanged: options.onLayoutChanged,
                         width: options.width
-                    });
+                    }),
+                    baseColCountByScreen = {
+                        lg: options.colCount,
+                        md: options.colCount,
+                        sm: options.colCount,
+                        xs: 1
+                    };
                 that._cachedColCountOptions.push({
-                    colCount: options.colCount,
-                    colCountByScreen: options.colCountByScreen
+                    colCountByScreen: $.extend(baseColCountByScreen, options.colCountByScreen)
                 });
                 $element.appendTo($rootElement);
                 instance = that._createComponent($element, "dxLayoutManager", config);
@@ -47014,7 +47028,7 @@
             _isColCountChanged: function(oldScreenSize, newScreenSize) {
                 var isChanged = false;
                 $.each(this._cachedColCountOptions, function(index, item) {
-                    if (1 !== item.colCount || item.colCountByScreen && item.colCountByScreen[oldScreenSize] !== item.colCountByScreen[newScreenSize]) {
+                    if (item.colCountByScreen[oldScreenSize] !== item.colCountByScreen[newScreenSize]) {
                         isChanged = true;
                         return false
                     }
@@ -47121,8 +47135,10 @@
             Guid = __webpack_require__( /*! ../../core/guid */ 156),
             registerComponent = __webpack_require__( /*! ../../core/component_registrator */ 54),
             utils = __webpack_require__( /*! ../../core/utils/common */ 14),
-            isWrapped = __webpack_require__( /*! ../../core/utils/variable_wrapper */ 49).isWrapped,
-            isWritableWrapped = __webpack_require__( /*! ../../core/utils/variable_wrapper */ 49).isWritableWrapped,
+            variableWrapper = __webpack_require__( /*! ../../core/utils/variable_wrapper */ 49),
+            isWrapped = variableWrapper.isWrapped,
+            isWritableWrapped = variableWrapper.isWritableWrapped,
+            unwrap = variableWrapper.unwrap,
             windowUtils = __webpack_require__( /*! ../../core/utils/window */ 41),
             stringUtils = __webpack_require__( /*! ../../core/utils/string */ 13),
             browser = __webpack_require__( /*! ../../core/utils/browser */ 18),
@@ -47195,6 +47211,7 @@
             },
             _init: function() {
                 this.callBase();
+                this._itemWatchers = [];
                 this._initDataAndItems(this.option("layoutData"))
             },
             _initDataAndItems: function(initialData) {
@@ -47241,22 +47258,48 @@
             _updateItems: function(layoutData) {
                 var items, processedItems, that = this,
                     userItems = this.option("items"),
+                    isUserItemsExist = utils.isDefined(userItems),
                     customizeItem = that.option("customizeItem");
-                items = utils.isDefined(userItems) ? userItems : this._generateItemsByData(layoutData);
+                items = isUserItemsExist ? userItems : this._generateItemsByData(layoutData);
                 if (utils.isDefined(items)) {
                     processedItems = [];
                     $.each(items, function(index, item) {
                         if (that._isAcceptableItem(item)) {
                             item = that._processItem(item);
                             customizeItem && customizeItem(item);
-                            if (utils.isObject(item)) {
+                            if (utils.isObject(item) && false !== unwrap(item.visible)) {
                                 processedItems.push(item)
                             }
                         }
                     });
+                    if (!that._itemWatchers.length || !isUserItemsExist) {
+                        that._updateItemWatchers(items)
+                    }
                     this._items = processedItems;
                     this._sortItems()
                 }
+            },
+            _cleanItemWatchers: function() {
+                this._itemWatchers.forEach(function(dispose) {
+                    dispose()
+                });
+                this._itemWatchers = []
+            },
+            _updateItemWatchers: function(items) {
+                var that = this,
+                    watch = that._getWatch();
+                items.forEach(function(item) {
+                    if (utils.isObject(item) && utils.isDefined(item.visible) && $.isFunction(watch)) {
+                        that._itemWatchers.push(watch(function() {
+                            return unwrap(item.visible)
+                        }, function() {
+                            that._updateItems(that.option("layoutData"));
+                            that.repaint()
+                        }, {
+                            skipImmediate: true
+                        }))
+                    }
+                })
             },
             _generateItemsByData: function(layoutData) {
                 var result = [];
@@ -47826,6 +47869,7 @@
                         }
                         break;
                     case "items":
+                        this._cleanItemWatchers();
                         this._initDataAndItems();
                         this._invalidate();
                         break;

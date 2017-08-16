@@ -1,7 +1,7 @@
 /*!
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.2.8
- * Build date: Wed Jun 28 2017
+ * Version: 16.2.9
+ * Build date: Mon Aug 14 2017
  *
  * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -867,7 +867,7 @@
       !*** ./js/core/version.js ***!
       \****************************/
     function(module, exports) {
-        module.exports = "16.2.8"
+        module.exports = "16.2.9"
     },
     /*!*******************************!*\
       !*** ./js/client_exporter.js ***!
@@ -20641,7 +20641,11 @@
             DataSource = __webpack_require__( /*! ../../data/data_source/data_source */ 149).DataSource,
             Selection = __webpack_require__( /*! ../selection/selection */ 165),
             when = __webpack_require__( /*! ../../integration/jquery/deferred */ 14).when;
-        var ITEM_DELETING_DATA_KEY = "dxItemDeleting";
+        var ITEM_DELETING_DATA_KEY = "dxItemDeleting",
+            NOT_EXISTING_INDEX = -1;
+        var indexExists = function(index) {
+            return index !== NOT_EXISTING_INDEX
+        };
         var CollectionWidget = BaseCollectionWidget.inherit({
             _setOptionsByReference: function() {
                 this.callBase();
@@ -20658,7 +20662,7 @@
                     selectedItemKeys: [],
                     maxFilterLengthInRequest: 1500,
                     keyExpr: null,
-                    selectedIndex: -1,
+                    selectedIndex: NOT_EXISTING_INDEX,
                     selectedItem: null,
                     onSelectionChanged: null,
                     onItemReordered: null,
@@ -20768,7 +20772,7 @@
                 keys = keys || this._selection.getSelectedItemKeys();
                 $.each(keys, function(_, key) {
                     var selectedIndex = that._getIndexByKey(key);
-                    if (selectedIndex !== -1) {
+                    if (indexExists(selectedIndex)) {
                         indices.push(selectedIndex)
                     }
                 });
@@ -20809,7 +20813,7 @@
                     case "selectedItems":
                         selectedItems = this.option("selectedItems") || [];
                         selectedIndex = this._editStrategy.getIndexByItemData(selectedItems[0]);
-                        if (this.option("selectionRequired") && selectedIndex === -1) {
+                        if (this.option("selectionRequired") && !indexExists(selectedIndex)) {
                             this._syncSelectionOptions("selectedIndex");
                             return
                         }
@@ -20820,7 +20824,7 @@
                     case "selectedItem":
                         selectedItem = this.option("selectedItem");
                         selectedIndex = this._editStrategy.getIndexByItemData(selectedItem);
-                        if (this.option("selectionRequired") && selectedIndex === -1) {
+                        if (this.option("selectionRequired") && !indexExists(selectedIndex)) {
                             this._syncSelectionOptions("selectedIndex");
                             return
                         }
@@ -20831,20 +20835,16 @@
                         } else {
                             this._setOptionSilent("selectedItems", []);
                             this._setOptionSilent("selectedItemKeys", []);
-                            this._setOptionSilent("selectedIndex", -1)
+                            this._setOptionSilent("selectedIndex", NOT_EXISTING_INDEX)
                         }
                         break;
                     case "selectedItemKeys":
-                        if (this.option("selectionRequired")) {
-                            var selectedItemKeys = this.option("selectedItemKeys");
-                            selectedIndex = this._getIndexByKey(selectedItemKeys[0]);
-                            if (selectedIndex === -1) {
-                                this._syncSelectionOptions("selectedIndex");
-                                return
-                            }
-                        } else {
-                            this._selection.setSelection(this.option("selectedItemKeys"))
+                        var selectedItemKeys = this.option("selectedItemKeys");
+                        if (this.option("selectionRequired") && !indexExists(this._getIndexByKey(selectedItemKeys[0]))) {
+                            this._syncSelectionOptions("selectedIndex");
+                            return
                         }
+                        this._selection.setSelection(selectedItemKeys)
                 }
             },
             _chooseSelectOption: function() {
@@ -20989,7 +20989,7 @@
             },
             _removeSelection: function(normalizedIndex) {
                 var $itemElement = this._editStrategy.getItemElement(normalizedIndex);
-                if (normalizedIndex !== -1) {
+                if (indexExists(normalizedIndex)) {
                     $itemElement.removeClass(this._selectedItemClass());
                     this._setAriaSelected($itemElement, "false");
                     $itemElement.triggerHandler("stateChanged")
@@ -21001,7 +21001,7 @@
             },
             _addSelection: function(normalizedIndex) {
                 var $itemElement = this._editStrategy.getItemElement(normalizedIndex);
-                if (normalizedIndex !== -1) {
+                if (indexExists(normalizedIndex)) {
                     $itemElement.addClass(this._selectedItemClass());
                     this._setAriaSelected($itemElement, "true");
                     $itemElement.triggerHandler("stateChanged")
@@ -21144,7 +21144,7 @@
                     return
                 }
                 var itemIndex = this._editStrategy.getNormalizedIndex(itemElement);
-                if (itemIndex === -1) {
+                if (!indexExists(itemIndex)) {
                     return
                 }
                 var key = this._getKeyByIndex(itemIndex);
@@ -21161,7 +21161,7 @@
             },
             unselectItem: function(itemElement) {
                 var itemIndex = this._editStrategy.getNormalizedIndex(itemElement);
-                if (itemIndex === -1) {
+                if (!indexExists(itemIndex)) {
                     return
                 }
                 var selectedItemKeys = this._selection.getSelectedItemKeys();
@@ -21178,7 +21178,7 @@
                     index = this._editStrategy.getNormalizedIndex(itemElement),
                     changingOption = this._dataSource ? "dataSource" : "items",
                     itemResponseWaitClass = this._itemResponseWaitClass();
-                if (index > -1) {
+                if (indexExists(index)) {
                     this._waitDeletingPrepare($item).done(function() {
                         $item.addClass(itemResponseWaitClass);
                         var deletedActionArgs = that._extendActionArgs($item);
@@ -21217,7 +21217,7 @@
                     movingIndex = strategy.getNormalizedIndex(itemElement),
                     destinationIndex = strategy.getNormalizedIndex(toItemElement),
                     changingOption = this._dataSource ? "dataSource" : "items";
-                var canMoveItems = movingIndex > -1 && destinationIndex > -1 && movingIndex !== destinationIndex;
+                var canMoveItems = indexExists(movingIndex) && indexExists(destinationIndex) && movingIndex !== destinationIndex;
                 if (canMoveItems) {
                     deferred.resolveWith(this)
                 } else {
@@ -25138,7 +25138,7 @@
                 }
                 var filter = this.options.filter();
                 if (isSelectAll && isDeselect && !filter) {
-                    deferred.resolve(this.getSelectedItemKeys());
+                    deferred.resolve(this.getSelectedItems());
                     return deferred
                 }
                 var selectionFilterCreator = new SelectionFilterCreator(key(), keys, isSelectAll, this.equalKeys.bind(this), this.options.keyOf),
@@ -32684,7 +32684,7 @@
                     value: "",
                     spellcheck: false,
                     showClearButton: false,
-                    valueChangeEvent: "change focusout",
+                    valueChangeEvent: "change",
                     placeholder: "",
                     inputAttr: {},
                     onFocusIn: null,
@@ -35777,11 +35777,13 @@
                 if (this._state === STATE_REFRESHING) {
                     return
                 }
-                this._location = this.location().top;
+                var currentLocation = this.location().top,
+                    scrollDelta = (this._location || 0) - currentLocation;
+                this._location = currentLocation;
                 if (this._isPullDown()) {
                     this._pullDownReady()
                 } else {
-                    if (this._isReachBottom()) {
+                    if (scrollDelta > 0 && this._isReachBottom()) {
                         this._reachBottom()
                     } else {
                         this._stateReleased()
@@ -37655,9 +37657,10 @@
             _createActionArgs: function() {
                 var scrollerX = this._scrollers[HORIZONTAL],
                     scrollerY = this._scrollers[VERTICAL];
+                var location = this.location();
                 this._scrollOffset = {
-                    top: scrollerY && -scrollerY._location,
-                    left: scrollerX && -scrollerX._location
+                    top: scrollerY && -location.top,
+                    left: scrollerX && -location.left
                 };
                 return {
                     jQueryEvent: this._eventForUserAction,
@@ -41954,7 +41957,8 @@
                     fieldTemplate: null,
                     onApplyButtonClick: null,
                     onCancelButtonClick: null,
-                    buttonsLocation: "bottom after"
+                    buttonsLocation: "bottom after",
+                    valueChangeEvent: "change"
                 })
             },
             _popupConfig: function() {
@@ -48008,7 +48012,6 @@
                 that._testResultItems = items;
                 that._rootLayoutManager = that._renderLayoutManager(items, $content, {
                     colCount: that.option("colCount"),
-                    width: this.option("width"),
                     alignItemLabels: that.option("alignItemLabels"),
                     screenByWidth: this.option("screenByWidth"),
                     colCountByScreen: this.option("colCountByScreen"),
@@ -53794,9 +53797,15 @@
         var $ = __webpack_require__( /*! jquery */ 9),
             Promise = __webpack_require__( /*! ../../core/polyfills/promise */ 295),
             DynamicProvider = __webpack_require__( /*! ./provider.dynamic */ 299),
-            Color = __webpack_require__( /*! ../../color */ 32);
+            Color = __webpack_require__( /*! ../../color */ 32),
+            browser = __webpack_require__( /*! ../../core/utils/browser */ 20),
+            isDefined = __webpack_require__( /*! ../../core/utils/common */ 12).isDefined;
         var BING_MAP_READY = "_bingScriptReady",
-            BING_URL = "https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1&onScriptLoad=" + BING_MAP_READY,
+            BING_URL_V7 = "https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1&onScriptLoad=" + BING_MAP_READY,
+            BING_URL_V8 = "https://www.bing.com/api/maps/mapcontrol?callback=" + BING_MAP_READY,
+            INFOBOX_V_OFFSET_V7 = 33,
+            INFOBOX_V_OFFSET_V8 = 13,
+            IS_V8_SUPPORTED = !(browser.msie && parseInt(browser.version) < 11),
             BING_CREDENTIALS = "AhuxC0dQ1DBTNo8L-H9ToVMQStmizZzBJdraTSgCzDSWPsA1Qd8uIvFSflzxdaLH",
             MIN_LOCATION_RECT_LENGTH = 1e-16;
         var msMapsLoaded = function() {
@@ -53834,6 +53843,10 @@
             _geocodedLocations: {},
             _geocodeLocationImpl: function(location) {
                 return new Promise(function(resolve) {
+                    if (!isDefined(location)) {
+                        resolve(new Microsoft.Maps.Location(0, 0));
+                        return
+                    }
                     var searchManager = new Microsoft.Maps.Search.SearchManager(this._map);
                     var searchRequest = {
                         where: location,
@@ -53900,9 +53913,10 @@
                 })
             },
             _loadMapScript: function() {
+                var bingUrl = IS_V8_SUPPORTED ? BING_URL_V8 : BING_URL_V7;
                 return new Promise(function(resolve) {
                     window[BING_MAP_READY] = resolve;
-                    $.getScript(BING_URL)
+                    $.getScript(bingUrl)
                 }).then(function() {
                     try {
                         delete window[BING_MAP_READY]
@@ -53912,20 +53926,28 @@
                 })
             },
             _init: function() {
-                return new Promise(function(resolve) {
-                    var controls = this._option("controls");
-                    this._map = new Microsoft.Maps.Map(this._$container[0], {
-                        credentials: this._keyOption("bing") || BING_CREDENTIALS,
-                        zoom: this._option("zoom"),
-                        showDashboard: controls,
-                        showMapTypeSelector: controls,
-                        showScalebar: controls
-                    });
-                    var handler = Microsoft.Maps.Events.addHandler(this._map, "tiledownloadcomplete", function() {
-                        resolve(handler)
+                if (IS_V8_SUPPORTED) {
+                    this._createMap();
+                    return Promise.resolve()
+                } else {
+                    return new Promise(function(resolve) {
+                        this._createMap();
+                        var handler = Microsoft.Maps.Events.addHandler(this._map, "tiledownloadcomplete", function() {
+                            resolve(handler)
+                        })
+                    }.bind(this)).then(function(handler) {
+                        Microsoft.Maps.Events.removeHandler(handler)
                     })
-                }.bind(this)).then(function(handler) {
-                    Microsoft.Maps.Events.removeHandler(handler)
+                }
+            },
+            _createMap: function() {
+                var controls = this._option("controls");
+                this._map = new Microsoft.Maps.Map(this._$container[0], {
+                    credentials: this._keyOption("bing") || BING_CREDENTIALS,
+                    zoom: this._option("zoom"),
+                    showDashboard: controls,
+                    showMapTypeSelector: controls,
+                    showScalebar: controls
                 })
             },
             _attachHandlers: function() {
@@ -53943,8 +53965,13 @@
             },
             _clickActionHandler: function(e) {
                 if ("map" === e.targetType) {
-                    var point = new Microsoft.Maps.Point(e.getX(), e.getY()),
-                        location = e.target.tryPixelToLocation(point);
+                    var location;
+                    if (IS_V8_SUPPORTED) {
+                        location = e.location
+                    } else {
+                        var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+                        location = e.target.tryPixelToLocation(point)
+                    }
                     this._fireClickAction({
                         location: this._normalizeLocation(location)
                     })
@@ -54043,12 +54070,17 @@
                     return
                 }
                 options = this._parseTooltipOptions(options);
-                var infobox = new Microsoft.Maps.Infobox(location, {
-                    description: options.text,
-                    offset: new Microsoft.Maps.Point(0, 33),
-                    visible: options.visible
-                });
-                this._map.entities.push(infobox, null);
+                var vOffset = IS_V8_SUPPORTED ? INFOBOX_V_OFFSET_V8 : INFOBOX_V_OFFSET_V7,
+                    infobox = new Microsoft.Maps.Infobox(location, {
+                        description: options.text,
+                        offset: new Microsoft.Maps.Point(0, vOffset),
+                        visible: options.visible
+                    });
+                if (IS_V8_SUPPORTED) {
+                    infobox.setMap(this._map)
+                } else {
+                    this._map.entities.push(infobox, null)
+                }
                 return infobox
             },
             _destroyMarker: function(marker) {
@@ -54155,7 +54187,8 @@
             }
         });
         BingProvider.remapConstant = function(newValue) {
-            BING_URL = newValue
+            BING_URL_V7 = newValue;
+            BING_URL_V8 = newValue
         };
         module.exports = BingProvider
     },
@@ -56257,14 +56290,21 @@
                 this._renderSubmitElement();
                 this._renderSwipeable();
                 this.callBase();
-                this._handleWidth = parseFloat(window.getComputedStyle(this._$handle.get(0)).width);
+                this._renderHandleWidth();
                 this._getHandleOffset = this.option("useOldRendering") ? this._getPixelOffset : this._getCalcOffset;
                 this._renderValue();
                 this._renderClick()
             },
+            _renderHandleWidth: function() {
+                this._handleWidth = parseFloat(window.getComputedStyle(this._$handle.get(0)).width)
+            },
             _getCalcOffset: function(value, offset) {
                 var ratio = offset - Number(!value);
-                return "calc(" + 100 * ratio + "% + " + -this._handleWidth * ratio + "px)"
+                return "calc(" + 100 * ratio + "% + " + -this._getHandleWidth() * ratio + "px)"
+            },
+            _getHandleWidth: function() {
+                !this._handleWidth && this._renderHandleWidth();
+                return this._handleWidth
             },
             _getPixelOffset: function(value, offset) {
                 return this._getMarginBound() * (offset - Number(!value))
@@ -56331,7 +56371,7 @@
             },
             _getMarginBound: function() {
                 if (!this._marginBound) {
-                    this._marginBound = this._$switchContainer.outerWidth(true) - this._handleWidth
+                    this._marginBound = this._$switchContainer.outerWidth(true) - this._getHandleWidth()
                 }
                 return this._marginBound
             },
@@ -56441,6 +56481,11 @@
             _setLabelsText: function() {
                 this._$labelOn.text(this.option("onText"));
                 this._$labelOff.text(this.option("offText"))
+            },
+            _visibilityChanged: function(visible) {
+                if (visible) {
+                    this.repaint()
+                }
             },
             _optionChanged: function(args) {
                 switch (args.name) {

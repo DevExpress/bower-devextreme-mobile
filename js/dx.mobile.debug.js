@@ -1,9 +1,9 @@
 /*!
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.2.11
- * Build date: Tue Nov 07 2017
+ * Version: 16.2.12
+ * Build date: Mon Jan 15 2018
  *
- * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
+ * Copyright (c) 2012 - 2018 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
  */
 "use strict";
@@ -867,7 +867,7 @@
       !*** ./js/core/version.js ***!
       \****************************/
     function(module, exports) {
-        module.exports = "16.2.11"
+        module.exports = "16.2.12"
     },
     /*!*******************************!*\
       !*** ./js/client_exporter.js ***!
@@ -1214,7 +1214,7 @@
                 };
                 if (commonUtils.isObject(format)) {
                     return $.extend(result, format, {
-                        format: format.type,
+                        format: format.formatter || format.type,
                         currency: format.currency
                     })
                 }
@@ -1972,7 +1972,7 @@
                         pattern: "d"
                     }, {
                         date: [new Date(2009, 8, 2, 6, 5, 4), new Date(2009, 8, 3, 6, 5, 4), new Date(2009, 8, 4, 6, 5, 4)],
-                        pattern: "d"
+                        pattern: "E"
                     }, {
                         date: new Date(2009, 9, 6, 6, 5, 4),
                         pattern: "M"
@@ -1988,6 +1988,8 @@
                     result = that._replaceChars(result, diff, test.pattern, patternPositions)
                 });
                 result = that._escapeChars(result, defaultPattern, processedIndexes, patternPositions);
+                result = result.replace(/dE+/g, "d");
+                result = result.replace(/E/g, "d");
                 result = that._getLanguageInfo(defaultPattern) + result;
                 return result
             },
@@ -6422,7 +6424,8 @@
             if (realDevice.android) {
                 resizeCallbacks.add(function() {
                     setTimeout(function() {
-                        document.activeElement.scrollIntoViewIfNeeded()
+                        var activeElement = document.activeElement;
+                        activeElement.scrollIntoViewIfNeeded ? activeElement.scrollIntoViewIfNeeded() : activeElement.scrollIntoView(false)
                     })
                 })
             }
@@ -21025,7 +21028,7 @@
                         }
                         break;
                     case "dataSource":
-                        if (!args.value || !args.value.length) {
+                        if (!args.value || Array.isArray(args.value) && !args.value.length) {
                             this.option("selectedItemKeys", [])
                         }
                         this.callBase(args);

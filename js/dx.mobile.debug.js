@@ -1,7 +1,7 @@
 /*!
  * DevExtreme (dx.mobile.debug.js)
- * Version: 16.2.10
- * Build date: Fri Sep 29 2017
+ * Version: 16.2.11
+ * Build date: Tue Nov 07 2017
  *
  * Copyright (c) 2012 - 2017 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -867,7 +867,7 @@
       !*** ./js/core/version.js ***!
       \****************************/
     function(module, exports) {
-        module.exports = "16.2.10"
+        module.exports = "16.2.11"
     },
     /*!*******************************!*\
       !*** ./js/client_exporter.js ***!
@@ -20704,6 +20704,9 @@
             _isKeySpecified: function() {
                 return !!(this._dataSource && this._dataSource.key())
             },
+            _getCombinedFilter: function() {
+                return this._dataSource && this._dataSource.filter()
+            },
             keyOf: function(item) {
                 var key = item,
                     store = this._dataSource && this._dataSource.store();
@@ -20729,9 +20732,7 @@
                             that._updateSelectedItems(args.addedItems, args.removedItems)
                         }
                     },
-                    filter: function() {
-                        return that._dataSource && that._dataSource.filter()
-                    },
+                    filter: that._getCombinedFilter.bind(that),
                     totalCount: function() {
                         var items = that.option("items");
                         var dataSource = that._dataSource;
@@ -21022,6 +21023,12 @@
                         } else {
                             this._invalidate()
                         }
+                        break;
+                    case "dataSource":
+                        if (!args.value || !args.value.length) {
+                            this.option("selectedItemKeys", [])
+                        }
+                        this.callBase(args);
                         break;
                     case "selectedIndex":
                     case "selectedItem":
@@ -24583,6 +24590,9 @@
             _resetItemSelectionWhenShiftKeyPressed: function() {
                 delete this._shiftFocusedItemIndex
             },
+            _resetFocusedItemIndex: function() {
+                this._focusedItemIndex = -1
+            },
             changeItemSelectionWhenShiftKeyPressed: function(itemIndex, items) {
                 var itemIndexStep, index, isSelectedItemsChanged = false,
                     keyOf = this.options.keyOf,
@@ -24625,6 +24635,7 @@
                 this._setSelectedItems([], [])
             },
             selectAll: function(isOnePage) {
+                this._resetFocusedItemIndex();
                 if (isOnePage) {
                     return this._onePageSelectAll(false)
                 } else {
@@ -24632,6 +24643,7 @@
                 }
             },
             deselectAll: function(isOnePage) {
+                this._resetFocusedItemIndex();
                 if (isOnePage) {
                     return this._onePageSelectAll(true)
                 } else {
@@ -33393,6 +33405,17 @@
                 if (!this._isPageSelectAll()) {
                     this._dataSource && this._dataSource.requireTotalCount(true)
                 }
+            },
+            _getCombinedFilter: function() {
+                var filter, storeLoadOptions, dataSource = this._dataSource;
+                if (dataSource) {
+                    storeLoadOptions = {
+                        filter: dataSource.filter()
+                    };
+                    dataSource._addSearchFilter(storeLoadOptions);
+                    filter = storeLoadOptions.filter
+                }
+                return filter
             },
             _isPageSelectAll: function() {
                 return "page" === this.option("selectAllMode")
@@ -55676,7 +55699,7 @@
                     },
                     escape: function() {
                         parent.escape.apply(this, arguments);
-                        if (!this._isEditable()) {
+                        if (!this._isEditable() && this._list) {
                             this._focusListElement(null);
                             this._updateField(this.option("selectedItem"))
                         }
@@ -57114,6 +57137,7 @@
                 if (!dataSource) {
                     return
                 }
+                delete this._userFilter;
                 dataSource.filter(null);
                 dataSource.reload()
             },
@@ -57125,10 +57149,27 @@
                 if (!dataSource) {
                     return
                 }
-                dataSource.filter($.proxy(this._dataSourceFilter, this));
+                var valueGetterExpr = this._valueGetterExpr();
+                if (commonUtils.isString(valueGetterExpr) && "this" !== valueGetterExpr) {
+                    var filter = this._dataSourceFilterExpr();
+                    if (!this._userFilter) {
+                        this._userFilter = dataSource.filter()
+                    }
+                    this._userFilter && filter.push(this._userFilter);
+                    filter.length && dataSource.filter(filter)
+                } else {
+                    dataSource.filter($.proxy(this._dataSourceFilterFunction, this))
+                }
                 dataSource.reload()
             },
-            _dataSourceFilter: function(itemData) {
+            _dataSourceFilterExpr: function() {
+                var filter = [];
+                $.each(this._getValue(), function(index, value) {
+                    filter.push(["!", [this._valueGetterExpr(), value]])
+                }.bind(this));
+                return filter
+            },
+            _dataSourceFilterFunction: function(itemData) {
                 var itemValue = this._valueGetter(itemData),
                     result = true;
                 $.each(this._getValue(), $.proxy(function(index, value) {
